@@ -1,2 +1,2 @@
-# Trackerciser
- My attempt to create an app where you can track your progress in the gym
+# Trackercise
+ My attempt to create an app where you could track your progress in the gym
