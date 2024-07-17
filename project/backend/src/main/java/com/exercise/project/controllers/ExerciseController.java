@@ -4,10 +4,7 @@ import com.exercise.project.entities.Exercise;
 import com.exercise.project.services.ExerciseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,4 +16,10 @@ public class ExerciseController {
     public void addExercise(@RequestBody @Valid Exercise exercise) {
         exerciseService.addExercise(exercise);
     }
+
+    @GetMapping("/{id}")
+    public Exercise getExerciseById(@PathVariable(value = "id") Long id) {
+        return exerciseService.getExerciseById(id);
+    }
+
 }
