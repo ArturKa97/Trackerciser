@@ -26,4 +26,9 @@ public class ExerciseServiceImpl implements ExerciseService{
     public List<Exercise> getAllExercises() {
         return exerciseRepository.getAllExercises();
     }
+
+    @Override
+    public void deleteExerciseById(Long id) {
+        exerciseRepository.deleteById(id);
+    }
 }

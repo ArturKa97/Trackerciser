@@ -8,4 +8,5 @@ public interface ExerciseService {
     void addExercise (Exercise exercise);
     Exercise getExerciseById (Long id);
     List<Exercise> getAllExercises();
+    void deleteExerciseById(Long id);
 }
