@@ -5,6 +5,8 @@ import com.exercise.project.repositories.ExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService{
@@ -18,5 +20,10 @@ public class ExerciseServiceImpl implements ExerciseService{
     @Override
     public Exercise getExerciseById(Long id) {
         return exerciseRepository.getExerciseById(id);
+    }
+
+    @Override
+    public List<Exercise> getAllExercises() {
+        return exerciseRepository.getAllExercises();
     }
 }
