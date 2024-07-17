@@ -1,7 +1,17 @@
 package com.exercise.project.services;
 
+import com.exercise.project.entities.Exercise;
+import com.exercise.project.repositories.ExerciseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExerciseServiceImpl {
+@RequiredArgsConstructor
+public class ExerciseServiceImpl implements ExerciseService{
+    private final ExerciseRepository exerciseRepository;
+
+    @Override
+    public void addExercise(Exercise exercise) {
+        exerciseRepository.save(exercise);
+    }
 }
