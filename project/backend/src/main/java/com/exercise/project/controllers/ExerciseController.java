@@ -1,13 +1,21 @@
 package com.exercise.project.controllers;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.exercise.project.entities.Exercise;
+import com.exercise.project.services.ExerciseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@NoArgsConstructor
-//@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/exercise")
 public class ExerciseController {
+    private final ExerciseService exerciseService;
+
+    @PostMapping
+    public void addExercise(@RequestBody Exercise exercise) {
+        exerciseService.addExercise(exercise);
+    }
 }
