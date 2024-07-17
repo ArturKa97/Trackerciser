@@ -14,4 +14,9 @@ public class ExerciseServiceImpl implements ExerciseService{
     public void addExercise(Exercise exercise) {
         exerciseRepository.save(exercise);
     }
+
+    @Override
+    public Exercise getExerciseById(Long id) {
+        return exerciseRepository.getExerciseById(id);
+    }
 }
