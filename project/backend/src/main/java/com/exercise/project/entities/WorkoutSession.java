@@ -10,10 +10,10 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "session")
+@Table(name = "workout_session")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Session {
+public class WorkoutSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,7 @@ public class Session {
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @Temporal(TemporalType.DATE)
     private Date date;
 
 }
