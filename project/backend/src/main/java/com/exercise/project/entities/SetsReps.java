@@ -3,6 +3,7 @@ package com.exercise.project.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sets_reps")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class SetsReps {
 
     @Id
@@ -28,4 +30,7 @@ public class SetsReps {
 
     @Column(name = "rest")
     private Long rest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Exercise exercise;
 }
