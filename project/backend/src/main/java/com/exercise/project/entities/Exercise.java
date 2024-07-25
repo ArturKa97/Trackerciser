@@ -36,4 +36,7 @@ public class Exercise {
         exerciseInfo.remove(setsReps);
         setsReps.setExercise(null);
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WorkoutSession workoutSession;
 }
