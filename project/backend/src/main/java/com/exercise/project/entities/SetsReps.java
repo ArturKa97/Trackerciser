@@ -1,5 +1,6 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class SetsReps {
     @Column(name = "rest")
     private Long rest;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Exercise exercise;
 }
