@@ -14,4 +14,9 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     public void addWorkoutSession(WorkoutSession workoutSession) {
         workoutSessionRepository.save(workoutSession);
     }
+
+    @Override
+    public WorkoutSession getWorkoutSessionById(Long id) {
+        return workoutSessionRepository.getWorkoutSessionById(id);
+    }
 }

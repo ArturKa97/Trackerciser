@@ -3,10 +3,7 @@ package com.exercise.project.controllers;
 import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.services.WorkoutSessionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/workout_session")
@@ -17,5 +14,10 @@ public class WorkoutSessionController {
     @PostMapping
     public void addWorkoutSession (@RequestBody WorkoutSession workoutSession) {
         workoutSessionService.addWorkoutSession(workoutSession);
+    }
+
+    @GetMapping("/{id}")
+    public WorkoutSession getWorkoutSessionById (@PathVariable(value = "id") Long id){
+        return workoutSessionService.getWorkoutSessionById(id);
     }
 }
