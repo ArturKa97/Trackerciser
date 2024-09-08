@@ -1,6 +1,7 @@
 package com.exercise.project.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "exercise")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,7 @@ public class Exercise {
         setsReps.setExercise(null);
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private WorkoutSession workoutSession;
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sets_reps")
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class SetsReps {
 
     @Id
