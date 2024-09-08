@@ -3,6 +3,7 @@ package com.exercise.project.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Table(name = "workout_session")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class WorkoutSession {
 
     @Id
@@ -44,6 +46,4 @@ public class WorkoutSession {
         exerciseSet.remove(exercise);
         exercise.setWorkoutSession(null);
     }
-
-
 }
