@@ -1,11 +1,10 @@
-
+import React from "react";
+import ExerciseTable from "./components/ExerciseTable";
 
 function App() {
-  return (
-    <>
-    Hi
-    </>
-  )
+  return ( 
+    <ExerciseTable/>
+  );
 
 
 }
