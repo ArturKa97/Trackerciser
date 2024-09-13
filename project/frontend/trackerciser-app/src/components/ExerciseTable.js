@@ -7,14 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import axios from 'axios';
+import { retrieveAllExercises } from '../api/ExerciseApi';
 
 
 function ExerciseTable() {
 
   function testCall () {
     console.log('hi')
-    axios.get('http://localhost:8080/exercise')
+    retrieveAllExercises()
     .then( (response) => succes(response))
     .catch( (error) => erroras(error))
     .finally( () => console.log('cleanup'))
