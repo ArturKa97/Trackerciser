@@ -1,5 +1,5 @@
-import axios from 'axios';
+import HTTP from "./"
 
 export function retrieveAllExercises() {
-    return axios.get('http://localhost:8080/exercise')
+    return HTTP.get('/exercise')
 }
