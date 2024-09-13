@@ -6,34 +6,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import axios from 'axios';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 function ExerciseTable() {
+
+  function testCall () {
+    console.log('hi')
+    axios.get('http://localhost:8080/exercise')
+    .then( (response) => succes(response))
+    .catch( (error) => erroras(error))
+    .finally( () => console.log('cleanup'))
+  }
+
+  function succes (response) {
+    console.log(response)
+  }
+  function erroras (error) {
+    console.log(error)
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>ID</TableCell>
+            <TableCell align="right">Exercise name</TableCell>
+            <TableCell align="right">Sets</TableCell>
+            <TableCell align="right">Reps</TableCell>
+            <TableCell align="right">Weight</TableCell>
+            <TableCell align="right">Rest</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          <TableRow><Button variant="outlined" onClick={testCall}>Outlined</Button></TableRow>
+          {/* {rows.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -46,7 +55,7 @@ function ExerciseTable() {
               <TableCell align="right">{row.carbs}</TableCell>
               <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
       </Table>
     </TableContainer>
