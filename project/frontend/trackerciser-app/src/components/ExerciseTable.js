@@ -1,30 +1,24 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import { retrieveAllExercises } from '../api/ExerciseApi';
-
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { retrieveAllExercises } from "../api/ExerciseApi";
+import { useState, useEffect } from "react";
 
 function ExerciseTable() {
+  const [exercises, setExercises] = useState([]);
 
-  function testCall () {
-    console.log('hi')
+  useEffect(() => testCall(), []);
+
+  function testCall() {
     retrieveAllExercises()
-    .then( (response) => succes(response))
-    .catch( (error) => erroras(error))
-    .finally( () => console.log('cleanup'))
-  }
-
-  function succes (response) {
-    console.log(response)
-  }
-  function erroras (error) {
-    console.log(error)
+      .then((response) => setExercises(response.data))
+      .catch((error) => console.log(error))
+      .finally(() => console.log("cleanup"));
   }
 
   return (
@@ -33,29 +27,30 @@ function ExerciseTable() {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="right">Exercise name</TableCell>
-            <TableCell align="right">Sets</TableCell>
-            <TableCell align="right">Reps</TableCell>
-            <TableCell align="right">Weight</TableCell>
-            <TableCell align="right">Rest</TableCell>
+            <TableCell align="center">Exercise name</TableCell>
+            <TableCell align="center">Sets</TableCell>
+            <TableCell align="center">Reps</TableCell>
+            <TableCell align="center">Weight</TableCell>
+            <TableCell align="center">Rest</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow><Button variant="outlined" onClick={testCall}>Outlined</Button></TableRow>
-          {/* {rows.map((row) => (
+          {exercises.map((exercise) => (
             <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              key={exercise.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {exercise.id}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center">{exercise.name}</TableCell>
+              {exercise.exerciseInfo.map((info) => (
+                <TableCell key={info.id} align="center">
+                  {info.sets}
+                </TableCell>
+              ))}
             </TableRow>
-          ))} */}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
