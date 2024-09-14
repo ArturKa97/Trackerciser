@@ -1,16 +1,15 @@
 import React from "react";
-import ExerciseTable from "./components/ExerciseTable";
+import {BrowserRouter} from 'react-router-dom';
 import Header from "./components/Header";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <>
-    <Header/> 
-    <ExerciseTable/>
-    </>
-  );
-
-
+    <BrowserRouter>     
+        <Header/>
+        <AppRoutes/> 
+    </BrowserRouter>
+  )
 }
 
 export default App;
