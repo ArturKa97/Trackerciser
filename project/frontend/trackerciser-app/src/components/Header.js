@@ -10,8 +10,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { deepPurple } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+
+  const navigate = useNavigate();
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -35,7 +39,7 @@ function Header() {
           >
             TRACKERCISER
           </Typography>
-          <Button variant="contained">Placeholder</Button>
+          <Button variant="contained" onClick={() => navigate("/workoutSessions")}>Workout Sessions</Button>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
