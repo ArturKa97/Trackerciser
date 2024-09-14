@@ -1,9 +1,13 @@
 import React from "react";
 import ExerciseTable from "./components/ExerciseTable";
+import Header from "./components/Header";
 
 function App() {
-  return ( 
+  return (
+    <>
+    <Header/> 
     <ExerciseTable/>
+    </>
   );
 
 
