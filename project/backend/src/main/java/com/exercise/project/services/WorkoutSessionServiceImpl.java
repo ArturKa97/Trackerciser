@@ -1,9 +1,9 @@
 package com.exercise.project.services;
-
 import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.repositories.WorkoutSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,5 +18,11 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     @Override
     public WorkoutSession getWorkoutSessionById(Long id) {
         return workoutSessionRepository.getWorkoutSessionById(id);
+    }
+
+    @Override
+    public List<WorkoutSession> getAllWorkoutSessions() {
+        return workoutSessionRepository.getAllWorkoutSessions();
+
     }
 }

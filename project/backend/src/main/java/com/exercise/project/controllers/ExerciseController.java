@@ -1,11 +1,9 @@
 package com.exercise.project.controllers;
-
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.services.ExerciseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
