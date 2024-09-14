@@ -1,15 +1,27 @@
-import * as React from "react";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { retrieveAllWorkoutSessions } from "../api/WorkoutSessionApi";
 
 function WorkoutSessionsTable() {
-  
+  const [workoutSessions, setWorkoutSessions] = useState([]);
+
+  useEffect(() => retrieveWorkoutSessionsCall(), []);
+
+
+  function retrieveWorkoutSessionsCall() {
+    retrieveAllWorkoutSessions()
+      .then((response) => setWorkoutSessions(response.data))
+      .catch((error) => console.log(error))
+      .finally(() => console.log("passed"));
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -20,24 +32,18 @@ function WorkoutSessionsTable() {
             <TableCell align="center">Date</TableCell>
           </TableRow>
         </TableHead>
-        {/* <TableBody>
-          {exercises.map((exercise) => (
+        <TableBody>
+          {workoutSessions.map((workoutSession) => (
             <TableRow
-              key={exercise.id}
+              key={workoutSession.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {exercise.id}
-              </TableCell>
-              <TableCell align="center">{exercise.name}</TableCell>
-              {exercise.exerciseInfo.map((info) => (
-                <TableCell key={info.id} align="center">
-                  {info.sets}
-                </TableCell>
-              ))}
+              <TableCell component="th" scope="row">{workoutSession.id}</TableCell>
+              <TableCell align="center">{workoutSession.name}</TableCell>
+              <TableCell align="center">{workoutSession.date}</TableCell>
             </TableRow>
           ))}
-        </TableBody> */}
+        </TableBody>
       </Table>
     </TableContainer>
   );
