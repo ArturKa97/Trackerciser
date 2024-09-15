@@ -6,15 +6,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { retrieveAllWorkoutSessions } from "../api/WorkoutSessionApi";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
-  const [selectedRow, setSelectedRow] = React.useState({});
-  console.log({ selectedRow });
-
+  const navigate = useNavigate();
   useEffect(() => retrieveWorkoutSessionsCall(), []);
+
+  function selectRow(id) {
+    navigate("/workoutSession", { state: id });
+  }
 
   function retrieveWorkoutSessionsCall() {
     retrieveAllWorkoutSessions()
@@ -36,10 +39,10 @@ function WorkoutSessionsTable() {
         <TableBody>
           {workoutSessions.map((workoutSession) => (
             <TableRow
-              onClick={() => setSelectedRow(workoutSession)}
+              onClick={() => selectRow(workoutSession.id)}
               hover
               key={workoutSession.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 }}}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
                 {workoutSession.id}
