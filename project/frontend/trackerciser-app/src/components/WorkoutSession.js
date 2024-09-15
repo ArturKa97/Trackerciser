@@ -1,11 +1,25 @@
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 
 function WorkoutSession() {
+  const [workoutSession, setWorkoutSession] = useState({});
+  const location = useLocation();
+  useEffect(() => retrieveWorkoutSessionByIdCall(), []);
+
+  function retrieveWorkoutSessionByIdCall() {
+    retrieveWorkoutSessionById(location.state)
+      .then((response) => setWorkoutSession(response.data))
+      .catch((error) => console.log(error))
+      .finally(() => console.log("cleanup"));
+  }
+
   return (
     <Card variant="outlined" sx={{ maxWidth: 360 }}>
       <Box sx={{ p: 2 }}>
@@ -14,20 +28,18 @@ function WorkoutSession() {
           sx={{ justifyContent: "space-between", alignItems: "center" }}
         >
           <Typography gutterBottom variant="h5" component="div">
-            Name
+            {workoutSession.name}
           </Typography>
           <Typography gutterBottom variant="h6" component="div">
-            ID
+            {workoutSession.id}
           </Typography>
         </Stack>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          DATE
+          {workoutSession.date}
         </Typography>
       </Box>
       <Divider />
-      <Box >
-        TEXT
-      </Box>
+      <Box>TEXT</Box>
     </Card>
   );
 }
