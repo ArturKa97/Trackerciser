@@ -11,9 +11,10 @@ import { retrieveAllWorkoutSessions } from "../api/WorkoutSessionApi";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
+  const [selectedRow, setSelectedRow] = React.useState({});
+  console.log({ selectedRow });
 
   useEffect(() => retrieveWorkoutSessionsCall(), []);
-
 
   function retrieveWorkoutSessionsCall() {
     retrieveAllWorkoutSessions()
@@ -35,10 +36,14 @@ function WorkoutSessionsTable() {
         <TableBody>
           {workoutSessions.map((workoutSession) => (
             <TableRow
+              onClick={() => setSelectedRow(workoutSession)}
+              hover
               key={workoutSession.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 }}}
             >
-              <TableCell component="th" scope="row">{workoutSession.id}</TableCell>
+              <TableCell component="th" scope="row">
+                {workoutSession.id}
+              </TableCell>
               <TableCell align="center">{workoutSession.name}</TableCell>
               <TableCell align="center">{workoutSession.date}</TableCell>
             </TableRow>
