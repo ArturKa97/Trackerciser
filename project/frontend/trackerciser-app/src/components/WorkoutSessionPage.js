@@ -7,8 +7,9 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
+import ExerciseTable from "./ExerciseTable";
 
-function WorkoutSession() {
+function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
   const location = useLocation();
   useEffect(() => retrieveWorkoutSessionByIdCall(), []);
@@ -19,9 +20,8 @@ function WorkoutSession() {
       .catch((error) => console.log(error))
       .finally(() => console.log("cleanup"));
   }
-
   return (
-    <Card variant="outlined" sx={{ maxWidth: 360 }}>
+    <Card variant="outlined" sx={{ maxWidth: 900 }}>
       <Box sx={{ p: 2 }}>
         <Stack
           direction="row"
@@ -39,9 +39,9 @@ function WorkoutSession() {
         </Typography>
       </Box>
       <Divider />
-      <Box>TEXT</Box>
+      <ExerciseTable workoutSessionExercises={workoutSession.exerciseSet} />
     </Card>
   );
 }
 
-export default WorkoutSession;
+export default WorkoutSessionPage;
