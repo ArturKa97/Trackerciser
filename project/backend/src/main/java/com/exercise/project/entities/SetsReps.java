@@ -35,4 +35,8 @@ public class SetsReps {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Exercise exercise;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WorkoutSession workoutSession;
 }

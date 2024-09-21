@@ -7,9 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -35,7 +33,12 @@ public class WorkoutSession {
     @OneToMany(mappedBy = "workoutSession",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    Set<Exercise> exerciseSet = new HashSet<>();
+    private Set<Exercise> exerciseSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "workoutSession",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<SetsReps> workoutSessionSetsReps = new ArrayList<>();
 
     public void addExercises(Exercise exercise) {
         exerciseSet.add(exercise);
@@ -45,5 +48,15 @@ public class WorkoutSession {
     public void removeExercises(Exercise exercise) {
         exerciseSet.remove(exercise);
         exercise.setWorkoutSession(null);
+    }
+
+    public void addSetsReps(SetsReps setsReps) {
+        workoutSessionSetsReps.add(setsReps);
+        setsReps.setWorkoutSession(this);
+    }
+
+    public void removeSetsReps(SetsReps setsReps) {
+        workoutSessionSetsReps.remove(setsReps);
+        setsReps.setWorkoutSession(null);
     }
 }
