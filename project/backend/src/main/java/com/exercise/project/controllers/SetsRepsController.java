@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class SetsRepsController {
     private final SetsRepsService setsRepsService;
 
-    @PostMapping("/{exerciseId}")
-    public void addInfoToExercise (@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId) {
-        setsRepsService.addInfoToExercise(setsReps, exerciseId);
+    @PostMapping("/{workoutSessionId}/{exerciseId}")
+    public void addInfoToExercise (@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId, @PathVariable(value = "workoutSessionId") Long workoutSessionId) {
+        setsRepsService.addInfoToExercise(setsReps, workoutSessionId, exerciseId);
     }
 }
