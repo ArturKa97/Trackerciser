@@ -21,7 +21,6 @@ public class SetsRepsServiceImpl implements SetsRepsService{
     public void addInfoToExercise(SetsReps setsReps, Long workoutSessionId, Long exerciseId) {
         WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId);
         Exercise exercise = exerciseRepository.getExerciseById(exerciseId);
-        workoutSession.addSetsReps(setsReps);
         exercise.addExerciseInfo(setsReps);
         setsRepsRepository.save(setsReps);
     }
