@@ -20,9 +20,9 @@ public class Exercise {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "name")
-    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.ALL )
+    private ExerciseType exerciseType;
 
     @OneToMany(mappedBy = "exercise",
             cascade = CascadeType.ALL,

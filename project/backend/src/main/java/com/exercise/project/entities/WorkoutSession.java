@@ -35,11 +35,6 @@ public class WorkoutSession {
             orphanRemoval = true)
     private Set<Exercise> exerciseSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "workoutSession",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private List<SetsReps> workoutSessionSetsReps = new ArrayList<>();
-
     public void addExercises(Exercise exercise) {
         exerciseSet.add(exercise);
         exercise.setWorkoutSession(this);
@@ -48,15 +43,5 @@ public class WorkoutSession {
     public void removeExercises(Exercise exercise) {
         exerciseSet.remove(exercise);
         exercise.setWorkoutSession(null);
-    }
-
-    public void addSetsReps(SetsReps setsReps) {
-        workoutSessionSetsReps.add(setsReps);
-        setsReps.setWorkoutSession(this);
-    }
-
-    public void removeSetsReps(SetsReps setsReps) {
-        workoutSessionSetsReps.remove(setsReps);
-        setsReps.setWorkoutSession(null);
     }
 }
