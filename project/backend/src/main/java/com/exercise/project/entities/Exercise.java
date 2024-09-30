@@ -3,7 +3,6 @@ package com.exercise.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,8 @@ public class Exercise {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.ALL )
     private ExerciseType exerciseType;
@@ -39,7 +40,4 @@ public class Exercise {
         setsReps.setExercise(null);
     }
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private WorkoutSession workoutSession;
 }
