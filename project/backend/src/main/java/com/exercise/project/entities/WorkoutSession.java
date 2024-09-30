@@ -33,15 +33,15 @@ public class WorkoutSession {
     @OneToMany(mappedBy = "workoutSession",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<Exercise> exerciseSet = new HashSet<>();
+    private Set<ExerciseType> exerciseTypeSet = new HashSet<>();
 
-    public void addExercises(Exercise exercise) {
-        exerciseSet.add(exercise);
-        exercise.setWorkoutSession(this);
+    public void addExerciseType(ExerciseType exerciseType) {
+        exerciseTypeSet.add(exerciseType);
+        exerciseType.setWorkoutSession(this);
     }
 
-    public void removeExercises(Exercise exercise) {
-        exerciseSet.remove(exercise);
-        exercise.setWorkoutSession(null);
+    public void removeExerciseType(ExerciseType exerciseType) {
+        exerciseTypeSet.remove(exerciseType);
+        exerciseType.setWorkoutSession(null);
     }
 }

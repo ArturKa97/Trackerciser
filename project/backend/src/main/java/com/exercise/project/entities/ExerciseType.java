@@ -1,5 +1,6 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,12 +23,17 @@ public class ExerciseType {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "name")
-    private String name;
-
     @OneToMany(mappedBy = "exerciseType",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Exercise> exercises = new HashSet<>();
+
+    public void addExercises(Exercise exercise) {
+        exercises.add(exercise);
+        exercise.setExerciseType(this);
+    }
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WorkoutSession workoutSession;
 }
