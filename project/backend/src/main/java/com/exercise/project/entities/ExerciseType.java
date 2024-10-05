@@ -1,6 +1,8 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -17,23 +19,20 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ExerciseType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @OneToMany(mappedBy = "exerciseType",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonBackReference
     private Set<Exercise> exercises = new HashSet<>();
 
-    public void addExercises(Exercise exercise) {
-        exercises.add(exercise);
-        exercise.setExerciseType(this);
-    }
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private WorkoutSession workoutSession;
 }
