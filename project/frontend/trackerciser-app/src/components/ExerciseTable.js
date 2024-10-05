@@ -25,25 +25,41 @@ function ExerciseTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {exercises.map((exercise) => (
-              <TableRow
-                key={exercise.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {exercise.id}
-                </TableCell>
-                <TableCell align="center">{exercise.name}</TableCell>
-                {exercise.exerciseInfo.map((info) => (
-                  <>
-                    <TableCell key={info.id} align="center">
-                      {info.sets}
+            {exercises.map((exercise) => {
+              const exerciseInfo = exercise.exerciseInfo;
+              return (
+                <React.Fragment key={exercise.id}>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {exercise.id}
                     </TableCell>
-                    <TableCell align="center">{info.reps}</TableCell>
-                  </>
-                ))}
-              </TableRow>
-            ))}
+                    <TableCell align="center">{exercise.name}</TableCell>
+                    <TableCell align="center">
+                      {exerciseInfo[0]?.sets}
+                    </TableCell>
+                    <TableCell align="center">
+                      {exerciseInfo[0]?.reps}
+                    </TableCell>
+                    <TableCell align="center">
+                      {exerciseInfo[0]?.weight}
+                    </TableCell>
+                    <TableCell align="center">
+                      {exerciseInfo[0]?.rest}
+                    </TableCell>
+                  </TableRow>
+                  {exerciseInfo.slice(1).map((info) => (
+                    <TableRow key={info.id}>
+                      <TableCell component="th" scope="row" />
+                      <TableCell align="center" />
+                      <TableCell align="center">{info.sets}</TableCell>
+                      <TableCell align="center">{info.reps}</TableCell>
+                      <TableCell align="center">{info.weight}</TableCell>
+                      <TableCell align="center">{info.rest}</TableCell>
+                    </TableRow>
+                  ))}
+                </React.Fragment>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
