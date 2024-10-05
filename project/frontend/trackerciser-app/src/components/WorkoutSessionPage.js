@@ -4,7 +4,7 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 import ExerciseTable from "./ExerciseTable";
@@ -12,14 +12,18 @@ import ExerciseTable from "./ExerciseTable";
 function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
   const location = useLocation();
-  useEffect(() => retrieveWorkoutSessionByIdCall(), []);
 
-  function retrieveWorkoutSessionByIdCall() {
+  const retrieveWorkoutSessionByIdCall = useCallback(() => {
     retrieveWorkoutSessionById(location.state)
       .then((response) => setWorkoutSession(response.data))
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
-  }
+      .catch((error) => console.log(error));
+  }, [location.state]);
+
+  useEffect(
+    () => retrieveWorkoutSessionByIdCall(),
+    [retrieveWorkoutSessionByIdCall]
+  );
+
   return (
     <Card variant="outlined" sx={{ maxWidth: 900 }}>
       <Box sx={{ p: 2 }}>
