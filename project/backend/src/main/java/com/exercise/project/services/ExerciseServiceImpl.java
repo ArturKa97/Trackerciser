@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ExerciseServiceImpl implements ExerciseService{
+public class ExerciseServiceImpl implements ExerciseService {
     private final ExerciseRepository exerciseRepository;
     private final ExerciseTypeRepository exerciseTypeRepository;
 
@@ -41,7 +41,6 @@ public class ExerciseServiceImpl implements ExerciseService{
     public void addExerciseType(Long exerciseId, Long exerciseTypeId) {
         ExerciseType exerciseType = exerciseTypeRepository.getExercisTypeById(exerciseTypeId);
         Exercise exercise = exerciseRepository.getExerciseById(exerciseId);
-        exerciseType.addExercises(exercise);
         exerciseRepository.save(exercise);
 
     }

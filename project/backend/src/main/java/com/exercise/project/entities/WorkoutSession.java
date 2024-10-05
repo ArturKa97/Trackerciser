@@ -1,5 +1,6 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,15 +34,6 @@ public class WorkoutSession {
     @OneToMany(mappedBy = "workoutSession",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private Set<ExerciseType> exerciseTypeSet = new HashSet<>();
-
-    public void addExerciseType(ExerciseType exerciseType) {
-        exerciseTypeSet.add(exerciseType);
-        exerciseType.setWorkoutSession(this);
-    }
-
-    public void removeExerciseType(ExerciseType exerciseType) {
-        exerciseTypeSet.remove(exerciseType);
-        exerciseType.setWorkoutSession(null);
-    }
+    @JsonManagedReference
+    private Set<Exercise> exerciseSet = new HashSet<>();
 }

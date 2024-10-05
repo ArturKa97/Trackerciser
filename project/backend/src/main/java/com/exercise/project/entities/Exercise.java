@@ -2,8 +2,10 @@ package com.exercise.project.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +24,19 @@ public class Exercise {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.ALL )
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private WorkoutSession workoutSession;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ExerciseType exerciseType;
+
 
     @OneToMany(mappedBy = "exercise",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonManagedReference
     private List<SetsReps> exerciseInfo = new ArrayList<>();
 
     public void addExerciseInfo(SetsReps setsReps) {
