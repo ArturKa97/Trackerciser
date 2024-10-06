@@ -1,3 +1,4 @@
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -51,6 +52,9 @@ function WorkoutSessionsTable() {
               <TableCell align="center">{workoutSession.date}</TableCell>
             </TableRow>
           ))}
+          <Button variant="contained" color="success">
+            Add Workout Session
+          </Button>
         </TableBody>
       </Table>
     </TableContainer>
