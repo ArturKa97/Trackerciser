@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, Long> {
-    @Query(value = "SELECT ws FROM WorkoutSession ws JOIN FETCH ws.exerciseSet e JOIN FETCH e.exerciseType JOIN FETCH e.exerciseInfo WHERE ws.id = :id")
+    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exerciseSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseInfo WHERE ws.id = :id")
     WorkoutSession getWorkoutSessionById(@Param("id") Long id);
 
-    @Query(value = "SELECT w FROM WorkoutSession w")
+    @Query(value = "SELECT ws FROM WorkoutSession ws")
     List<WorkoutSession> getAllWorkoutSessions();
 }
