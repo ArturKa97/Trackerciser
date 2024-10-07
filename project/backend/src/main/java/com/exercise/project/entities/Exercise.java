@@ -1,8 +1,7 @@
 package com.exercise.project.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +28,12 @@ public class Exercise {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private WorkoutSession workoutSession;
 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ExerciseType exerciseType;
-
 
     @OneToMany(mappedBy = "exercise",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JsonManagedReference
     private List<SetsReps> exerciseInfo = new ArrayList<>();
 
     public void addExerciseInfo(SetsReps setsReps) {
