@@ -1,4 +1,5 @@
-INSERT INTO workout_session (id ,name, date)
+INSERT INTO workout_session (id , workout_session_name, date)
+
 VALUES
     (1, 'Leg day', '2024-08-29'),
     (2, 'Leg day', '2024-09-29'),

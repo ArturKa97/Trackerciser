@@ -1,17 +1,26 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
+import { addWorkoutSession } from "../api/WorkoutSessionApi";
 
-const onSubmit = (values) => {
-  console.log(values);
+const onSubmit = (values, actions) => {
+  addNewWorkoutSession(values);
+console.log(values);
 };
+
+const addNewWorkoutSession = (values) => {
+    addWorkoutSession(values)
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error))
+    .finally(() => console.log("cleanup"));
+}
 
 function WorkoutSessionForm() {
   return (
     <Formik
-      initialValues={{ workoutSessionName: "", date: "" }}
+      initialValues={{ workoutSessionName: "asasa", date: "2022-02-02" }}
       onSubmit={onSubmit}
     >
-      {(props) => (
+      {({isSubmitting}) => (
         <Form>
           <Field
             label="Name"
@@ -23,12 +32,12 @@ function WorkoutSessionForm() {
             label="Date"
             placeholder="Enter your workout session date"
             name="date"
-            type="text"
+            type="date"
           />
           <Button
             variant="outlined"
             type="submit"
-            // disabled={isSubmitting}
+            disabled={isSubmitting}
           >
             Submit
           </Button>
