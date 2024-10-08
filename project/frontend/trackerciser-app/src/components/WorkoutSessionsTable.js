@@ -48,7 +48,7 @@ function WorkoutSessionsTable() {
               <TableCell component="th" scope="row">
                 {workoutSession.id}
               </TableCell>
-              <TableCell align="center">{workoutSession.name}</TableCell>
+              <TableCell align="center">{workoutSession.workoutSessionName}</TableCell>
               <TableCell align="center">{workoutSession.date}</TableCell>
             </TableRow>
           ))}

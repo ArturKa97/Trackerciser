@@ -32,7 +32,7 @@ function WorkoutSessionPage() {
           sx={{ justifyContent: "space-between", alignItems: "center" }}
         >
           <Typography gutterBottom variant="h5" component="div">
-            {workoutSession.name}
+            {workoutSession.workoutSessionName}
           </Typography>
           <Typography gutterBottom variant="h6" component="div">
             {workoutSession.id}
