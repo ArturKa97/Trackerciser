@@ -12,8 +12,8 @@ public class WorkoutSessionController {
     private final WorkoutSessionService workoutSessionService;
 
     @PostMapping
-    public void addWorkoutSession (@RequestBody WorkoutSession workoutSession) {
-        workoutSessionService.addWorkoutSession(workoutSession);
+    public WorkoutSession addWorkoutSession (@RequestBody WorkoutSession workoutSession) {
+        return workoutSessionService.addWorkoutSession(workoutSession);
     }
 
     @GetMapping("/{id}")
