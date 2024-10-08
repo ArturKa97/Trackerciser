@@ -52,7 +52,7 @@ function WorkoutSessionsTable() {
               <TableCell align="center">{workoutSession.date}</TableCell>
             </TableRow>
           ))}
-          <Button variant="contained" color="success">
+          <Button variant="contained" color="success" onClick={() => navigate("/workoutSessionForm")}>
             Add Workout Session
           </Button>
         </TableBody>
