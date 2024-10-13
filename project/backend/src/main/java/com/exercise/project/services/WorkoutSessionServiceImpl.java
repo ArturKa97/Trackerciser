@@ -25,4 +25,7 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
         return workoutSessionRepository.getAllWorkoutSessions();
 
     }
+    public void deleteWorkoutSessionById(Long id) {
+        workoutSessionRepository.deleteById(id);
+    }
 }

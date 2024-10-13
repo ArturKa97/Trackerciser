@@ -27,9 +27,7 @@ public class ExerciseType {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "exerciseType",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+    @OneToMany(mappedBy = "exerciseType")
     private Set<Exercise> exercises = new HashSet<>();
 
 }

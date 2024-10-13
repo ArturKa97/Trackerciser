@@ -25,4 +25,9 @@ public class WorkoutSessionController {
     public List<WorkoutSession> getAllWorkoutSessions () {
         return workoutSessionService.getAllWorkoutSessions();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteWorkoutSessionById (@PathVariable(value = "id") Long id){
+        workoutSessionService.deleteWorkoutSessionById(id);
+    }
 }

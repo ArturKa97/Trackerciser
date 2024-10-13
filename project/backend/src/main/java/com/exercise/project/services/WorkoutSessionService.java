@@ -6,4 +6,5 @@ public interface WorkoutSessionService {
     WorkoutSession addWorkoutSession(WorkoutSession workoutSession);
     WorkoutSession getWorkoutSessionById(Long id);
     List<WorkoutSession> getAllWorkoutSessions();
+    void deleteWorkoutSessionById(Long id);
 }
