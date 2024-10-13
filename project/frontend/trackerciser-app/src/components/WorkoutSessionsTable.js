@@ -9,7 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { retrieveAllWorkoutSessions } from "../api/WorkoutSessionApi";
+import {
+  retrieveAllWorkoutSessions,
+  deleteWorkoutSessionById,
+} from "../api/WorkoutSessionApi";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
@@ -27,37 +30,67 @@ function WorkoutSessionsTable() {
       .finally(() => console.log("passed"));
   }
 
+  function deleteWorkoutSessionByIdCall(id) {
+    deleteWorkoutSessionById(id)
+      .then((response) => {
+        console.log(response);
+        retrieveWorkoutSessionsCall();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => console.log("deleted"));
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Date</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {workoutSessions.map((workoutSession) => (
-            <TableRow
-              onClick={() => selectRow(workoutSession.id)}
-              hover
-              key={workoutSession.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {workoutSession.id}
-              </TableCell>
-              <TableCell align="center">{workoutSession.workoutSessionName}</TableCell>
-              <TableCell align="center">{workoutSession.date}</TableCell>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Date</TableCell>
             </TableRow>
-          ))}
-          <Button variant="contained" color="success" onClick={() => navigate("/workoutSessionForm")}>
-            Add Workout Session
-          </Button>
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {workoutSessions.map((workoutSession) => (
+              <TableRow
+                onClick={() => selectRow(workoutSession.id)}
+                hover
+                key={workoutSession.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {workoutSession.id}
+                </TableCell>
+                <TableCell align="center">
+                  {workoutSession.workoutSessionName}
+                </TableCell>
+                <TableCell align="center">{workoutSession.date}</TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteWorkoutSessionByIdCall(workoutSession.id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() => navigate("/workoutSessionForm")}
+      >
+        Add Workout Session
+      </Button>
+    </>
   );
 }
 export default WorkoutSessionsTable;
