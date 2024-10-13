@@ -9,9 +9,13 @@ export function retrieveWorkoutSessionById(id) {
 }
 
 export function addWorkoutSession(workoutSession) {
-  return HTTP.post('/workout_session', workoutSession, {
+  return HTTP.post("/workout_session", workoutSession, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
+}
+
+export function deleteWorkoutSessionById(id) {
+  return HTTP.delete(`/workout_session/${id}`);
 }
