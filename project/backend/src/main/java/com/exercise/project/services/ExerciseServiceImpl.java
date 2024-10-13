@@ -2,10 +2,8 @@ package com.exercise.project.services;
 
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseType;
-import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.repositories.ExerciseRepository;
 import com.exercise.project.repositories.ExerciseTypeRepository;
-import com.exercise.project.repositories.WorkoutSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +37,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void addExerciseType(Long exerciseId, Long exerciseTypeId) {
-        ExerciseType exerciseType = exerciseTypeRepository.getExercisTypeById(exerciseTypeId);
+        ExerciseType exerciseType = exerciseTypeRepository.getExerciseTypeById(exerciseTypeId);
         Exercise exercise = exerciseRepository.getExerciseById(exerciseId);
         exerciseRepository.save(exercise);
 

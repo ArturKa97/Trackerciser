@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ExerciseTypeRepository extends JpaRepository<ExerciseType, Long> {
     @Query(value = "SELECT e FROM ExerciseType e WHERE e.id = :id")
-    ExerciseType getExercisTypeById(@Param("id") Long id);
+    ExerciseType getExerciseTypeById(@Param("id") Long id);
 
-    @Query(value = "SELECT e FROM Exercise e ")
+    @Query(value = "SELECT et FROM ExerciseType et ")
     List<ExerciseType> getAllExerciseTypes();
 }
