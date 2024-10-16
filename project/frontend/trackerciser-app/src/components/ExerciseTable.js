@@ -33,7 +33,9 @@ function ExerciseTable(props) {
                     <TableCell component="th" scope="row">
                       {exercise.id}
                     </TableCell>
-                    <TableCell align="center">{exercise.name}</TableCell>
+                    <TableCell align="center">
+                      {exercise.exerciseType.name}
+                    </TableCell>
                     <TableCell align="center">
                       {exerciseInfo[0]?.sets}
                     </TableCell>
