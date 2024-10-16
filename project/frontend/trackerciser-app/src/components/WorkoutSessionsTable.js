@@ -32,8 +32,7 @@ function WorkoutSessionsTable() {
 
   function deleteWorkoutSessionByIdCall(id) {
     deleteWorkoutSessionById(id)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         retrieveWorkoutSessionsCall();
       })
       .catch((error) => console.log(error))
