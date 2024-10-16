@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useEffect, useState, useCallback } from "react";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 import ExerciseTable from "./ExerciseTable";
 import { Button } from "@mui/material";
@@ -31,6 +31,10 @@ function WorkoutSessionPage() {
     setShowExerciseForm((prev) => !prev);
   };
 
+  const handleExerciseAdded = () => {
+    retrieveWorkoutSessionByIdCall();
+  };
+
   return (
     <Card variant="outlined" sx={{ maxWidth: 900 }}>
       <Box sx={{ p: 2 }}>
@@ -53,13 +57,15 @@ function WorkoutSessionPage() {
       <ExerciseTable workoutSessionExercises={workoutSession.exerciseSet} />
       {showExerciseForm && (
         <Box sx={{ mt: 2 }}>
-          <ExerciseForm />
+          <ExerciseForm
+            workoutSessionId={workoutSession.id}
+            onExerciseAdded={handleExerciseAdded}
+          />
         </Box>
       )}
       <Button onClick={handleAddExerciseClick}>
         {showExerciseForm ? "Cancel" : "Add Exercise"}
       </Button>
-
     </Card>
   );
 }
