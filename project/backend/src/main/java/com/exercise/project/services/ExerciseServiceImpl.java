@@ -39,17 +39,14 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId) {
+    public Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId) {
         WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId);
         ExerciseType exerciseType = exerciseTypeRepository.getExerciseTypeById(exerciseTypeId);
         Exercise exercise = new Exercise();
         exercise.setExerciseType(exerciseType);
         workoutSession.addExercise(exercise);
         exerciseRepository.save(exercise);
-
-
-
-
+        return exercise;
     }
 
 }

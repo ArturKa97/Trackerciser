@@ -9,5 +9,5 @@ public interface ExerciseService {
     Exercise getExerciseById (Long id);
     List<Exercise> getAllExercises();
     void deleteExerciseById(Long id);
-    void addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId);
+    Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId);
 }

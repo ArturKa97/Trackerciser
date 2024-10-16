@@ -34,8 +34,8 @@ public class ExerciseController {
 
 
     @PostMapping("/{workoutSessionId}/{exerciseTypeId}")
-    public void addExerciseToWorkoutSession (@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseTypeId") Long exerciseTypeId) {
-        exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
+    public Exercise addExerciseToWorkoutSession (@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseTypeId") Long exerciseTypeId) {
+        return exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
     }
 
 }
