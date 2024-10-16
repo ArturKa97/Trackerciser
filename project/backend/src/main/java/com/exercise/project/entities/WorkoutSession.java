@@ -37,4 +37,14 @@ public class WorkoutSession {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Exercise> exerciseSet = new HashSet<>();
+
+    public void addExercise(Exercise exercise) {
+        exerciseSet.add(exercise);
+        exercise.setWorkoutSession(this);
+    }
+
+    public void removeExercise(Exercise exercise) {
+        exerciseSet.remove(exercise);
+        exercise.setWorkoutSession(null);
+    }
 }

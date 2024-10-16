@@ -13,12 +13,12 @@ VALUES
       (3, 3, 3, 3, 3),
       (4, 4, 4, 4, 4);
 
-INSERT INTO exercise (id ,name)
+INSERT INTO exercise (id)
 VALUES
-    (1, 'SquatsE'),
-    (2, 'SquatsE'),
-    (3, 'Leg extensions'),
-    (4, 'Leg extensions');
+    (1),
+    (2),
+    (3),
+    (4);
 
 
 INSERT INTO exercise_type (id, name)
