@@ -6,10 +6,24 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useEffect, useState } from "react";
 import { retrieveAllExerciseTypes } from "../api/ExerciseTypeApi";
+import { addExerciseToWorkoutSession } from "../api/ExerciseApi";
 
-function ExerciseForm() {
+function ExerciseForm(props) {
   const [exerciseTypes, setExerciseTypes] = useState([]);
+  const { workoutSessionId, onExerciseAdded } = props;
   useEffect(() => retrieveAllExerciseTypesCall(), []);
+
+  const onSubmit = async ({ exerciseId }, { setSubmitting, resetForm }) => {
+    try {
+      await addExerciseToWorkoutSessionCall(workoutSessionId, exerciseId);
+      onExerciseAdded();
+      resetForm();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   function retrieveAllExerciseTypesCall() {
     retrieveAllExerciseTypes()
@@ -18,11 +32,20 @@ function ExerciseForm() {
       .finally(() => console.log("passed"));
   }
 
+  const addExerciseToWorkoutSessionCall = (workoutSessionId, exerciseId) => {
+    addExerciseToWorkoutSession(workoutSessionId, exerciseId)
+      .then(() => {
+        onExerciseAdded();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => console.log("cleanup"));
+  };
+
   return (
     <Formik
-      initialValues={{ exerciseName: "" }}
+      initialValues={{ exerciseId: "" }}
       //   validationSchema={workoutSessionFormSchema}
-      //   onSubmit={onSubmit}
+      onSubmit={onSubmit}
     >
       {({ isSubmitting, errors, touched, setFieldValue }) => (
         <Form>
@@ -31,12 +54,12 @@ function ExerciseForm() {
               Choose the exercise
             </InputLabel>
             <Field
-              name="exerciseName"
+              name="exerciseId"
               as={Select}
               labelId="exercise-select-label"
               label="Choose the exercise"
               onChange={(event) =>
-                setFieldValue("exerciseName", event.target.value)
+                setFieldValue("exerciseId", event.target.value)
               }
             >
               {exerciseTypes.map((exerciseType) => (

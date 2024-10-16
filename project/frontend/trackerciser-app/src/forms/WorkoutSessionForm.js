@@ -8,14 +8,14 @@ function WorkoutSessionForm() {
   const navigate = useNavigate();
 
   const onSubmit = (values, actions) => {
-    addNewWorkoutSession(values);
+    addWorkoutSessionCall(values);
   };
 
   function navigateToCreatedWorkoutSession(id) {
     navigate("/workoutSession", { state: id });
   }
 
-  const addNewWorkoutSession = (values) => {
+  const addWorkoutSessionCall = (values) => {
     addWorkoutSession(values)
       .then((response) => navigateToCreatedWorkoutSession(response.data.id))
       .catch((error) => console.log(error))
