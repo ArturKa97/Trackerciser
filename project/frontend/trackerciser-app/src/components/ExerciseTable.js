@@ -6,9 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
+import { Button } from "@mui/material";
 
-function ExerciseTable(props) {
-  const exercises = props.workoutSessionExercises;
+function ExerciseTable({ workoutSessionExercises, onEditExerciseInfo }) {
+  const exercises = workoutSessionExercises;
 
   return (
     exercises && (
@@ -22,6 +23,7 @@ function ExerciseTable(props) {
               <TableCell align="center">Reps</TableCell>
               <TableCell align="center">Weight</TableCell>
               <TableCell align="center">Rest</TableCell>
+              <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -48,6 +50,18 @@ function ExerciseTable(props) {
                     <TableCell align="center">
                       {exerciseInfo[0]?.rest}
                     </TableCell>
+                    <TableCell align="center">
+                    {exerciseInfo.length > 0 && (
+                        <Button
+                          onClick={() =>
+                            onEditExerciseInfo(exercise, exerciseInfo[0])
+                          }
+                          variant="outlined"
+                        >
+                          Edit
+                        </Button>
+                      )}
+                    </TableCell>
                   </TableRow>
                   {exerciseInfo.slice(1).map((info) => (
                     <TableRow key={info.id}>
@@ -57,8 +71,27 @@ function ExerciseTable(props) {
                       <TableCell align="center">{info.reps}</TableCell>
                       <TableCell align="center">{info.weight}</TableCell>
                       <TableCell align="center">{info.rest}</TableCell>
+                      <TableCell align="center">
+                        <Button
+                          onClick={() => onEditExerciseInfo(exercise, info)}
+                          variant="outlined"
+                        >
+                          Edit S
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">
+                      <Button
+                        onClick={() => onEditExerciseInfo(exercise, null)}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Add
+                      </Button>
+                    </TableCell>
+                  </TableRow>
                 </React.Fragment>
               );
             })}

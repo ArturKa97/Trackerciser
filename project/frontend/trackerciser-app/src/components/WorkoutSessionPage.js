@@ -10,10 +10,14 @@ import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 import ExerciseTable from "./ExerciseTable";
 import { Button } from "@mui/material";
 import ExerciseForm from "../forms/ExerciseForm";
+import SetsRepsForm from "../forms/SetsRepsForm";
 
 function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
   const [showExerciseForm, setShowExerciseForm] = useState(false);
+  const [editingExercise, setEditingExercise] = useState(null);
+  const [editingExerciseInfo, setEditingExerciseInfo] = useState(null);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   const location = useLocation();
 
   const retrieveWorkoutSessionByIdCall = useCallback(() => {
@@ -32,6 +36,19 @@ function WorkoutSessionPage() {
   };
 
   const handleExerciseAdded = () => {
+    retrieveWorkoutSessionByIdCall();
+  };
+
+  const handleEditExerciseInfo = (exercise, exerciseInfo = null) => {
+    setEditingExercise(exercise);
+    setEditingExerciseInfo(exerciseInfo);
+    setIsAddingNew(!exerciseInfo);
+  };
+
+  const handleFormClose = () => {
+    setEditingExercise(null);
+    setEditingExerciseInfo(null);
+    setIsAddingNew(false);
     retrieveWorkoutSessionByIdCall();
   };
 
@@ -54,7 +71,19 @@ function WorkoutSessionPage() {
         </Typography>
       </Box>
       <Divider />
-      <ExerciseTable workoutSessionExercises={workoutSession.exerciseSet} />
+      {editingExercise ? (
+        <SetsRepsForm
+          exercise={editingExercise}
+          exerciseInfo={editingExerciseInfo}
+          onFormClose={handleFormClose}
+          isAddingNew={isAddingNew}
+        />
+      ) : (
+        <ExerciseTable
+          workoutSessionExercises={workoutSession.exerciseSet}
+          onEditExerciseInfo={handleEditExerciseInfo}
+        />
+      )}
       {showExerciseForm && (
         <Box sx={{ mt: 2 }}>
           <ExerciseForm
