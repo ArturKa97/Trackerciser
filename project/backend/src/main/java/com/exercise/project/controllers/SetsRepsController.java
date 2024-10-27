@@ -6,13 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/setsreps")
+@RequestMapping("/sets_reps")
 @RequiredArgsConstructor
 public class SetsRepsController {
     private final SetsRepsService setsRepsService;
 
-    @PostMapping("/{workoutSessionId}/{exerciseId}")
-    public void addInfoToExercise (@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId, @PathVariable(value = "workoutSessionId") Long workoutSessionId) {
-        setsRepsService.addInfoToExercise(setsReps, workoutSessionId, exerciseId);
+    @PostMapping("/{exerciseId}")
+    public SetsReps addInfoToExercise (@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId) {
+        return setsRepsService.addInfoToExercise(setsReps, exerciseId);
     }
 }
