@@ -10,14 +10,10 @@ import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 import ExerciseTable from "./ExerciseTable";
 import { Button } from "@mui/material";
 import ExerciseForm from "../forms/ExerciseForm";
-import SetsRepsForm from "../forms/SetsRepsForm";
 
 function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
   const [showExerciseForm, setShowExerciseForm] = useState(false);
-  const [editingExercise, setEditingExercise] = useState(null);
-  const [editingExerciseInfo, setEditingExerciseInfo] = useState(null);
-  const [isAddingNew, setIsAddingNew] = useState(false);
   const location = useLocation();
 
   const retrieveWorkoutSessionByIdCall = useCallback(() => {
@@ -31,25 +27,12 @@ function WorkoutSessionPage() {
     [retrieveWorkoutSessionByIdCall]
   );
 
+  const handleExerciseUpdated = () => {
+    retrieveWorkoutSessionByIdCall();
+  };
+
   const handleAddExerciseClick = () => {
     setShowExerciseForm((prev) => !prev);
-  };
-
-  const handleExerciseAdded = () => {
-    retrieveWorkoutSessionByIdCall();
-  };
-
-  const handleEditExerciseInfo = (exercise, exerciseInfo = null) => {
-    setEditingExercise(exercise);
-    setEditingExerciseInfo(exerciseInfo);
-    setIsAddingNew(!exerciseInfo);
-  };
-
-  const handleFormClose = () => {
-    setEditingExercise(null);
-    setEditingExerciseInfo(null);
-    setIsAddingNew(false);
-    retrieveWorkoutSessionByIdCall();
   };
 
   return (
@@ -71,24 +54,15 @@ function WorkoutSessionPage() {
         </Typography>
       </Box>
       <Divider />
-      {editingExercise ? (
-        <SetsRepsForm
-          exercise={editingExercise}
-          exerciseInfo={editingExerciseInfo}
-          onFormClose={handleFormClose}
-          isAddingNew={isAddingNew}
-        />
-      ) : (
-        <ExerciseTable
-          workoutSessionExercises={workoutSession.exerciseSet}
-          onEditExerciseInfo={handleEditExerciseInfo}
-        />
-      )}
+      <ExerciseTable
+        workoutSessionExercises={workoutSession.exerciseSet}
+        onExerciseUpdated={handleExerciseUpdated}
+      />
       {showExerciseForm && (
         <Box sx={{ mt: 2 }}>
           <ExerciseForm
             workoutSessionId={workoutSession.id}
-            onExerciseAdded={handleExerciseAdded}
+            onExerciseAdded={handleExerciseUpdated}
           />
         </Box>
       )}

@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
 
-function SetsRepsForm({exerciseInfo, onFormClose, isAddingNew }) {
+function SetsRepsForm({ exerciseInfo, onFormClose, isAddingNew }) {
   return (
     <Formik
       initialValues={{
