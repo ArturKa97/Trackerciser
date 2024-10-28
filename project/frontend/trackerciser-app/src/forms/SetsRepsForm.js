@@ -1,7 +1,30 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
+import { addExerciseInfoToExercise } from "../api/SetsRepsApi";
 
-function SetsRepsForm({ exerciseInfo, onFormClose, isAddingNew }) {
+function SetsRepsForm({ exerciseId, exerciseInfo, onFormClose, isAddingNew }) {
+  const onSubmit = async (values) => {
+    try {
+      if (isAddingNew) {
+        await addExerciseInfoToExerciseCall(exerciseId, values);
+      } else {
+        console.log("Editing exerciseInfo:", values);
+      }
+      onFormClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addExerciseInfoToExerciseCall = (exerciseId, values) => {
+    return addExerciseInfoToExercise(exerciseId, values)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => console.log(error))
+      .finally(() => console.log("cleanup"));
+  };
+
   return (
     <Formik
       initialValues={{
@@ -11,14 +34,7 @@ function SetsRepsForm({ exerciseInfo, onFormClose, isAddingNew }) {
         rest: exerciseInfo?.rest || "",
       }}
       //   validationSchema={workoutSessionFormSchema}
-      onSubmit={(values) => {
-        if (isAddingNew) {
-          console.log("Adding new exerciseInfo:", values);
-        } else {
-          console.log("Editing exerciseInfo:", values);
-        }
-        onFormClose();
-      }}
+      onSubmit={onSubmit}
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>

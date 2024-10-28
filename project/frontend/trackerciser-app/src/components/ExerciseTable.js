@@ -145,6 +145,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                       <TableRow>
                         <TableCell colSpan={7}>
                           <SetsRepsForm
+                            exerciseId={exercise.id}
                             exerciseInfo={null}
                             onFormClose={handleFormClose}
                             isAddingNew={true}
