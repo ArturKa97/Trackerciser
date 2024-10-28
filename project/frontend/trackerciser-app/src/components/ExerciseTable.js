@@ -37,10 +37,10 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
 
   return (
     exercises && (
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
+        <Table sx={{ minWidth: 650 }} aria-label="exercise table">
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ minHeight: '48px' }}>
               <TableCell>ID</TableCell>
               <TableCell align="center">Exercise name</TableCell>
               <TableCell align="center">Sets</TableCell>
@@ -55,7 +55,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
               const exerciseInfo = exercise.exerciseInfo || [];
               return (
                 <React.Fragment key={exercise.id}>
-                  <TableRow>
+                  <TableRow sx={{ minHeight: '48px' }}>
                     <TableCell component="th" scope="row">
                       {exercise.id}
                     </TableCell>
@@ -106,7 +106,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
 
                   {exerciseInfo.length > 1 &&
                     exerciseInfo.slice(1)?.map((info) => (
-                      <TableRow key={info.id}>
+                      <TableRow key={info.id} sx={{ minHeight: '48px' }}>
                         {editingExerciseId === exercise.id &&
                         editingExerciseInfoId === info.id ? (
                           <>
@@ -142,7 +142,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     ))}
                   {addingNewExercise && editingExerciseId === exercise.id ? (
                     <>
-                      <TableRow>
+                      <TableRow sx={{ minHeight: '48px' }}>
                         <TableCell colSpan={7}>
                           <SetsRepsForm
                             exerciseId={exercise.id}
@@ -155,7 +155,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     </>
                   ) : (
                     <>
-                      <TableRow>
+                      <TableRow sx={{ minHeight: '48px' }}>
                         <TableCell colSpan={7} align="center">
                           <Button
                             onClick={() => handleAddClick(exercise.id)}
