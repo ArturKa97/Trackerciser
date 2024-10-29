@@ -12,7 +12,12 @@ public class SetsRepsController {
     private final SetsRepsService setsRepsService;
 
     @PostMapping("/{exerciseId}")
-    public SetsReps addInfoToExercise (@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId) {
+    public SetsReps addInfoToExercise(@RequestBody SetsReps setsReps, @PathVariable(value = "exerciseId") Long exerciseId) {
         return setsRepsService.addInfoToExercise(setsReps, exerciseId);
+    }
+
+    @DeleteMapping("/{sets_repsId}")
+    public void removeInfoById(@PathVariable(value = "sets_repsId") Long setsRepsId) {
+        setsRepsService.removeInfoById(setsRepsId);
     }
 }
