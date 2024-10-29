@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SetsRepsServiceImpl implements SetsRepsService{
+public class SetsRepsServiceImpl implements SetsRepsService {
     private final SetsRepsRepository setsRepsRepository;
     private final ExerciseRepository exerciseRepository;
 
@@ -19,6 +19,10 @@ public class SetsRepsServiceImpl implements SetsRepsService{
         Exercise exercise = exerciseRepository.getExerciseById(exerciseId);
         exercise.addExerciseInfo(setsReps);
         return setsRepsRepository.save(setsReps);
+    }
 
+    @Override
+    public void removeInfoById(Long setsRepsId) {
+        setsRepsRepository.deleteById(setsRepsId);
     }
 }
