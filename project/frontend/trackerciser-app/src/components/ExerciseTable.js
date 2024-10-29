@@ -9,6 +9,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import SetsRepsForm from "../forms/SetsRepsForm";
+import { removeExerciseInfoById } from "../api/SetsRepsApi";
 
 function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
   const [editingExerciseId, setEditingExerciseId] = useState(null);
@@ -35,12 +36,24 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
     onExerciseUpdated();
   };
 
+  function removeExerciseInfoByIdCall(exerciseInfoId) {
+    removeExerciseInfoById(exerciseInfoId)
+      .then(() => onExerciseUpdated())
+      .catch((error) => console.log(error))
+      .finally(() =>
+        console.log("Removal of exerciseInfoByIdCall function ending")
+      );
+  }
+
   return (
     exercises && (
-      <TableContainer component={Paper} sx={{ width: '100%', overflowX: 'auto' }}>
+      <TableContainer
+        component={Paper}
+        sx={{ width: "100%", overflowX: "auto" }}
+      >
         <Table sx={{ minWidth: 650 }} aria-label="exercise table">
           <TableHead>
-            <TableRow sx={{ minHeight: '48px' }}>
+            <TableRow sx={{ minHeight: "48px" }}>
               <TableCell>ID</TableCell>
               <TableCell align="center">Exercise name</TableCell>
               <TableCell align="center">Sets</TableCell>
@@ -55,7 +68,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
               const exerciseInfo = exercise.exerciseInfo || [];
               return (
                 <React.Fragment key={exercise.id}>
-                  <TableRow sx={{ minHeight: '48px' }}>
+                  <TableRow sx={{ minHeight: "48px" }}>
                     <TableCell component="th" scope="row">
                       {exercise.id}
                     </TableCell>
@@ -90,14 +103,27 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                         </TableCell>
                         <TableCell align="center">
                           {exerciseInfo.length > 0 && (
-                            <Button
-                              onClick={() =>
-                                handleEditClick(exercise.id, exerciseInfo[0].id)
-                              }
-                              variant="outlined"
-                            >
-                              Edit
-                            </Button>
+                            <>
+                              <Button
+                                onClick={() =>
+                                  handleEditClick(
+                                    exercise.id,
+                                    exerciseInfo[0].id
+                                  )
+                                }
+                                variant="outlined"
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                onClick={() =>
+                                  removeExerciseInfoByIdCall(exerciseInfo[0].id)
+                                }
+                              >
+                                Delete
+                              </Button>
+                            </>
                           )}
                         </TableCell>
                       </>
@@ -106,7 +132,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
 
                   {exerciseInfo.length > 1 &&
                     exerciseInfo.slice(1)?.map((info) => (
-                      <TableRow key={info.id} sx={{ minHeight: '48px' }}>
+                      <TableRow key={info.id} sx={{ minHeight: "48px" }}>
                         {editingExerciseId === exercise.id &&
                         editingExerciseInfoId === info.id ? (
                           <>
@@ -135,6 +161,14 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                               >
                                 Edit S
                               </Button>
+                              <Button
+                                variant="outlined"
+                                onClick={() =>
+                                  removeExerciseInfoByIdCall(info.id)
+                                }
+                              >
+                                Delete
+                              </Button>
                             </TableCell>
                           </>
                         )}
@@ -142,7 +176,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     ))}
                   {addingNewExercise && editingExerciseId === exercise.id ? (
                     <>
-                      <TableRow sx={{ minHeight: '48px' }}>
+                      <TableRow sx={{ minHeight: "48px" }}>
                         <TableCell colSpan={7}>
                           <SetsRepsForm
                             exerciseId={exercise.id}
@@ -155,7 +189,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     </>
                   ) : (
                     <>
-                      <TableRow sx={{ minHeight: '48px' }}>
+                      <TableRow sx={{ minHeight: "48px" }}>
                         <TableCell colSpan={7} align="center">
                           <Button
                             onClick={() => handleAddClick(exercise.id)}
