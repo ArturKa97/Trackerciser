@@ -8,7 +8,7 @@ export const workoutSessionFormSchema = yup.object().shape({
   date: yup.date().required("Required")
 });
 
-export const setsRepsFormSchema = yup.object().shape({
+export const exerciseSetFormSchema = yup.object().shape({
   sets: yup.number("Value must be a number")
   .min(1, ({min}) => `Value cannot be less than ${min}` )
   .max(999, ({max}) => `Maximum value is ${max}` )
