@@ -1,20 +1,20 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
 import {
-  addExerciseInfoToExercise,
-  updateExerciseInfoById,
-} from "../api/SetsRepsApi";
+  addExerciseSetToExercise,
+  updateExerciseSetById,
+} from "../api/ExerciseSetApi";
 import { setsRepsFormSchema } from "../schemas";
 import Box from "@mui/material/Box";
 import "../styles/form.css";
 
-function SetsRepsForm({ exerciseId, exerciseInfo, onFormClose, isAddingNew }) {
+function SetsRepsForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
   const onSubmit = async (values) => {
     try {
       if (isAddingNew) {
-        await addExerciseInfoToExerciseCall(exerciseId, values);
+        await addExerciseSetToExerciseCall(exerciseId, values);
       } else {
-        await updateExerciseInfoByIdCall(exerciseInfo.id, values);
+        await updateExerciseSetByIdCall(exerciseSets.id, values);
       }
       onFormClose();
     } catch (error) {
@@ -22,8 +22,8 @@ function SetsRepsForm({ exerciseId, exerciseInfo, onFormClose, isAddingNew }) {
     }
   };
 
-  const addExerciseInfoToExerciseCall = (exerciseId, values) => {
-    return addExerciseInfoToExercise(exerciseId, values)
+  const addExerciseSetToExerciseCall = (exerciseId, values) => {
+    return addExerciseSetToExercise(exerciseId, values)
       .then((response) => {
         return response.data;
       })
@@ -31,8 +31,8 @@ function SetsRepsForm({ exerciseId, exerciseInfo, onFormClose, isAddingNew }) {
       .finally(() => console.log("cleanup"));
   };
 
-  const updateExerciseInfoByIdCall = (exerciseInfoId, values) => {
-    return updateExerciseInfoById(exerciseInfoId, values)
+  const updateExerciseSetByIdCall = (exerciseSetId, values) => {
+    return updateExerciseSetById(exerciseSetId, values)
       .then((response) => {
         return response.data;
       })
@@ -43,10 +43,10 @@ function SetsRepsForm({ exerciseId, exerciseInfo, onFormClose, isAddingNew }) {
   return (
     <Formik
       initialValues={{
-        sets: exerciseInfo?.sets || "",
-        reps: exerciseInfo?.reps || "",
-        weight: exerciseInfo?.weight || "",
-        rest: exerciseInfo?.rest || "",
+        sets: exerciseSets?.sets || "",
+        reps: exerciseSets?.reps || "",
+        weight: exerciseSets?.weight || "",
+        rest: exerciseSets?.rest || "",
       }}
       validationSchema={setsRepsFormSchema}
       onSubmit={onSubmit}
