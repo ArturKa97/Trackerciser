@@ -13,9 +13,11 @@ import {
   retrieveAllWorkoutSessions,
   deleteWorkoutSessionById,
 } from "../api/WorkoutSessionApi";
+import WorkoutSessionForm from "../forms/WorkoutSessionForm";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
+  const [showWorkoutSessionForm, setShowWorkoutSessionForm] = useState(false);
   const navigate = useNavigate();
   useEffect(() => retrieveWorkoutSessionsCall(), []);
 
@@ -37,6 +39,10 @@ function WorkoutSessionsTable() {
       })
       .catch((error) => console.log(error))
       .finally(() => console.log("deleted"));
+  }
+  function handleFormSuccess() {
+    setShowWorkoutSessionForm(false);
+    retrieveWorkoutSessionsCall();
   }
 
   return (
@@ -79,15 +85,22 @@ function WorkoutSessionsTable() {
                 </TableCell>
               </TableRow>
             ))}
+            {showWorkoutSessionForm && (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <WorkoutSessionForm onSuccess={handleFormSuccess} />
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
       <Button
         variant="contained"
         color="success"
-        onClick={() => navigate("/workoutSessionForm")}
+        onClick={() => setShowWorkoutSessionForm(!showWorkoutSessionForm)}
       >
-        Add Workout Session
+        {showWorkoutSessionForm ? "Cancel" : "Add Workout Session"}
       </Button>
     </>
   );
