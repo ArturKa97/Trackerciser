@@ -20,4 +20,9 @@ public class SetsRepsController {
     public void removeInfoById(@PathVariable(value = "sets_repsId") Long setsRepsId) {
         setsRepsService.removeInfoById(setsRepsId);
     }
+
+    @PutMapping("/{sets_repsId}")
+    public SetsReps updateExerciseInfoById(@RequestBody SetsReps updatedSetsReps, @PathVariable(value = "sets_repsId") Long setsRepsId) {
+        return setsRepsService.updateExerciseInfoById(updatedSetsReps, setsRepsId);
+    }
 }
