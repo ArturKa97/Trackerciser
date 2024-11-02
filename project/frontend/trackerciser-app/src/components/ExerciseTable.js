@@ -196,6 +196,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
                             onClick={() => handleAddClick(exercise.id)}
                             variant="contained"
                             color="primary"
+                            disabled={!!editingExerciseId}
                           >
                             Add
                           </Button>
