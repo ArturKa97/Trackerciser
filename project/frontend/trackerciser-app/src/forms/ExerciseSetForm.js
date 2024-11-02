@@ -4,11 +4,11 @@ import {
   addExerciseSetToExercise,
   updateExerciseSetById,
 } from "../api/ExerciseSetApi";
-import { setsRepsFormSchema } from "../schemas";
+import { exerciseSetFormSchema } from "../schemas";
 import Box from "@mui/material/Box";
 import "../styles/form.css";
 
-function SetsRepsForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
+function ExerciseSetForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
   const onSubmit = async (values) => {
     try {
       if (isAddingNew) {
@@ -48,7 +48,7 @@ function SetsRepsForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
         weight: exerciseSets?.weight || "",
         rest: exerciseSets?.rest || "",
       }}
-      validationSchema={setsRepsFormSchema}
+      validationSchema={exerciseSetFormSchema}
       onSubmit={onSubmit}
     >
       {({ isSubmitting, errors, touched }) => (
@@ -123,4 +123,4 @@ function SetsRepsForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
   );
 }
 
-export default SetsRepsForm;
+export default ExerciseSetForm;

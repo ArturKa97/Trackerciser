@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import * as React from "react";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import SetsRepsForm from "../forms/SetsRepsForm";
+import ExerciseSetForm from "../forms/ExerciseSetForm";
 import { removeExerciseSetById } from "../api/ExerciseSetApi";
 
 function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExerciseForm}) {
@@ -81,7 +81,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
                     editingExerciseSetId === exerciseSets[0].id ? (
                       <>
                         <TableCell colSpan={7}>
-                          <SetsRepsForm
+                          <ExerciseSetForm
                             exerciseSets={exerciseSets[0]}
                             onFormClose={handleFormClose}
                             isAddingNew={false}
@@ -138,7 +138,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
                         editingExerciseSetId === set.id ? (
                           <>
                             <TableCell colSpan={7}>
-                              <SetsRepsForm
+                              <ExerciseSetForm
                                 exerciseSets={set}
                                 onFormClose={handleFormClose}
                                 isAddingNew={false}
@@ -179,7 +179,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
                     <>
                       <TableRow sx={{ minHeight: "48px" }}>
                         <TableCell colSpan={7}>
-                          <SetsRepsForm
+                          <ExerciseSetForm
                             exerciseId={exercise.id}
                             exerciseSets={null}
                             onFormClose={handleFormClose}
