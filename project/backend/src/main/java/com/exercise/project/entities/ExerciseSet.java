@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "sets_reps")
+@Table(name = "exercise_set")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class SetsReps {
+public class ExerciseSet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

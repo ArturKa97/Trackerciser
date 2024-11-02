@@ -57,6 +57,7 @@ function WorkoutSessionPage() {
       <ExerciseTable
         workoutSessionExercises={workoutSession.exerciseSet}
         onExerciseUpdated={handleExerciseUpdated}
+        closeAddExerciseForm={handleAddExerciseClick}
       />
       {showExerciseForm && (
         <Box sx={{ mt: 2 }}>

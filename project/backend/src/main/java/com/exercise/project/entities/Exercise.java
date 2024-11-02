@@ -31,16 +31,16 @@ public class Exercise {
     @OneToMany(mappedBy = "exercise",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<SetsReps> exerciseInfo = new ArrayList<>();
+    private List<ExerciseSet> exerciseSets = new ArrayList<>();
 
-    public void addExerciseInfo(SetsReps setsReps) {
-        exerciseInfo.add(setsReps);
-        setsReps.setExercise(this);
+    public void addExerciseSet(ExerciseSet exerciseSet) {
+        exerciseSets.add(exerciseSet);
+        exerciseSet.setExercise(this);
     }
 
-    public void removeExerciseInfo(SetsReps setsReps) {
-        exerciseInfo.remove(setsReps);
-        setsReps.setExercise(null);
+    public void removeExerciseSet(ExerciseSet exerciseSet) {
+        exerciseSets.remove(exerciseSet);
+        exerciseSet.setExercise(null);
     }
 
 }
