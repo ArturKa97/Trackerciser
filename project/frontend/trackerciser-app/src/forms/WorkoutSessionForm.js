@@ -1,23 +1,20 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 import { addWorkoutSession } from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
 
-function WorkoutSessionForm() {
-  const navigate = useNavigate();
-
+function WorkoutSessionForm({ onSuccess }) {
   const onSubmit = (values, actions) => {
-    addWorkoutSessionCall(values);
+    addWorkoutSessionCall(values, actions);
   };
 
-  function navigateToCreatedWorkoutSession(id) {
-    navigate("/workoutSession", { state: id });
-  }
-
-  const addWorkoutSessionCall = (values) => {
+  const addWorkoutSessionCall = (values, actions) => {
     addWorkoutSession(values)
-      .then((response) => navigateToCreatedWorkoutSession(response.data.id))
+      .then(() => {
+        actions.setSubmitting(false);
+        actions.resetForm();
+        onSuccess();
+      })
       .catch((error) => console.log(error))
       .finally(() => console.log("cleanup"));
   };
