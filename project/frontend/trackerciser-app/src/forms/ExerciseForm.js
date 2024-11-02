@@ -8,9 +8,8 @@ import { useEffect, useState } from "react";
 import { retrieveAllExerciseTypes } from "../api/ExerciseTypeApi";
 import { addExerciseToWorkoutSession } from "../api/ExerciseApi";
 
-function ExerciseForm(props) {
+function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
   const [exerciseTypes, setExerciseTypes] = useState([]);
-  const { workoutSessionId, onExerciseAdded } = props;
   useEffect(() => retrieveAllExerciseTypesCall(), []);
 
   const onSubmit = async ({ exerciseId }, { setSubmitting, resetForm }) => {

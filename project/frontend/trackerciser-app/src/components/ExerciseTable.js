@@ -9,39 +9,40 @@ import * as React from "react";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import SetsRepsForm from "../forms/SetsRepsForm";
-import { removeExerciseInfoById } from "../api/SetsRepsApi";
+import { removeExerciseSetById } from "../api/ExerciseSetApi";
 
-function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
+function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExerciseForm}) {
   const [editingExerciseId, setEditingExerciseId] = useState(null);
-  const [editingExerciseInfoId, setEditingExerciseInfoId] = useState(null);
+  const [editingExerciseSetId, setEditingExerciseSetId] = useState(null);
   const [addingNewExercise, setAddingNewExercise] = useState(false);
   const exercises = workoutSessionExercises;
 
-  const handleEditClick = (exerciseId, exerciseInfoId = null) => {
+  const handleEditClick = (exerciseId, exerciseSetId = null) => {
     setEditingExerciseId(exerciseId);
-    setEditingExerciseInfoId(exerciseInfoId);
+    setEditingExerciseSetId(exerciseSetId);
     setAddingNewExercise(false);
   };
 
   const handleAddClick = (exerciseId) => {
     setEditingExerciseId(exerciseId);
-    setEditingExerciseInfoId(null);
+    setEditingExerciseSetId(null);
     setAddingNewExercise(true);
+    closeAddExerciseForm();
   };
 
   const handleFormClose = () => {
     setEditingExerciseId(null);
-    setEditingExerciseInfoId(null);
+    setEditingExerciseSetId(null);
     setAddingNewExercise(false);
     onExerciseUpdated();
   };
 
-  function removeExerciseInfoByIdCall(exerciseInfoId) {
-    removeExerciseInfoById(exerciseInfoId)
+  function removeExerciseSetByIdCall(exerciseSetId) {
+    removeExerciseSetById(exerciseSetId)
       .then(() => onExerciseUpdated())
       .catch((error) => console.log(error))
       .finally(() =>
-        console.log("Removal of exerciseInfoByIdCall function ending")
+        console.log("cleanup")
       );
   }
 
@@ -65,7 +66,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
           </TableHead>
           <TableBody>
             {exercises.map((exercise) => {
-              const exerciseInfo = exercise.exerciseInfo || [];
+              const exerciseSets = exercise.exerciseSets || [];
               return (
                 <React.Fragment key={exercise.id}>
                   <TableRow sx={{ minHeight: "48px" }}>
@@ -75,13 +76,13 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     <TableCell align="center">
                       {exercise.exerciseType.name}
                     </TableCell>
-                    {exerciseInfo.length > 0 &&
+                    {exerciseSets.length > 0 &&
                     editingExerciseId === exercise.id &&
-                    editingExerciseInfoId === exerciseInfo[0].id ? (
+                    editingExerciseSetId === exerciseSets[0].id ? (
                       <>
                         <TableCell colSpan={7}>
                           <SetsRepsForm
-                            exerciseInfo={exerciseInfo[0]}
+                            exerciseSets={exerciseSets[0]}
                             onFormClose={handleFormClose}
                             isAddingNew={false}
                           />
@@ -90,25 +91,25 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     ) : (
                       <>
                         <TableCell align="center">
-                          {exerciseInfo[0]?.sets}
+                          {exerciseSets[0]?.sets}
                         </TableCell>
                         <TableCell align="center">
-                          {exerciseInfo[0]?.reps}
+                          {exerciseSets[0]?.reps}
                         </TableCell>
                         <TableCell align="center">
-                          {exerciseInfo[0]?.weight}
+                          {exerciseSets[0]?.weight}
                         </TableCell>
                         <TableCell align="center">
-                          {exerciseInfo[0]?.rest}
+                          {exerciseSets[0]?.rest}
                         </TableCell>
                         <TableCell align="center">
-                          {exerciseInfo.length > 0 && (
+                          {exerciseSets.length > 0 && (
                             <>
                               <Button
                                 onClick={() =>
                                   handleEditClick(
                                     exercise.id,
-                                    exerciseInfo[0].id
+                                    exerciseSets[0].id
                                   )
                                 }
                                 variant="outlined"
@@ -118,7 +119,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                               <Button
                                 variant="outlined"
                                 onClick={() =>
-                                  removeExerciseInfoByIdCall(exerciseInfo[0].id)
+                                  removeExerciseSetByIdCall(exerciseSets[0].id)
                                 }
                               >
                                 Delete
@@ -130,15 +131,15 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                     )}
                   </TableRow>
 
-                  {exerciseInfo.length > 1 &&
-                    exerciseInfo.slice(1)?.map((info) => (
-                      <TableRow key={info.id} sx={{ minHeight: "48px" }}>
+                  {exerciseSets.length > 1 &&
+                    exerciseSets.slice(1)?.map((set) => (
+                      <TableRow key={set.id} sx={{ minHeight: "48px" }}>
                         {editingExerciseId === exercise.id &&
-                        editingExerciseInfoId === info.id ? (
+                        editingExerciseSetId === set.id ? (
                           <>
                             <TableCell colSpan={7}>
                               <SetsRepsForm
-                                exerciseInfo={info}
+                                exerciseSets={set}
                                 onFormClose={handleFormClose}
                                 isAddingNew={false}
                               />
@@ -148,14 +149,14 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                           <>
                             <TableCell component="th" scope="row" />
                             <TableCell align="center" />
-                            <TableCell align="center">{info.sets}</TableCell>
-                            <TableCell align="center">{info.reps}</TableCell>
-                            <TableCell align="center">{info.weight}</TableCell>
-                            <TableCell align="center">{info.rest}</TableCell>
+                            <TableCell align="center">{set.sets}</TableCell>
+                            <TableCell align="center">{set.reps}</TableCell>
+                            <TableCell align="center">{set.weight}</TableCell>
+                            <TableCell align="center">{set.rest}</TableCell>
                             <TableCell align="center">
                               <Button
                                 onClick={() =>
-                                  handleEditClick(exercise.id, info.id)
+                                  handleEditClick(exercise.id, set.id)
                                 }
                                 variant="outlined"
                               >
@@ -164,7 +165,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                               <Button
                                 variant="outlined"
                                 onClick={() =>
-                                  removeExerciseInfoByIdCall(info.id)
+                                  removeExerciseSetByIdCall(set.id)
                                 }
                               >
                                 Delete
@@ -180,7 +181,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated }) {
                         <TableCell colSpan={7}>
                           <SetsRepsForm
                             exerciseId={exercise.id}
-                            exerciseInfo={null}
+                            exerciseSets={null}
                             onFormClose={handleFormClose}
                             isAddingNew={true}
                           />
