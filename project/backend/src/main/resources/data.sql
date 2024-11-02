@@ -6,7 +6,7 @@ VALUES
     (3, 'Arm day', '2024-08-28'),
     (4, 'Arm day', '2024-09-28');
 
-INSERT INTO sets_reps (id, sets, reps, weight, rest)
+INSERT INTO exercise_set (id, sets, reps, weight, rest)
 VALUES
       (1, 1, 1, 1, 1),
       (2, 2, 2, 2, 2),
@@ -36,20 +36,20 @@ SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session.i
 exercise_type_id = (SELECT id FROM exercise_type WHERE exercise_type.id = 1)
 WHERE exercise.id = 2;
 
-UPDATE sets_reps
+UPDATE exercise_set
 SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 1)
-WHERE sets_reps.id = 1;
+WHERE exercise_set.id = 1;
 
-UPDATE sets_reps
+UPDATE exercise_set
 SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE sets_reps.id = 2;
+WHERE exercise_set.id = 2;
 
-UPDATE sets_reps
+UPDATE exercise_set
 SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE sets_reps.id = 3;
+WHERE exercise_set.id = 3;
 
-UPDATE sets_reps
+UPDATE exercise_set
 SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE sets_reps.id = 4;
+WHERE exercise_set.id = 4;
 
 
