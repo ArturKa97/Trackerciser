@@ -72,6 +72,9 @@ function WorkoutSessionsTable() {
                 </TableCell>
                 <TableCell align="center">{workoutSession.date}</TableCell>
                 <TableCell align="center">
+                  <Button variant="contained"
+                  onClick={(e)=> {e.stopPropagation();
+                  console.log("edit button click")}}>Edit</Button>
                   <Button
                     variant="contained"
                     color="error"
@@ -97,7 +100,6 @@ function WorkoutSessionsTable() {
       </TableContainer>
       <Button
         variant="contained"
-        color="success"
         onClick={() => setShowWorkoutSessionForm(!showWorkoutSessionForm)}
       >
         {showWorkoutSessionForm ? "Cancel" : "Add Workout Session"}
