@@ -18,6 +18,7 @@ import WorkoutSessionForm from "../forms/WorkoutSessionForm";
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
   const [showWorkoutSessionForm, setShowWorkoutSessionForm] = useState(false);
+  const [editWorkoutSessionId, setEditWorkoutSessionId] = useState(null);
   const navigate = useNavigate();
   useEffect(() => retrieveWorkoutSessionsCall(), []);
 
@@ -44,6 +45,9 @@ function WorkoutSessionsTable() {
     setShowWorkoutSessionForm(false);
     retrieveWorkoutSessionsCall();
   }
+  const handleEditClick = (workoutSesionId) => {
+    setEditWorkoutSessionId(workoutSesionId);
+  };
 
   return (
     <>
@@ -64,6 +68,12 @@ function WorkoutSessionsTable() {
                 key={workoutSession.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                {editWorkoutSessionId === workoutSession.id ? (
+                  <TableCell>
+                  <WorkoutSessionForm initialWorkoutSessionValues = {workoutSession}/>
+                  </TableCell>
+                ): (
+                  <>
                 <TableCell component="th" scope="row">
                   {workoutSession.id}
                 </TableCell>
@@ -72,9 +82,16 @@ function WorkoutSessionsTable() {
                 </TableCell>
                 <TableCell align="center">{workoutSession.date}</TableCell>
                 <TableCell align="center">
-                  <Button variant="contained"
-                  onClick={(e)=> {e.stopPropagation();
-                  console.log("edit button click")}}>Edit</Button>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditClick(workoutSession.id);
+                      console.log(editWorkoutSessionId);
+                    }}
+                  >
+                    Edit
+                  </Button>
                   <Button
                     variant="contained"
                     color="error"
@@ -86,6 +103,8 @@ function WorkoutSessionsTable() {
                     Delete
                   </Button>
                 </TableCell>
+                </>
+                )}
               </TableRow>
             ))}
             {showWorkoutSessionForm && (
