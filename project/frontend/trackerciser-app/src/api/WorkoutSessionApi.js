@@ -19,3 +19,7 @@ export function addWorkoutSession(workoutSession) {
 export function deleteWorkoutSessionById(id) {
   return HTTP.delete(`/workout_session/${id}`);
 }
+
+export function updateWorkoutSessionById(workoutSessionId, workoutSession) {
+  return HTTP.put(`/workout_session/${workoutSessionId}`, workoutSession);
+}

@@ -45,6 +45,7 @@ function WorkoutSessionsTable() {
   function handleFormSuccess() {
     setShowWorkoutSessionForm(false);
     setAddingNewWorkoutSession(false);
+    setEditWorkoutSessionId(null);
     retrieveWorkoutSessionsCall();
   }
   const handleEditClick = (workoutSesionId) => {
@@ -78,10 +79,11 @@ function WorkoutSessionsTable() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 {editWorkoutSessionId === workoutSession.id ? (
-                  <TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
                     <WorkoutSessionForm
                       initialWorkoutSessionValues={workoutSession}
                       isAddingNew={addingNewWorkoutSession}
+                      onSuccess={handleFormSuccess}
                     />
                   </TableCell>
                 ) : (

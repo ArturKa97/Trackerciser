@@ -1,6 +1,9 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
-import { addWorkoutSession } from "../api/WorkoutSessionApi";
+import {
+  addWorkoutSession,
+  updateWorkoutSessionById,
+} from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
 
 function WorkoutSessionForm({
@@ -8,12 +11,34 @@ function WorkoutSessionForm({
   initialWorkoutSessionValues,
   isAddingNew,
 }) {
-  const onSubmit = (values, actions) => {
-    addWorkoutSessionCall(values, actions);
+  const onSubmit = async (values, actions) => {
+    try {
+      if (isAddingNew) {
+        await addWorkoutSessionCall(values, actions);
+      } else {
+        await updateWorkoutSessionByIdCall(
+          initialWorkoutSessionValues.id,
+          values,
+          actions
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addWorkoutSessionCall = (values, actions) => {
     addWorkoutSession(values)
+      .then(() => {
+        actions.setSubmitting(false);
+        actions.resetForm();
+        onSuccess();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => console.log("cleanup"));
+  };
+  const updateWorkoutSessionByIdCall = (workoutSessionId, values, actions) => {
+    return updateWorkoutSessionById(workoutSessionId, values)
       .then(() => {
         actions.setSubmitting(false);
         actions.resetForm();
@@ -32,6 +57,7 @@ function WorkoutSessionForm({
       }}
       validationSchema={workoutSessionFormSchema}
       onSubmit={onSubmit}
+      enableReinitialize
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
