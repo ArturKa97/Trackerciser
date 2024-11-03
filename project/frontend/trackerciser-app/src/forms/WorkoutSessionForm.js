@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import { addWorkoutSession } from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
 
-function WorkoutSessionForm({ onSuccess }) {
+function WorkoutSessionForm({ onSuccess, initialWorkoutSessionValues }) {
   const onSubmit = (values, actions) => {
     addWorkoutSessionCall(values, actions);
   };
@@ -21,7 +21,9 @@ function WorkoutSessionForm({ onSuccess }) {
 
   return (
     <Formik
-      initialValues={{ workoutSessionName: "asasa", date: "2022-02-02" }}
+      initialValues={{ 
+        workoutSessionName: initialWorkoutSessionValues?.workoutSessionName || "", 
+        date: initialWorkoutSessionValues?.date || "" }}
       validationSchema={workoutSessionFormSchema}
       onSubmit={onSubmit}
     >
