@@ -19,6 +19,7 @@ function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
   const [showWorkoutSessionForm, setShowWorkoutSessionForm] = useState(false);
   const [editWorkoutSessionId, setEditWorkoutSessionId] = useState(null);
+  const [addingNewWorkoutSession, setAddingNewWorkoutSession] = useState(false);
   const navigate = useNavigate();
   useEffect(() => retrieveWorkoutSessionsCall(), []);
 
@@ -43,10 +44,18 @@ function WorkoutSessionsTable() {
   }
   function handleFormSuccess() {
     setShowWorkoutSessionForm(false);
+    setAddingNewWorkoutSession(false);
     retrieveWorkoutSessionsCall();
   }
   const handleEditClick = (workoutSesionId) => {
     setEditWorkoutSessionId(workoutSesionId);
+    setAddingNewWorkoutSession(false);
+    setShowWorkoutSessionForm(false);
+  };
+  const handleAddClick = () => {
+    setShowWorkoutSessionForm((prev) => !prev);
+    setAddingNewWorkoutSession(true);
+    setEditWorkoutSessionId(null);
   };
 
   return (
@@ -70,57 +79,59 @@ function WorkoutSessionsTable() {
               >
                 {editWorkoutSessionId === workoutSession.id ? (
                   <TableCell>
-                  <WorkoutSessionForm initialWorkoutSessionValues = {workoutSession}/>
+                    <WorkoutSessionForm
+                      initialWorkoutSessionValues={workoutSession}
+                      isAddingNew={addingNewWorkoutSession}
+                    />
                   </TableCell>
-                ): (
+                ) : (
                   <>
-                <TableCell component="th" scope="row">
-                  {workoutSession.id}
-                </TableCell>
-                <TableCell align="center">
-                  {workoutSession.workoutSessionName}
-                </TableCell>
-                <TableCell align="center">{workoutSession.date}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="contained"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditClick(workoutSession.id);
-                      console.log(editWorkoutSessionId);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteWorkoutSessionByIdCall(workoutSession.id);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-                </>
+                    <TableCell component="th" scope="row">
+                      {workoutSession.id}
+                    </TableCell>
+                    <TableCell align="center">
+                      {workoutSession.workoutSessionName}
+                    </TableCell>
+                    <TableCell align="center">{workoutSession.date}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        variant="contained"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditClick(workoutSession.id);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteWorkoutSessionByIdCall(workoutSession.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </>
                 )}
               </TableRow>
             ))}
             {showWorkoutSessionForm && (
               <TableRow>
                 <TableCell colSpan={4}>
-                  <WorkoutSessionForm onSuccess={handleFormSuccess} />
+                  <WorkoutSessionForm
+                    onSuccess={handleFormSuccess}
+                    isAddingNew={addingNewWorkoutSession}
+                  />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        variant="contained"
-        onClick={() => setShowWorkoutSessionForm(!showWorkoutSessionForm)}
-      >
+      <Button variant="contained" onClick={handleAddClick}>
         {showWorkoutSessionForm ? "Cancel" : "Add Workout Session"}
       </Button>
     </>

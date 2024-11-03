@@ -3,7 +3,11 @@ import Button from "@mui/material/Button";
 import { addWorkoutSession } from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
 
-function WorkoutSessionForm({ onSuccess, initialWorkoutSessionValues }) {
+function WorkoutSessionForm({
+  onSuccess,
+  initialWorkoutSessionValues,
+  isAddingNew,
+}) {
   const onSubmit = (values, actions) => {
     addWorkoutSessionCall(values, actions);
   };
@@ -21,9 +25,11 @@ function WorkoutSessionForm({ onSuccess, initialWorkoutSessionValues }) {
 
   return (
     <Formik
-      initialValues={{ 
-        workoutSessionName: initialWorkoutSessionValues?.workoutSessionName || "", 
-        date: initialWorkoutSessionValues?.date || "" }}
+      initialValues={{
+        workoutSessionName:
+          initialWorkoutSessionValues?.workoutSessionName || "",
+        date: initialWorkoutSessionValues?.date || "",
+      }}
       validationSchema={workoutSessionFormSchema}
       onSubmit={onSubmit}
     >
@@ -46,7 +52,7 @@ function WorkoutSessionForm({ onSuccess, initialWorkoutSessionValues }) {
           />
           {touched.date && errors.date && <div>{errors.date}</div>}
           <Button variant="outlined" type="submit" disabled={isSubmitting}>
-            Submit
+            {isAddingNew ? "Submit" : "Edit"}
           </Button>
         </Form>
       )}
