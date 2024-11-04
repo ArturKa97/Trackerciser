@@ -1,6 +1,5 @@
 package com.exercise.project.services;
 
-
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseSet;
 import com.exercise.project.repositories.ExerciseRepository;
@@ -13,13 +12,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ExerciseSetServiceImpl implements ExerciseSetService {
+
     private final ExerciseSetRepository exerciseSetRepository;
     private final ExerciseRepository exerciseRepository;
 
     @Override
     public ExerciseSet addExerciseSetToExercise(ExerciseSet exerciseSet, Long exerciseId) {
-        Exercise exercise = exerciseRepository.getExerciseById(exerciseId);
-        exercise.addExerciseSet(exerciseSet);
+        Optional<Exercise> exercise = exerciseRepository.getExerciseById(exerciseId);
+//        exercise.addExerciseSet(exerciseSet);
         return exerciseSetRepository.save(exerciseSet);
     }
 
