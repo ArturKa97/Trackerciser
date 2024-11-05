@@ -1,5 +1,6 @@
 package com.exercise.project.controllers;
 
+import com.exercise.project.dtos.WorkoutSessionDTO;
 import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.services.WorkoutSessionService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class WorkoutSessionController {
     }
 
     @GetMapping("/{id}")
-    public WorkoutSession getWorkoutSessionById(@PathVariable(value = "id") Long id) {
+    public WorkoutSessionDTO getWorkoutSessionById(@PathVariable(value = "id") Long id) {
         return workoutSessionService.getWorkoutSessionById(id);
     }
 

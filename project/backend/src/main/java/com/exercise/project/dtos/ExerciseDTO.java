@@ -5,7 +5,7 @@ import java.util.List;
 public record ExerciseDTO(
         Long id,
         ExerciseTypeDTO exerciseTypeDTO,
-        List<ExerciseSetDTO> exerciseSets
+        List<ExerciseSetDTO> exerciseSetsDTO
 ) {
 
 }
