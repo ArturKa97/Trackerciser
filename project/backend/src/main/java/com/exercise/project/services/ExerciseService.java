@@ -11,5 +11,5 @@ public interface ExerciseService {
     ExerciseDTO getExerciseById(Long id);
     List<Exercise> getAllExercises();
     void deleteExerciseById(Long id);
-    Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId);
+//    Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId);
 }

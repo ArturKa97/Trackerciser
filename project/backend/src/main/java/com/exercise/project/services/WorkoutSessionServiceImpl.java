@@ -1,7 +1,10 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.WorkoutSessionDTO;
 import com.exercise.project.entities.WorkoutSession;
+import com.exercise.project.mappers.WorkoutSessionDTOMapper;
 import com.exercise.project.repositories.WorkoutSessionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     private final WorkoutSessionRepository workoutSessionRepository;
+    private final WorkoutSessionDTOMapper workoutSessionDTOMapper;
 
     @Override
     public WorkoutSession addWorkoutSession(WorkoutSession workoutSession) {
@@ -18,8 +22,10 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     }
 
     @Override
-    public WorkoutSession getWorkoutSessionById(Long id) {
-        return workoutSessionRepository.getWorkoutSessionById(id);
+    public WorkoutSessionDTO getWorkoutSessionById(Long id) {
+        return workoutSessionRepository.getWorkoutSessionById(id)
+                .map(workoutSessionDTOMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Workout session with id [%s] not found".formatted(id)));
     }
 
     @Override
@@ -34,9 +40,13 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
 
     @Override
     public WorkoutSession updateWorkoutSessionById(Long workoutSessionId, WorkoutSession updatedWorkoutSession) {
-        WorkoutSession initialWorkoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId);
-        initialWorkoutSession.setWorkoutSessionName(updatedWorkoutSession.getWorkoutSessionName());
-        initialWorkoutSession.setDate(updatedWorkoutSession.getDate());
-        return workoutSessionRepository.save(initialWorkoutSession);
+        return workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
+                .map(workoutSession -> {
+                    workoutSession.setWorkoutSessionName(updatedWorkoutSession.getWorkoutSessionName());
+                    workoutSession.setDate(updatedWorkoutSession.getDate());
+                    return workoutSessionRepository.save(workoutSession);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(workoutSessionId)));
+
     }
 }

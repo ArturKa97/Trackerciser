@@ -4,6 +4,7 @@ import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseSet;
 import com.exercise.project.repositories.ExerciseRepository;
 import com.exercise.project.repositories.ExerciseSetRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,12 @@ public class ExerciseSetServiceImpl implements ExerciseSetService {
 
     @Override
     public ExerciseSet addExerciseSetToExercise(ExerciseSet exerciseSet, Long exerciseId) {
-        Optional<Exercise> exercise = exerciseRepository.getExerciseById(exerciseId);
-//        exercise.addExerciseSet(exerciseSet);
-        return exerciseSetRepository.save(exerciseSet);
+        return exerciseRepository.getExerciseById(exerciseId)
+                .map(exercise -> {
+                    exercise.addExerciseSet(exerciseSet);
+                    return exerciseSetRepository.save(exerciseSet);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseId)));
     }
 
     @Override
