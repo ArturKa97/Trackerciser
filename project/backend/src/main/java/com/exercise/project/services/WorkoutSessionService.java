@@ -10,7 +10,7 @@ public interface WorkoutSessionService {
 
     WorkoutSessionDTO getWorkoutSessionById(Long id);
 
-    List<WorkoutSession> getAllWorkoutSessions();
+    List<WorkoutSessionDTO> getAllWorkoutSessions();
 
     void deleteWorkoutSessionById(Long id);
 
