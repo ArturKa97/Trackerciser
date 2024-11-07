@@ -1,6 +1,6 @@
 package com.exercise.project.controllers;
 
-import com.exercise.project.entities.ExerciseType;
+import com.exercise.project.dtos.ExerciseTypeDTO;
 import com.exercise.project.services.ExerciseTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/exercise_type")
 public class ExerciseTypeController {
+
     private final ExerciseTypeService exerciseTypeService;
 
     @GetMapping
-    public List<ExerciseType> getAllExerciseTypes() {
+    public List<ExerciseTypeDTO> getAllExerciseTypes() {
         return exerciseTypeService.getAllExerciseTypes();
 
     }
