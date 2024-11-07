@@ -9,7 +9,7 @@ public interface ExerciseService {
 
     void addExercise(Exercise exercise);
     ExerciseDTO getExerciseById(Long id);
-    List<Exercise> getAllExercises();
+    List<ExerciseDTO> getAllExercises();
     void deleteExerciseById(Long id);
 //    Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId);
 }
