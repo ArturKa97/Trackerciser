@@ -9,5 +9,7 @@ import org.mapstruct.Mapping;
 public interface ExerciseDTOMapper {
 
     @Mapping(target = "exerciseTypeDTO", source = "exercise.exerciseType")
+    @Mapping(target = "exerciseSetsDTO", source = "exercise.exerciseSets")
     ExerciseDTO toDTO(Exercise exercise);
+
 }

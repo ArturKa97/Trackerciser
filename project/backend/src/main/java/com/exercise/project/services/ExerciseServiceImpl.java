@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +37,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> getAllExercises() {
-        return exerciseRepository.getAllExercises();
+    public List<ExerciseDTO> getAllExercises() {
+        return exerciseRepository.getAllExercises()
+                .stream()
+                .map(exerciseDTOMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
