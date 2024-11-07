@@ -25,7 +25,7 @@ public class WorkoutSessionController {
     }
 
     @GetMapping
-    public List<WorkoutSession> getAllWorkoutSessions() {
+    public List<WorkoutSessionDTO> getAllWorkoutSessions() {
         return workoutSessionService.getAllWorkoutSessions();
     }
 
