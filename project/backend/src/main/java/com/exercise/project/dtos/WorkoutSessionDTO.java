@@ -15,7 +15,7 @@ public record WorkoutSessionDTO(
         @Temporal(TemporalType.DATE)
         Date date,
 
-        Set<ExerciseDTO> exerciseSetDTO
+        Set<ExerciseDTO> exercisesDTO
 ) {
 
 }
