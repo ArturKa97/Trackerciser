@@ -11,7 +11,11 @@ import { Button } from "@mui/material";
 import ExerciseSetForm from "../forms/ExerciseSetForm";
 import { removeExerciseSetById } from "../api/ExerciseSetApi";
 
-function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExerciseForm}) {
+function ExerciseTable({
+  workoutSessionExercises,
+  onExerciseUpdated,
+  closeAddExerciseForm,
+}) {
   const [editingExerciseId, setEditingExerciseId] = useState(null);
   const [editingExerciseSetId, setEditingExerciseSetId] = useState(null);
   const [addingNewExercise, setAddingNewExercise] = useState(false);
@@ -41,9 +45,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
     removeExerciseSetById(exerciseSetId)
       .then(() => onExerciseUpdated())
       .catch((error) => console.log(error))
-      .finally(() =>
-        console.log("cleanup")
-      );
+      .finally(() => console.log("cleanup"));
   }
 
   return (
@@ -66,7 +68,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
           </TableHead>
           <TableBody>
             {exercises.map((exercise) => {
-              const exerciseSets = exercise.exerciseSets || [];
+              const exerciseSets = exercise.exerciseSetsDTO || [];
               return (
                 <React.Fragment key={exercise.id}>
                   <TableRow sx={{ minHeight: "48px" }}>
@@ -74,7 +76,7 @@ function ExerciseTable({ workoutSessionExercises, onExerciseUpdated, closeAddExe
                       {exercise.id}
                     </TableCell>
                     <TableCell align="center">
-                      {exercise.exerciseType.name}
+                      {exercise.exerciseTypeDTO.name}
                     </TableCell>
                     {exerciseSets.length > 0 &&
                     editingExerciseId === exercise.id &&

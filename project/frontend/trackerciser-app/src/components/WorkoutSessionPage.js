@@ -55,7 +55,7 @@ function WorkoutSessionPage() {
       </Box>
       <Divider />
       <ExerciseTable
-        workoutSessionExercises={workoutSession.exerciseSet}
+        workoutSessionExercises={workoutSession.exercisesDTO}
         onExerciseUpdated={handleExerciseUpdated}
         closeAddExerciseForm={handleAddExerciseClick}
       />
