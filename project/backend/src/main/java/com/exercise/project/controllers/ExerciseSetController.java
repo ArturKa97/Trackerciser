@@ -1,5 +1,6 @@
 package com.exercise.project.controllers;
 
+import com.exercise.project.dtos.ExerciseSetDTO;
 import com.exercise.project.entities.ExerciseSet;
 import com.exercise.project.services.ExerciseSetService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,8 @@ public class ExerciseSetController {
     private final ExerciseSetService exerciseSetService;
 
     @PostMapping("/{exerciseId}")
-    public ExerciseSet addExerciseSetToExercise(@RequestBody ExerciseSet exerciseSet, @PathVariable(value = "exerciseId") Long exerciseId) {
-        return exerciseSetService.addExerciseSetToExercise(exerciseSet, exerciseId);
+    public ExerciseSetDTO addExerciseSetToExercise(@RequestBody ExerciseSetDTO exerciseSetDTO, @PathVariable(value = "exerciseId") Long exerciseId) {
+        return exerciseSetService.addExerciseSetToExercise(exerciseSetDTO, exerciseId);
     }
 
     @DeleteMapping("/{exerciseSetId}")
