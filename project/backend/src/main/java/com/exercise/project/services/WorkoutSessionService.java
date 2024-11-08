@@ -6,7 +6,7 @@ import com.exercise.project.entities.WorkoutSession;
 import java.util.List;
 
 public interface WorkoutSessionService {
-    WorkoutSession addWorkoutSession(WorkoutSession workoutSession);
+    WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO);
 
     WorkoutSessionDTO getWorkoutSessionById(Long id);
 

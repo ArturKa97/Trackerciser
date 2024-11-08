@@ -18,8 +18,10 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     private final WorkoutSessionDTOMapper workoutSessionDTOMapper;
 
     @Override
-    public WorkoutSession addWorkoutSession(WorkoutSession workoutSession) {
-        return workoutSessionRepository.save(workoutSession);
+    public WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO) {
+        WorkoutSession workoutSessionEntity = workoutSessionDTOMapper.toEntity(workoutSessionDTO);
+        WorkoutSession savedWorkoutSessionEntity = workoutSessionRepository.save(workoutSessionEntity);
+        return workoutSessionDTOMapper.toDTO(savedWorkoutSessionEntity);
     }
 
     @Override
