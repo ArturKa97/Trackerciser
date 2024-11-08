@@ -1,7 +1,9 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.ExerciseSetDTO;
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseSet;
+import com.exercise.project.mappers.ExerciseSetDTOMapper;
 import com.exercise.project.repositories.ExerciseRepository;
 import com.exercise.project.repositories.ExerciseSetRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,13 +18,16 @@ public class ExerciseSetServiceImpl implements ExerciseSetService {
 
     private final ExerciseSetRepository exerciseSetRepository;
     private final ExerciseRepository exerciseRepository;
+    private final ExerciseSetDTOMapper exerciseSetDTOMapper;
 
     @Override
-    public ExerciseSet addExerciseSetToExercise(ExerciseSet exerciseSet, Long exerciseId) {
+    public ExerciseSetDTO addExerciseSetToExercise(ExerciseSetDTO exerciseSetDTO, Long exerciseId) {
         return exerciseRepository.getExerciseById(exerciseId)
                 .map(exercise -> {
-                    exercise.addExerciseSet(exerciseSet);
-                    return exerciseSetRepository.save(exerciseSet);
+                    ExerciseSet exerciseSetEntity = exerciseSetDTOMapper.toEntity(exerciseSetDTO);
+                    exercise.addExerciseSet(exerciseSetEntity);
+                    ExerciseSet savedExerciseSetEntity = exerciseSetRepository.save(exerciseSetEntity);
+                    return exerciseSetDTOMapper.toDTO(savedExerciseSetEntity);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseId)));
     }

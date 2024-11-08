@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface ExerciseSetDTOMapper {
 
     ExerciseSetDTO toDTO(ExerciseSet exerciseSet);
+    ExerciseSet toEntity(ExerciseSetDTO exerciseSetDTO);
 }
