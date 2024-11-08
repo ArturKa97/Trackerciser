@@ -49,15 +49,18 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.deleteById(id);
     }
 
-//    @Override
-//    public Exercise addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId) {
-//        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId);
-//        ExerciseType exerciseType = exerciseTypeRepository.getExerciseTypeById(exerciseTypeId);
-//        Exercise exercise = new Exercise();
-//        exercise.setExerciseType(exerciseType);
-//        workoutSession.addExercise(exercise);
-//        exerciseRepository.save(exercise);
-//        return exercise;
-//    }
+    @Override
+    public ExerciseDTO addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId) {
+        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
 
+        ExerciseType exerciseType = exerciseTypeRepository.getExerciseTypeById(exerciseTypeId)
+                .orElseThrow(() -> new EntityNotFoundException("ExerciseType with id [%s] not found".formatted(exerciseTypeId)));
+
+        Exercise exercise = new Exercise();
+        exercise.setExerciseType(exerciseType);
+        workoutSession.addExercise(exercise);
+        Exercise savedExerciseEntity = exerciseRepository.save(exercise);
+        return exerciseDTOMapper.toDTO(savedExerciseEntity);
+    }
 }
