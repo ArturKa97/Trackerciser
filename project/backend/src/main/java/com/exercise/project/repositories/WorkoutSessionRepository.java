@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, Long> {
-    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exerciseSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.id = :id")
+    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.id = :id")
     Optional<WorkoutSession> getWorkoutSessionById(@Param("id") Long id);
 
     @Query(value = "SELECT ws FROM WorkoutSession ws")
