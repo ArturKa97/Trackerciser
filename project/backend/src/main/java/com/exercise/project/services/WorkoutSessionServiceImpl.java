@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class WorkoutSessionServiceImpl implements WorkoutSessionService {
+
     private final WorkoutSessionRepository workoutSessionRepository;
     private final WorkoutSessionDTOMapper workoutSessionDTOMapper;
 
@@ -44,14 +45,14 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     }
 
     @Override
-    public WorkoutSession updateWorkoutSessionById(Long workoutSessionId, WorkoutSession updatedWorkoutSession) {
+    public WorkoutSessionDTO updateWorkoutSessionById(Long workoutSessionId, WorkoutSessionDTO updatedWorkoutSession) {
         return workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
                 .map(workoutSession -> {
-                    workoutSession.setWorkoutSessionName(updatedWorkoutSession.getWorkoutSessionName());
-                    workoutSession.setDate(updatedWorkoutSession.getDate());
-                    return workoutSessionRepository.save(workoutSession);
+                    workoutSession.setWorkoutSessionName(updatedWorkoutSession.workoutSessionName());
+                    workoutSession.setDate(updatedWorkoutSession.date());
+                    WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
+                    return workoutSessionDTOMapper.toDTO(savedWorkoutSession);
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(workoutSessionId)));
-
     }
 }

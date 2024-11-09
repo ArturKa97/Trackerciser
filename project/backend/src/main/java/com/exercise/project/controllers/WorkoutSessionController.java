@@ -1,7 +1,6 @@
 package com.exercise.project.controllers;
 
 import com.exercise.project.dtos.WorkoutSessionDTO;
-import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.services.WorkoutSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +11,7 @@ import java.util.List;
 @RequestMapping("/workout_session")
 @RequiredArgsConstructor
 public class WorkoutSessionController {
+
     private final WorkoutSessionService workoutSessionService;
 
     @PostMapping
@@ -35,7 +35,7 @@ public class WorkoutSessionController {
     }
 
     @PutMapping("/{workoutSessionId}")
-    public WorkoutSession updateWorkoutSessionById(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @RequestBody WorkoutSession updatedWorkoutSession) {
+    public WorkoutSessionDTO updateWorkoutSessionById(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @RequestBody WorkoutSessionDTO updatedWorkoutSession) {
         return workoutSessionService.updateWorkoutSessionById(workoutSessionId, updatedWorkoutSession);
     }
 
