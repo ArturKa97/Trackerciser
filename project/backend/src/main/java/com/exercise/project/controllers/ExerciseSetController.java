@@ -23,7 +23,7 @@ public class ExerciseSetController {
     }
 
     @PutMapping("/{exerciseSetId}")
-    public ExerciseSet updateExerciseSetById(@RequestBody ExerciseSet updatedExerciseSet, @PathVariable(value = "exerciseSetId") Long exerciseSetId) {
+    public ExerciseSetDTO updateExerciseSetById(@RequestBody ExerciseSetDTO updatedExerciseSet, @PathVariable(value = "exerciseSetId") Long exerciseSetId) {
         return exerciseSetService.updateExerciseSetById(updatedExerciseSet, exerciseSetId);
     }
 }

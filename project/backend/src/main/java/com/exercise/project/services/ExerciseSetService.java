@@ -6,5 +6,5 @@ import com.exercise.project.entities.ExerciseSet;
 public interface ExerciseSetService {
     ExerciseSetDTO addExerciseSetToExercise(ExerciseSetDTO exerciseSetDTO, Long exerciseId);
     void removeExerciseSetById(Long exerciseSetId);
-    ExerciseSet updateExerciseSetById(ExerciseSet updatedExerciseSet, Long exerciseSetId);
+    ExerciseSetDTO updateExerciseSetById(ExerciseSetDTO updatedExerciseSet, Long exerciseSetId);
 }
