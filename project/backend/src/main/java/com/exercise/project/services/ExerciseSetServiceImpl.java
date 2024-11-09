@@ -1,7 +1,6 @@
 package com.exercise.project.services;
 
 import com.exercise.project.dtos.ExerciseSetDTO;
-import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseSet;
 import com.exercise.project.mappers.ExerciseSetDTOMapper;
 import com.exercise.project.repositories.ExerciseRepository;
@@ -9,8 +8,6 @@ import com.exercise.project.repositories.ExerciseSetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,17 +35,16 @@ public class ExerciseSetServiceImpl implements ExerciseSetService {
     }
 
     @Override
-    public ExerciseSet updateExerciseSetById(ExerciseSet updatedExerciseSet, Long exerciseSetId) {
-        Optional<ExerciseSet> optionalExerciseSet = exerciseSetRepository.findById(exerciseSetId);
-        if (optionalExerciseSet.isPresent()) {
-            ExerciseSet existingExerciseSet = optionalExerciseSet.get();
-            existingExerciseSet.setSets(updatedExerciseSet.getSets());
-            existingExerciseSet.setReps(updatedExerciseSet.getReps());
-            existingExerciseSet.setWeight(updatedExerciseSet.getWeight());
-            existingExerciseSet.setRest(updatedExerciseSet.getRest());
-            return exerciseSetRepository.save(existingExerciseSet);
-        } else {
-            throw new RuntimeException("SetsReps with ID " + exerciseSetId + " not found.");
-        }
+    public ExerciseSetDTO updateExerciseSetById(ExerciseSetDTO updatedExerciseSet, Long exerciseSetId) {
+        return exerciseSetRepository.getExerciseSetById(exerciseSetId)
+                .map(existingExerciseSet -> {
+                    existingExerciseSet.setSets(updatedExerciseSet.sets());
+                    existingExerciseSet.setReps(updatedExerciseSet.reps());
+                    existingExerciseSet.setWeight(updatedExerciseSet.weight());
+                    existingExerciseSet.setRest(updatedExerciseSet.rest());
+                    ExerciseSet savedExerciseSet = exerciseSetRepository.save(existingExerciseSet);
+                    return exerciseSetDTOMapper.toDTO(savedExerciseSet);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseSetId)));
     }
 }
