@@ -45,6 +45,6 @@ public class ExerciseSetServiceImpl implements ExerciseSetService {
                     ExerciseSet savedExerciseSet = exerciseSetRepository.save(existingExerciseSet);
                     return exerciseSetDTOMapper.toDTO(savedExerciseSet);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseSetId)));
+                .orElseThrow(() -> new EntityNotFoundException("ExerciseSet with id [%s] not found".formatted(exerciseSetId)));
     }
 }
