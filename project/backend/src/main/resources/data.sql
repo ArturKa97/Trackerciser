@@ -1,55 +1,68 @@
-INSERT INTO workout_session (id , workout_session_name, date)
 
+INSERT INTO workout_session (workout_session_name, date)
 VALUES
-    (1, 'Leg day', '2024-08-29'),
-    (2, 'Leg day', '2024-09-29'),
-    (3, 'Arm day', '2024-08-28'),
-    (4, 'Arm day', '2024-09-28');
+    ('Leg day', '2024-08-29'),
+    ('Leg day', '2024-09-29'),
+    ('Arm day', '2024-08-28'),
+    ('Arm day', '2024-09-28');
 
-INSERT INTO exercise_set (id, sets, reps, weight, rest)
+
+INSERT INTO exercise_set (sets, reps, weight, rest)
 VALUES
-      (1, 1, 1, 1, 1),
-      (2, 2, 2, 2, 2),
-      (3, 3, 3, 3, 3),
-      (4, 4, 4, 4, 4);
+      (1, 1, 1, 1),
+      (2, 2, 2, 2),
+      (3, 3, 3, 3),
+      (4, 4, 4, 4);
 
-INSERT INTO exercise (id)
+
+INSERT INTO exercise (id)  -- This is likely redundant, just removing 'id' column here
 VALUES
-    (1),
-    (2),
-    (3),
-    (4);
+    (DEFAULT),
+    (DEFAULT),
+    (DEFAULT),
+    (DEFAULT);
 
 
-INSERT INTO exercise_type (id, name)
+INSERT INTO exercise_type (name)
 VALUES
-    (1, 'SquatsET'),
-    (2, 'arms');
+    ('SquatsET'),
+    ('arms');
+
 
 UPDATE exercise
-SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session.id = 1),
-exercise_type_id = (SELECT id FROM exercise_type WHERE exercise_type.id = 1)
-WHERE exercise.id = 1;
+SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Leg day' LIMIT 1),
+    exercise_type_id = (SELECT id FROM exercise_type WHERE name = 'SquatsET' LIMIT 1)
+WHERE id = 1;
 
 UPDATE exercise
-SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session.id = 2),
-exercise_type_id = (SELECT id FROM exercise_type WHERE exercise_type.id = 1)
-WHERE exercise.id = 2;
+SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Leg day' LIMIT 1),
+    exercise_type_id = (SELECT id FROM exercise_type WHERE name = 'SquatsET' LIMIT 1)
+WHERE id = 2;
+
+UPDATE exercise
+SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Arm day' LIMIT 1),
+    exercise_type_id = (SELECT id FROM exercise_type WHERE name = 'arms' LIMIT 1)
+WHERE id = 3;
+
+UPDATE exercise
+SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Arm day' LIMIT 1),
+    exercise_type_id = (SELECT id FROM exercise_type WHERE name = 'arms' LIMIT 1)
+WHERE id = 4;
 
 UPDATE exercise_set
-SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 1)
-WHERE exercise_set.id = 1;
+SET exercise_id = (SELECT id FROM exercise WHERE id = 1 LIMIT 1)
+WHERE id = 1;
 
 UPDATE exercise_set
-SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE exercise_set.id = 2;
+SET exercise_id = (SELECT id FROM exercise WHERE id = 2 LIMIT 1)
+WHERE id = 2;
 
 UPDATE exercise_set
-SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE exercise_set.id = 3;
+SET exercise_id = (SELECT id FROM exercise WHERE id = 2 LIMIT 1)
+WHERE id = 3;
 
 UPDATE exercise_set
-SET exercise_id = (SELECT id FROM exercise WHERE exercise.id = 2)
-WHERE exercise_set.id = 4;
+SET exercise_id = (SELECT id FROM exercise WHERE id = 2 LIMIT 1)
+WHERE id = 4;
 
 
