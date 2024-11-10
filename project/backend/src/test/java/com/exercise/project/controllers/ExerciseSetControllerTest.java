@@ -29,13 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ExerciseSetControllerTest {
 
     @MockBean
-    ExerciseSetService exerciseSetService;
+    private ExerciseSetService exerciseSetService;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
     @Test
     public void ExerciseSetController_AddExerciseSetToExercise_ShouldReturnIsOk() throws Exception {
+        //Given
         Long exerciseId = 1L;
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
                 .sets(1L)
@@ -46,7 +47,7 @@ class ExerciseSetControllerTest {
 
         given(exerciseSetService.addExerciseSetToExercise(any(ExerciseSetDTO.class), eq(exerciseId)))
                 .willReturn(exerciseSetDTO);
-
+        //When
         ResultActions response = mockMvc.perform(post("/exerciseSet/{exerciseId}", exerciseId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(exerciseSetDTO)));
@@ -55,6 +56,7 @@ class ExerciseSetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(exerciseSetDTO)));
 
+        //Then
         verify(exerciseSetService, times(1)).addExerciseSetToExercise(any(ExerciseSetDTO.class), eq(exerciseId));
 
     }

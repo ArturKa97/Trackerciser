@@ -46,7 +46,7 @@ class ExerciseSetServiceImplTest {
                 .weight(100F)
                 .rest(90L)
                 .build();
-        //Mocking
+
         when(exerciseRepository.getExerciseById(exercise.getId())).
                 thenReturn(Optional.of(exercise));
         when(exerciseSetDTOMapper.toEntity(exerciseSetDTO)).thenReturn(exerciseSet);
@@ -73,7 +73,6 @@ class ExerciseSetServiceImplTest {
                 .weight(100F)
                 .rest(90L)
                 .build();
-        //Mocking
         when(exerciseRepository.getExerciseById(exerciseId)).
                 thenReturn(Optional.empty());
 
