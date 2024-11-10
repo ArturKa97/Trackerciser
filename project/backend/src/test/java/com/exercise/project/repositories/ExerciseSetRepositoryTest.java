@@ -16,32 +16,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ExerciseSetRepositoryTest {
 
     @Autowired
-    ExerciseSetRepository exerciseSetRepository;
+    private ExerciseSetRepository exerciseSetRepository;
 
     @Test
     public void ExerciseSetRepository_GetExerciseSetById_ShouldReturnExerciseSetEntity() {
-        //Arrange
+        //Given
         ExerciseSet exerciseSet = ExerciseSet.builder()
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
                 .rest(90L).
                 build();
-        //Act
+        //When
         ExerciseSet savedExerciseSet = exerciseSetRepository.save(exerciseSet);
         ExerciseSet fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(savedExerciseSet.getId()).get();
-        //Assert
+        //Then
         assertThat(fetchedExerciseSet).isNotNull();
         assertThat(fetchedExerciseSet.getId()).isEqualTo(savedExerciseSet.getId());
     }
 
     @Test
     public void ExerciseSetRepository_GetExerciseSetById_ShouldReturnEmptyOptionalWhenExerciseSetDoesNotExist() {
-        //Arrange
+        //Given
         Long nonExistentId = 999999L;
-        //Act
+        //When
         Optional<ExerciseSet> fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(nonExistentId);
-        //Assert
+        //Then
         assertThat(fetchedExerciseSet).isEmpty();
 
     }
