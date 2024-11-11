@@ -26,7 +26,7 @@ public class Exercise {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private WorkoutSession workoutSession;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private ExerciseType exerciseType;
 
     @OneToMany(mappedBy = "exercise",
