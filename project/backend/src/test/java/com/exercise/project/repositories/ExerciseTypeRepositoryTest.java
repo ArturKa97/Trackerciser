@@ -7,6 +7,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -28,6 +30,17 @@ class ExerciseTypeRepositoryTest {
         //Then
         assertThat(fetchedExerciseType).isNotNull();
         assertThat(fetchedExerciseType).isEqualTo(savedExerciseType);
+    }
+
+    @Test
+    public void ExerciseTypeRepository_GetExerciseTypeById_ShouldReturnOptionalWhenExerciseTypeDoesNotExist() {
+        //Given
+        Long nonExistentId = 999999L;
+        //When
+        Optional<ExerciseType> fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(nonExistentId);
+        //Then
+        assertThat(fetchedExerciseType).isEmpty();
+
     }
 
 }
