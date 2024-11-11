@@ -32,7 +32,7 @@ class ExerciseSetRepositoryTest {
         ExerciseSet fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(savedExerciseSet.getId()).get();
         //Then
         assertThat(fetchedExerciseSet).isNotNull();
-        assertThat(fetchedExerciseSet.getId()).isEqualTo(savedExerciseSet.getId());
+        assertThat(fetchedExerciseSet).isEqualTo(savedExerciseSet);
     }
 
     @Test
