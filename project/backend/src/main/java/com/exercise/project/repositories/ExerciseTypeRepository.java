@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ExerciseTypeRepository extends JpaRepository<ExerciseType, Long> {
 
-    @Query(value = "SELECT e FROM ExerciseType e WHERE e.id = :id")
+    @Query(value = "SELECT et FROM ExerciseType et WHERE et.id = :id")
     Optional<ExerciseType> getExerciseTypeById(@Param("id") Long id);
 
     @Query(value = "SELECT et FROM ExerciseType et ")
