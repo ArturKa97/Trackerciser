@@ -66,4 +66,11 @@ class ExerciseTypeRepositoryTest {
 
     }
 
+    @Test
+    public void ExerciseTypeRepository_GetAllExerciseTypes_ShouldReturnAnEmptyList() {
+        //When
+        List<ExerciseType> exerciseTypes = exerciseTypeRepository.getAllExerciseTypes();
+        //Then
+        assertThat(exerciseTypes).isEmpty();
+    }
 }
