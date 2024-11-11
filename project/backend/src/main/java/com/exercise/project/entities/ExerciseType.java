@@ -28,7 +28,8 @@ public class ExerciseType {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "exerciseType")
+    @ToString.Exclude
+    @OneToMany(mappedBy = "exerciseType",  fetch = FetchType.LAZY)
     private Set<Exercise> exercises = new HashSet<>();
 
 }

@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@TestPropertySource(properties = "spring.sql.init.mode=never")
 class ExerciseTypeRepositoryTest {
 
     @Autowired
@@ -40,6 +43,26 @@ class ExerciseTypeRepositoryTest {
         Optional<ExerciseType> fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(nonExistentId);
         //Then
         assertThat(fetchedExerciseType).isEmpty();
+
+    }
+
+    @Test
+    public void ExerciseTypeRepository_GetAllExerciseTypes_ShouldReturnAnExerciseTypeList() {
+        //Given
+        ExerciseType exerciseType1 = ExerciseType.builder()
+                .name("Bench Press")
+                .build();
+        ExerciseType exerciseType2 = ExerciseType.builder()
+                .name("Curls")
+                .build();
+        //When
+        exerciseTypeRepository.save(exerciseType1);
+        exerciseTypeRepository.save(exerciseType2);
+        List<ExerciseType> exerciseTypes = exerciseTypeRepository.getAllExerciseTypes();
+        //Then
+        assertThat(exerciseTypes).isNotNull();
+        assertThat(exerciseTypes).hasSize(2);
+        assertThat(exerciseTypes).containsExactlyInAnyOrder(exerciseType1, exerciseType2);
 
     }
 
