@@ -35,12 +35,14 @@ class ExerciseSetServiceImplTest {
         //Given
         Exercise exercise = new Exercise();
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
+                .id(1L)
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
                 .rest(90L)
                 .build();
         ExerciseSet exerciseSet = ExerciseSet.builder()
+                .id(1L)
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
@@ -68,6 +70,7 @@ class ExerciseSetServiceImplTest {
         //Given
         Long exerciseId = 99999L;
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
+                .id(1L)
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
@@ -87,6 +90,7 @@ class ExerciseSetServiceImplTest {
     public void ExerciseSetServiceImpl_UpdateExerciseSetById_ShouldReturnUpdatedExerciseSetDTO() {
         //Given
         ExerciseSet existingExerciseSet = ExerciseSet.builder()
+                .id(1L)
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
@@ -94,6 +98,7 @@ class ExerciseSetServiceImplTest {
                 .build();
 
         ExerciseSet updatedExerciseSet = ExerciseSet.builder()
+                .id(1L)
                 .sets(2L)
                 .reps(20L)
                 .weight(200F)
@@ -101,6 +106,7 @@ class ExerciseSetServiceImplTest {
                 .build();
 
         ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
+                .id(1L)
                 .sets(2L)
                 .reps(20L)
                 .weight(200F)
@@ -126,6 +132,7 @@ class ExerciseSetServiceImplTest {
         //Given
         Long exerciseSetId = 9999999L;
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
+                .id(1L)
                 .sets(1L)
                 .reps(10L)
                 .weight(100F)
