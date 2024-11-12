@@ -144,4 +144,54 @@ class WorkoutSessionServiceImplTest {
 
     }
 
+    @Test
+    public void WorkoutSessionServiceImpl_UpdateWorkoutSessionById_ShouldReturnWorkoutSessionDTO() {
+        //Given
+        WorkoutSession workoutSession = WorkoutSession.builder()
+                .id(1L)
+                .workoutSessionName("Leg Day")
+                .date(new Date())
+                .build();
+
+        WorkoutSession updatedWorkoutSession = WorkoutSession.builder()
+                .id(1L)
+                .workoutSessionName("Chest Day")
+                .date(new Date())
+                .build();
+
+        WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
+                .id(1L)
+                .workoutSessionName("Chest Day")
+                .date(new Date())
+                .build();
+
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
+        when(workoutSessionRepository.save(workoutSession)).thenReturn(updatedWorkoutSession);
+        when(workoutSessionDTOMapper.toDTO(updatedWorkoutSession)).thenReturn(updatedWorkoutSessionDTO);
+        //When
+        WorkoutSessionDTO result = workoutSessionServiceImpl.updateWorkoutSessionById(workoutSession.getId(), updatedWorkoutSessionDTO);
+        //Then
+        assertNotNull(result);
+        assertEquals(result, updatedWorkoutSessionDTO);
+        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(workoutSession.getId());
+        verify(workoutSessionRepository, times(1)).save(updatedWorkoutSession);
+        verify(workoutSessionDTOMapper, times(1)).toDTO(updatedWorkoutSession);
+    }
+
+    @Test
+    public void WorkoutSessionServiceImpl_UpdateWorkoutSessionById_ShouldThrowEntityNotFoundException() {
+        //Given
+        Long nonExistentId = 999999L;
+        WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
+                .id(1L)
+                .workoutSessionName("Chest Day")
+                .date(new Date())
+                .build();
+        // When + Then
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            workoutSessionServiceImpl.updateWorkoutSessionById(nonExistentId, updatedWorkoutSessionDTO);
+        });
+        assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
+    }
+
 }
