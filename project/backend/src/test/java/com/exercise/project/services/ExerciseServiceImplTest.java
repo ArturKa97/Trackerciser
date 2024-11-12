@@ -2,8 +2,12 @@ package com.exercise.project.services;
 
 import com.exercise.project.dtos.ExerciseDTO;
 import com.exercise.project.entities.Exercise;
+import com.exercise.project.entities.ExerciseType;
+import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.mappers.ExerciseDTOMapper;
 import com.exercise.project.repositories.ExerciseRepository;
+import com.exercise.project.repositories.ExerciseTypeRepository;
+import com.exercise.project.repositories.WorkoutSessionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,6 +28,12 @@ class ExerciseServiceImplTest {
 
     @Mock
     private ExerciseDTOMapper exerciseDTOMapper;
+
+    @Mock
+    private WorkoutSessionRepository workoutSessionRepository;
+
+    @Mock
+    private ExerciseTypeRepository exerciseTypeRepository;
 
     @InjectMocks
     private ExerciseServiceImpl exerciseServiceImpl;
@@ -112,6 +119,44 @@ class ExerciseServiceImplTest {
         assertTrue(result.isEmpty());
         verify(exerciseRepository, times(1)).getAllExercises();
     }
+
+    @Test
+    public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldReturnAnExerciseDTO() {
+        //Given
+        WorkoutSession workoutSession = WorkoutSession.builder()
+                .id(1L)
+                .workoutSessionName("Leg day")
+                .date(new Date())
+                .exercisesSet(new HashSet<>())
+                .build();
+
+        ExerciseType exerciseType = ExerciseType.builder()
+                .id(1L)
+                .name("Squats")
+                .build();
+
+        Exercise exercise = new Exercise();
+
+        ExerciseDTO exerciseDTO = ExerciseDTO.builder()
+                .id(1L)
+                .build();
+
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
+        when(exerciseTypeRepository.getExerciseTypeById(exerciseType.getId())).thenReturn(Optional.of(exerciseType));
+        when(exerciseRepository.save(exercise)).thenReturn(exercise);
+        when(exerciseDTOMapper.toDTO(exercise)).thenReturn(exerciseDTO);
+
+        //When
+        ExerciseDTO result = exerciseServiceImpl.addExerciseToWorkoutSession(workoutSession.getId(), exerciseType.getId());
+        //Then
+        assertNotNull(result);
+        assertEquals(result, exerciseDTO);
+        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(workoutSession.getId());
+        verify(exerciseTypeRepository, times(1)).getExerciseTypeById(exerciseType.getId());
+        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseDTOMapper, times(1)).toDTO(exercise);
+    }
+
 }
 
 
