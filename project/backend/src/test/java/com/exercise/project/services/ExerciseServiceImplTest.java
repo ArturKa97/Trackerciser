@@ -73,7 +73,7 @@ class ExerciseServiceImplTest {
     }
 
     @Test
-    public void ExerciseServiceImpl_GetAllExercises_ShouldReturnAnExerciseList() {
+    public void ExerciseServiceImpl_GetAllExercises_ShouldReturnAnExerciseDTOList() {
         //Given
         Exercise exercise1 = Exercise.builder()
                 .id(1L)
