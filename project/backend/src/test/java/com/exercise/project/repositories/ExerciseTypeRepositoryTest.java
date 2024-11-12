@@ -42,6 +42,7 @@ class ExerciseTypeRepositoryTest {
         //When
         Optional<ExerciseType> fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(nonExistentId);
         //Then
+        assertThat(fetchedExerciseType).isNotNull();
         assertThat(fetchedExerciseType).isEmpty();
 
     }
@@ -71,6 +72,7 @@ class ExerciseTypeRepositoryTest {
         //When
         List<ExerciseType> exerciseTypes = exerciseTypeRepository.getAllExerciseTypes();
         //Then
+        assertThat(exerciseTypes).isNotNull();
         assertThat(exerciseTypes).isEmpty();
     }
 }

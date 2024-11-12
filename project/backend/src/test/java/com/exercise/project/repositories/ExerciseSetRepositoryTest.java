@@ -44,6 +44,7 @@ class ExerciseSetRepositoryTest {
         //When
         Optional<ExerciseSet> fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(nonExistentId);
         //Then
+        assertThat(fetchedExerciseSet).isNotNull();
         assertThat(fetchedExerciseSet).isEmpty();
 
     }
