@@ -12,6 +12,6 @@ public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, 
     @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.id = :id")
     Optional<WorkoutSession> getWorkoutSessionById(@Param("id") Long id);
 
-    @Query(value = "SELECT ws FROM WorkoutSession ws")
+    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets")
     List<WorkoutSession> getAllWorkoutSessions();
 }
