@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,10 +38,32 @@ class ExerciseRepositoryTest {
         //Given
         Long nonExistentId = 999999L;
         //When
-
         Optional<Exercise> fetchedExercise = exerciseRepository.getExerciseById(nonExistentId);
         //Then
         assertThat(fetchedExercise).isEmpty();
+    }
+
+    @Test
+    public void ExerciseRepository_GetAllExercises_ShouldReturnAnExerciseList() {
+        //Given
+        Exercise exercise1 = new Exercise();
+        Exercise exercise2 = new Exercise();
+        //When
+        exerciseRepository.save(exercise1);
+        exerciseRepository.save(exercise2);
+        List<Exercise> exercises = exerciseRepository.getAllExercises();
+        //Then
+        assertThat(exercises).isNotNull();
+        assertThat(exercises).hasSize(2);
+        assertThat(exercises).containsExactlyInAnyOrder(exercise1, exercise2);
+    }
+
+    @Test
+    public void ExerciseRepository_GetAllExercises_ShouldReturnAnEmptyList() {
+        //When
+        List<Exercise> exercises = exerciseRepository.getAllExercises();
+        //Then
+        assertThat(exercises).isEmpty();
     }
 
 }
