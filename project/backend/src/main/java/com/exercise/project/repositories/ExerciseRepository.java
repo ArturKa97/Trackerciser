@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
-    @Query(value = "SELECT e FROM Exercise e WHERE e.id = :id")
+    @Query(value = "SELECT e FROM Exercise e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE e.id = :id")
     Optional<Exercise> getExerciseById(@Param("id") Long id);
 
-    @Query(value = "SELECT e FROM Exercise e ")
+    @Query(value = "SELECT e FROM Exercise e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets")
     List<Exercise> getAllExercises();
 }
