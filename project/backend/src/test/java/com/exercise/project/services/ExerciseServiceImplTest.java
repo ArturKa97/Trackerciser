@@ -157,6 +157,40 @@ class ExerciseServiceImplTest {
         verify(exerciseDTOMapper, times(1)).toDTO(exercise);
     }
 
+    @Test
+    public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenWorkoutSessionDoesNotExist() {
+        //Given
+        Long nonExistentWorkoutSessionId = 999999L;
+        when(workoutSessionRepository.getWorkoutSessionById(nonExistentWorkoutSessionId)).thenReturn(Optional.empty());
+        //When
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            exerciseServiceImpl.addExerciseToWorkoutSession(nonExistentWorkoutSessionId, 1L);
+        });
+        assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
+        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(nonExistentWorkoutSessionId);
+        verifyNoInteractions(exerciseTypeRepository, exerciseRepository, exerciseDTOMapper);
+    }
+
+    @Test
+    public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenExerciseTypeDoesNotExist() {
+        //Given
+        Long nonExistentExerciseTypeId = 999999L;
+        WorkoutSession workoutSession = WorkoutSession.builder()
+                .id(1L)
+                .workoutSessionName("Leg day")
+                .date(new Date())
+                .exercisesSet(new HashSet<>())
+                .build();
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
+        when(exerciseTypeRepository.getExerciseTypeById(nonExistentExerciseTypeId)).thenReturn(Optional.empty());
+        //When
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            exerciseServiceImpl.addExerciseToWorkoutSession(1L, nonExistentExerciseTypeId);
+        });
+        assertEquals("ExerciseType with id [999999] not found", exception.getMessage());
+        verify(exerciseTypeRepository, times(1)).getExerciseTypeById(nonExistentExerciseTypeId);
+        verifyNoInteractions(exerciseRepository, exerciseDTOMapper);
+    }
 }
 
 
