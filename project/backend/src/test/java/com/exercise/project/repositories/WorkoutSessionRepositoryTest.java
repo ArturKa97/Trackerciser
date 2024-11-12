@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,6 +46,36 @@ class WorkoutSessionRepositoryTest {
         //Then
         assertThat(fetchedWorkoutSession).isNotNull();
         assertThat(fetchedWorkoutSession).isEmpty();
+    }
+
+    @Test
+    public void WorkoutSessionRepository_GetAllWorkoutSessions_ShouldReturnListOfWorkoutSessions() {
+        //Given
+        WorkoutSession workoutSession1 = WorkoutSession.builder()
+                .workoutSessionName("Leg day")
+                .date(new Date())
+                .build();
+        WorkoutSession workoutSession2 = WorkoutSession.builder()
+                .workoutSessionName("Leg day")
+                .date(new Date())
+                .build();
+        //When
+        workoutSessionRepository.save(workoutSession1);
+        workoutSessionRepository.save(workoutSession2);
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getAllWorkoutSessions();
+        //Then
+        assertThat(fetchedWorkoutSessions).isNotNull();
+        assertThat(fetchedWorkoutSessions).hasSize(2);
+        assertThat(fetchedWorkoutSessions).containsExactlyInAnyOrder(workoutSession1, workoutSession2);
+    }
+
+    @Test
+    public void WorkoutSessionRepository_GetAllWorkoutSessions_ShouldReturnEmptyList() {
+        //When
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getAllWorkoutSessions();
+        //Then
+        assertThat(fetchedWorkoutSessions).isNotNull();
+        assertThat(fetchedWorkoutSessions).isEmpty();
     }
 
 }
