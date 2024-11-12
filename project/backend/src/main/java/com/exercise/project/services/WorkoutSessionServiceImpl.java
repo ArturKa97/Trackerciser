@@ -53,6 +53,6 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
                     WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
                     return workoutSessionDTOMapper.toDTO(savedWorkoutSession);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(workoutSessionId)));
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
     }
 }
