@@ -14,8 +14,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ExerciseTypeServiceImplTest {
@@ -60,11 +61,12 @@ class ExerciseTypeServiceImplTest {
         //When
         List<ExerciseTypeDTO> result = exerciseTypeServiceImpl.getAllExerciseTypes();
         //Then
-        assertNotNull(result);
-        assertEquals(exerciseTypesDTO, result);
-        verify(exerciseTypeRepository, times(1)).getAllExerciseTypes();
-        verify(exerciseTypeDTOMapper, times(1)).toDTO(exerciseType1);
-        verify(exerciseTypeDTOMapper, times(1)).toDTO(exerciseType2);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(exerciseTypesDTO);
+        verify(exerciseTypeRepository).getAllExerciseTypes();
+        verify(exerciseTypeDTOMapper).toDTO(exerciseType1);
+        verify(exerciseTypeDTOMapper).toDTO(exerciseType2);
     }
     @Test
     public void ExerciseTypeServiceImpl_GetAllExerciseTypes_ShouldReturnAnEmptyList() {
@@ -73,8 +75,9 @@ class ExerciseTypeServiceImplTest {
         //When
         List<ExerciseTypeDTO> result = exerciseTypeServiceImpl.getAllExerciseTypes();
         //Then
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(exerciseTypeRepository, times(1)).getAllExerciseTypes();
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
+        verify(exerciseTypeRepository).getAllExerciseTypes();
     }
 }
