@@ -13,8 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WorkoutSessionServiceImplTest {
@@ -47,11 +50,12 @@ class WorkoutSessionServiceImplTest {
         //When
         WorkoutSessionDTO result = workoutSessionServiceImpl.addWorkoutSession(workoutSessionDTO);
         //Then
-        assertNotNull(result);
-        assertEquals(result, workoutSessionDTO);
-        verify(workoutSessionDTOMapper, times(1)).toEntity(workoutSessionDTO);
-        verify(workoutSessionRepository, times(1)).save(workoutSession);
-        verify(workoutSessionDTOMapper, times(1)).toDTO(workoutSession);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(workoutSessionDTO);
+        verify(workoutSessionDTOMapper).toEntity(workoutSessionDTO);
+        verify(workoutSessionRepository).save(workoutSession);
+        verify(workoutSessionDTOMapper).toDTO(workoutSession);
     }
 
     @Test
@@ -72,10 +76,11 @@ class WorkoutSessionServiceImplTest {
         //When
         WorkoutSessionDTO result = workoutSessionServiceImpl.getWorkoutSessionById(workoutSession.getId());
         //Then
-        assertNotNull(result);
-        assertEquals(result, workoutSessionDTO);
-        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(workoutSession.getId());
-        verify(workoutSessionDTOMapper, times(1)).toDTO(workoutSession);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(workoutSessionDTO);
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
+        verify(workoutSessionDTOMapper).toDTO(workoutSession);
 
     }
 
@@ -124,11 +129,12 @@ class WorkoutSessionServiceImplTest {
         //When
         List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions();
         //Then
-        assertNotNull(result);
-        assertEquals(result, workoutSessionsDTOs);
-        verify(workoutSessionRepository, times(1)).getAllWorkoutSessions();
-        verify(workoutSessionDTOMapper, times(1)).toDTO(workoutSession1);
-        verify(workoutSessionDTOMapper, times(1)).toDTO(workoutSession2);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(workoutSessionsDTOs);
+        verify(workoutSessionRepository).getAllWorkoutSessions();
+        verify(workoutSessionDTOMapper).toDTO(workoutSession1);
+        verify(workoutSessionDTOMapper).toDTO(workoutSession2);
     }
 
     @Test
@@ -138,9 +144,10 @@ class WorkoutSessionServiceImplTest {
         //When
         List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions();
         //Then
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(workoutSessionRepository, times(1)).getAllWorkoutSessions();
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
+        verify(workoutSessionRepository).getAllWorkoutSessions();
 
     }
 
@@ -171,11 +178,12 @@ class WorkoutSessionServiceImplTest {
         //When
         WorkoutSessionDTO result = workoutSessionServiceImpl.updateWorkoutSessionById(workoutSession.getId(), updatedWorkoutSessionDTO);
         //Then
-        assertNotNull(result);
-        assertEquals(result, updatedWorkoutSessionDTO);
-        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(workoutSession.getId());
-        verify(workoutSessionRepository, times(1)).save(updatedWorkoutSession);
-        verify(workoutSessionDTOMapper, times(1)).toDTO(updatedWorkoutSession);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(updatedWorkoutSessionDTO);
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
+        verify(workoutSessionRepository).save(updatedWorkoutSession);
+        verify(workoutSessionDTOMapper).toDTO(updatedWorkoutSession);
     }
 
     @Test
