@@ -17,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,10 +55,11 @@ class ExerciseServiceImplTest {
         //When
         ExerciseDTO result = exerciseServiceImpl.getExerciseById(exercise.getId());
         //Then
-        assertNotNull(result);
-        assertEquals(result, exerciseDTO);
-        verify(exerciseRepository, times(1)).getExerciseById(exercise.getId());
-        verify(exerciseDTOMapper, times(1)).toDTO(exercise);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(exerciseDTO);
+        verify(exerciseRepository).getExerciseById(exercise.getId());
+        verify(exerciseDTOMapper).toDTO(exercise);
     }
 
     @Test
@@ -101,11 +104,12 @@ class ExerciseServiceImplTest {
         //When
         List<ExerciseDTO> result = exerciseServiceImpl.getAllExercises();
         //Then
-        assertNotNull(result);
-        assertEquals(result, exercisesDTOs);
-        verify(exerciseRepository, times(1)).getAllExercises();
-        verify(exerciseDTOMapper, times(1)).toDTO(exercise1);
-        verify(exerciseDTOMapper, times(1)).toDTO(exercise2);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(exercisesDTOs);
+        verify(exerciseRepository).getAllExercises();
+        verify(exerciseDTOMapper).toDTO(exercise1);
+        verify(exerciseDTOMapper).toDTO(exercise2);
     }
 
     @Test
@@ -115,9 +119,10 @@ class ExerciseServiceImplTest {
         //When
         List<ExerciseDTO> result = exerciseServiceImpl.getAllExercises();
         //Then
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(exerciseRepository, times(1)).getAllExercises();
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
+        verify(exerciseRepository).getAllExercises();
     }
 
     @Test
@@ -149,12 +154,13 @@ class ExerciseServiceImplTest {
         //When
         ExerciseDTO result = exerciseServiceImpl.addExerciseToWorkoutSession(workoutSession.getId(), exerciseType.getId());
         //Then
-        assertNotNull(result);
-        assertEquals(result, exerciseDTO);
-        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(workoutSession.getId());
-        verify(exerciseTypeRepository, times(1)).getExerciseTypeById(exerciseType.getId());
-        verify(exerciseRepository, times(1)).save(exercise);
-        verify(exerciseDTOMapper, times(1)).toDTO(exercise);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(exerciseDTO);
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
+        verify(exerciseTypeRepository).getExerciseTypeById(exerciseType.getId());
+        verify(exerciseRepository).save(exercise);
+        verify(exerciseDTOMapper).toDTO(exercise);
     }
 
     @Test
@@ -167,7 +173,7 @@ class ExerciseServiceImplTest {
             exerciseServiceImpl.addExerciseToWorkoutSession(nonExistentWorkoutSessionId, 1L);
         });
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
-        verify(workoutSessionRepository, times(1)).getWorkoutSessionById(nonExistentWorkoutSessionId);
+        verify(workoutSessionRepository).getWorkoutSessionById(nonExistentWorkoutSessionId);
         verifyNoInteractions(exerciseTypeRepository, exerciseRepository, exerciseDTOMapper);
     }
 
@@ -188,7 +194,7 @@ class ExerciseServiceImplTest {
             exerciseServiceImpl.addExerciseToWorkoutSession(1L, nonExistentExerciseTypeId);
         });
         assertEquals("ExerciseType with id [999999] not found", exception.getMessage());
-        verify(exerciseTypeRepository, times(1)).getExerciseTypeById(nonExistentExerciseTypeId);
+        verify(exerciseTypeRepository).getExerciseTypeById(nonExistentExerciseTypeId);
         verifyNoInteractions(exerciseRepository, exerciseDTOMapper);
     }
 }
