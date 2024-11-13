@@ -15,8 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ExerciseSetServiceImplTest {
@@ -57,12 +60,13 @@ class ExerciseSetServiceImplTest {
         // When
         ExerciseSetDTO result = exerciseSetServiceImpl.addExerciseSetToExercise(exerciseSetDTO, exercise.getId());
         //Then
-        assertNotNull(result);
-        assertEquals(exerciseSetDTO, result);
-        verify(exerciseRepository, times(1)).getExerciseById(exercise.getId());
-        verify(exerciseSetDTOMapper, times(1)).toEntity(exerciseSetDTO);
-        verify(exerciseSetRepository, times(1)).save(exerciseSet);
-        verify(exerciseSetDTOMapper, times(1)).toDTO(exerciseSet);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(exerciseSetDTO);
+        verify(exerciseRepository).getExerciseById(exercise.getId());
+        verify(exerciseSetDTOMapper).toEntity(exerciseSetDTO);
+        verify(exerciseSetRepository).save(exerciseSet);
+        verify(exerciseSetDTOMapper).toDTO(exerciseSet);
 
     }
     @Test
@@ -120,11 +124,13 @@ class ExerciseSetServiceImplTest {
         //When
         ExerciseSetDTO result = exerciseSetServiceImpl.updateExerciseSetById(updatedExerciseSetDTO, existingExerciseSet.getId());
         //Then
-        assertNotNull(result);
-        assertEquals(updatedExerciseSetDTO, result);
-        verify(exerciseSetRepository, times(1)).getExerciseSetById(existingExerciseSet.getId());
-        verify(exerciseSetRepository, times(1)).save(existingExerciseSet);
-        verify(exerciseSetDTOMapper, times(1)).toDTO(updatedExerciseSet);
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(updatedExerciseSetDTO);
+
+        verify(exerciseSetRepository).getExerciseSetById(existingExerciseSet.getId());
+        verify(exerciseSetRepository).save(existingExerciseSet);
+        verify(exerciseSetDTOMapper).toDTO(updatedExerciseSet);
     }
 
     @Test
