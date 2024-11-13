@@ -33,8 +33,8 @@ class WorkoutSessionRepositoryTest {
         WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
         WorkoutSession fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSession.getId()).get();
         //Then
-        assertThat(fetchedWorkoutSession).isNotNull();
-        assertThat(fetchedWorkoutSession).isEqualTo(savedWorkoutSession);
+        assertThat(fetchedWorkoutSession).isNotNull()
+                .isEqualTo(savedWorkoutSession);
     }
 
     @Test
@@ -44,8 +44,8 @@ class WorkoutSessionRepositoryTest {
         //When
         Optional<WorkoutSession> fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(nonExistentId);
         //Then
-        assertThat(fetchedWorkoutSession).isNotNull();
-        assertThat(fetchedWorkoutSession).isEmpty();
+        assertThat(fetchedWorkoutSession).isNotNull()
+                .isEmpty();
     }
 
     @Test
@@ -64,9 +64,9 @@ class WorkoutSessionRepositoryTest {
         workoutSessionRepository.save(workoutSession2);
         List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getAllWorkoutSessions();
         //Then
-        assertThat(fetchedWorkoutSessions).isNotNull();
-        assertThat(fetchedWorkoutSessions).hasSize(2);
-        assertThat(fetchedWorkoutSessions).containsExactlyInAnyOrder(workoutSession1, workoutSession2);
+        assertThat(fetchedWorkoutSessions).isNotNull()
+                .hasSize(2)
+                .containsExactlyInAnyOrder(workoutSession1, workoutSession2);
     }
 
     @Test
@@ -74,8 +74,8 @@ class WorkoutSessionRepositoryTest {
         //When
         List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getAllWorkoutSessions();
         //Then
-        assertThat(fetchedWorkoutSessions).isNotNull();
-        assertThat(fetchedWorkoutSessions).isEmpty();
+        assertThat(fetchedWorkoutSessions).isNotNull()
+                .isEmpty();
     }
 
 }
