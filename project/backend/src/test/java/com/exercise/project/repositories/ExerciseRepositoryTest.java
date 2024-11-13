@@ -29,8 +29,8 @@ class ExerciseRepositoryTest {
         Exercise savedExercise = exerciseRepository.save(exercise);
         Exercise fetchedExercise = exerciseRepository.getExerciseById(exercise.getId()).get();
         //Then
-        assertThat(fetchedExercise).isNotNull();
-        assertThat(fetchedExercise).isEqualTo(savedExercise);
+        assertThat(fetchedExercise).isNotNull()
+                .isEqualTo(savedExercise);
     }
 
     @Test
@@ -40,8 +40,8 @@ class ExerciseRepositoryTest {
         //When
         Optional<Exercise> fetchedExercise = exerciseRepository.getExerciseById(nonExistentId);
         //Then
-        assertThat(fetchedExercise).isNotNull();
-        assertThat(fetchedExercise).isEmpty();
+        assertThat(fetchedExercise).isNotNull()
+                .isEmpty();
     }
 
     @Test
@@ -54,9 +54,9 @@ class ExerciseRepositoryTest {
         exerciseRepository.save(exercise2);
         List<Exercise> exercises = exerciseRepository.getAllExercises();
         //Then
-        assertThat(exercises).isNotNull();
-        assertThat(exercises).hasSize(2);
-        assertThat(exercises).containsExactlyInAnyOrder(exercise1, exercise2);
+        assertThat(exercises).isNotNull()
+                .hasSize(2)
+                .containsExactlyInAnyOrder(exercise1, exercise2);
     }
 
     @Test
@@ -64,8 +64,8 @@ class ExerciseRepositoryTest {
         //When
         List<Exercise> exercises = exerciseRepository.getAllExercises();
         //Then
-        assertThat(exercises).isNotNull();
-        assertThat(exercises).isEmpty();
+        assertThat(exercises).isNotNull()
+                .isEmpty();
     }
 
 }
