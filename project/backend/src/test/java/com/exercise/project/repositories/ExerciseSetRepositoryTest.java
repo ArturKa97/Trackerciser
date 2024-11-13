@@ -33,8 +33,9 @@ class ExerciseSetRepositoryTest {
         ExerciseSet savedExerciseSet = exerciseSetRepository.save(exerciseSet);
         ExerciseSet fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(savedExerciseSet.getId()).get();
         //Then
-        assertThat(fetchedExerciseSet).isNotNull();
-        assertThat(fetchedExerciseSet).isEqualTo(savedExerciseSet);
+        assertThat(fetchedExerciseSet).isNotNull()
+                .isEqualTo(savedExerciseSet);
+
     }
 
     @Test
@@ -44,8 +45,8 @@ class ExerciseSetRepositoryTest {
         //When
         Optional<ExerciseSet> fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(nonExistentId);
         //Then
-        assertThat(fetchedExerciseSet).isNotNull();
-        assertThat(fetchedExerciseSet).isEmpty();
+        assertThat(fetchedExerciseSet).isNotNull()
+                .isEmpty();
 
     }
 
