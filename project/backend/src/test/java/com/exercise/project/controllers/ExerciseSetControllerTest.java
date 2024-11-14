@@ -16,10 +16,9 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,12 +29,15 @@ class ExerciseSetControllerTest {
 
     @MockBean
     private ExerciseSetService exerciseSetService;
+
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @Test
-    public void ExerciseSetController_AddExerciseSetToExercise_ShouldReturnIsOk() throws Exception {
+    public void ExerciseSetController_AddExerciseSetToExercise_ShouldReturnExerciseSetDTO() throws Exception {
         //Given
         Long exerciseId = 1L;
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
@@ -45,20 +47,52 @@ class ExerciseSetControllerTest {
                 .rest(90L)
                 .build();
 
-        given(exerciseSetService.addExerciseSetToExercise(any(ExerciseSetDTO.class), eq(exerciseId)))
-                .willReturn(exerciseSetDTO);
+        when(exerciseSetService.addExerciseSetToExercise(exerciseSetDTO, exerciseId)).thenReturn(exerciseSetDTO);
         //When
         ResultActions response = mockMvc.perform(post("/exerciseSet/{exerciseId}", exerciseId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(exerciseSetDTO)));
-
+        //Then
         response
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(exerciseSetDTO)));
 
-        //Then
-        verify(exerciseSetService, times(1)).addExerciseSetToExercise(any(ExerciseSetDTO.class), eq(exerciseId));
+        verify(exerciseSetService).addExerciseSetToExercise(any(ExerciseSetDTO.class), eq(exerciseId));
+    }
 
+    @Test
+    public void ExerciseSetController_RemoveExerciseSetById_ShouldReturnIsOk() throws Exception {
+        //Given
+        Long exerciseSetId = 1L;
+        //When
+        ResultActions response = mockMvc.perform(delete("/exerciseSet/{exerciseSetId}", exerciseSetId));
+        //Then
+        response
+                .andExpect(status().isOk());
+        verify(exerciseSetService).removeExerciseSetById(exerciseSetId);
+    }
+
+    @Test
+    public void ExerciseSetController_UpdateExerciseSetById_ShouldReturnUpdatedExerciseSetDTO() throws Exception {
+        //Given
+        Long exerciseSetId = 1L;
+        ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
+                .sets(1L)
+                .reps(1L)
+                .weight(10.0F)
+                .rest(90L)
+                .build();
+
+        when(exerciseSetService.updateExerciseSetById(updatedExerciseSetDTO, exerciseSetId)).thenReturn(updatedExerciseSetDTO);
+        //When
+        ResultActions response = mockMvc.perform(put("/exerciseSet/{exerciseSetId}", exerciseSetId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedExerciseSetDTO)));
+        //Then
+        response
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(updatedExerciseSetDTO)));
+        verify(exerciseSetService).updateExerciseSetById(updatedExerciseSetDTO, exerciseSetId);
     }
 
 }
