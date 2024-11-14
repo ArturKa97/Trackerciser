@@ -1,7 +1,6 @@
 package com.exercise.project.controllers;
 
 import com.exercise.project.dtos.ExerciseSetDTO;
-import com.exercise.project.entities.ExerciseSet;
 import com.exercise.project.services.ExerciseSetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/exerciseSet")
 @RequiredArgsConstructor
 public class ExerciseSetController {
+
     private final ExerciseSetService exerciseSetService;
 
     @PostMapping("/{exerciseId}")
