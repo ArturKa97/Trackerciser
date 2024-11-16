@@ -1,7 +1,16 @@
 INSERT INTO user (username, password)
 VALUES
-    ('admin', 'admin'),
-    ('user', 'user');
+    ('user', 'user'),
+    ('admin', 'admin');
+
+INSERT INTO roles (role)
+VALUES
+    ('ADMIN'),
+    ('USER');
+
+INSERT INTO user_role (user_id, role_id) VALUES (1, 'USER');
+INSERT INTO user_role (user_id, role_id) VALUES (2, 'ADMIN');
+INSERT INTO user_role (user_id, role_id) VALUES (2, 'USER');
 
 INSERT INTO workout_session (workout_session_name, date)
 VALUES
@@ -28,6 +37,7 @@ INSERT INTO exercise_type (name)
 VALUES
     ('SquatsET'),
     ('arms');
+
 
 UPDATE exercise
 SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Leg day' LIMIT 1),
