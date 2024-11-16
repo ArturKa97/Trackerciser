@@ -1,3 +1,7 @@
+INSERT INTO user (username, password)
+VALUES
+    ('admin', 'admin'),
+    ('user', 'user');
 
 INSERT INTO workout_session (workout_session_name, date)
 VALUES
@@ -6,14 +10,12 @@ VALUES
     ('Arm day', '2024-08-28'),
     ('Arm day', '2024-09-28');
 
-
 INSERT INTO exercise_set (sets, reps, weight, rest)
 VALUES
       (1, 1, 1, 1),
       (2, 2, 2, 2),
       (3, 3, 3, 3),
       (4, 4, 4, 4);
-
 
 INSERT INTO exercise (id)  -- This is likely redundant, just removing 'id' column here
 VALUES
@@ -22,12 +24,10 @@ VALUES
     (DEFAULT),
     (DEFAULT);
 
-
 INSERT INTO exercise_type (name)
 VALUES
     ('SquatsET'),
     ('arms');
-
 
 UPDATE exercise
 SET workout_session_id = (SELECT id FROM workout_session WHERE workout_session_name = 'Leg day' LIMIT 1),
