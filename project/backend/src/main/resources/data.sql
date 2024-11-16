@@ -1,16 +1,7 @@
-INSERT INTO user (username, password)
-VALUES
-    ('user', 'user'),
-    ('admin', 'admin');
-
 INSERT INTO roles (role)
 VALUES
     ('ADMIN'),
     ('USER');
-
-INSERT INTO user_role (user_id, role_id) VALUES (1, 'USER');
-INSERT INTO user_role (user_id, role_id) VALUES (2, 'ADMIN');
-INSERT INTO user_role (user_id, role_id) VALUES (2, 'USER');
 
 INSERT INTO workout_session (workout_session_name, date)
 VALUES
