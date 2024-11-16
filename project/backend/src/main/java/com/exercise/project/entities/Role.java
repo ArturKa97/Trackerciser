@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 @Entity
 @EqualsAndHashCode(of = "role")
 public class Role implements GrantedAuthority {
