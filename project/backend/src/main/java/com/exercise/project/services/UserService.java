@@ -1,21 +1,9 @@
 package com.exercise.project.services;
 
-import com.exercise.project.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import com.exercise.project.entities.User;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    void addNewUser(User user);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-    }
 }
