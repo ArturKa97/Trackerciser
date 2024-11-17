@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -51,7 +50,9 @@ public class JwtSecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 //        http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+        http.oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt.decoder(jwtDecoder(rsaKey(keyPair()))))
+        );
         return http.build();
     }
 
@@ -83,10 +84,14 @@ public class JwtSecurityConfig {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(RSAKey rsaKey) throws JOSEException {
-        return NimbusJwtDecoder
-                .withPublicKey(rsaKey.toRSAPublicKey())
-                .build();
+    public JwtDecoder jwtDecoder(RSAKey rsaKey) {
+        try {
+            return NimbusJwtDecoder
+                    .withPublicKey(rsaKey.toRSAPublicKey())
+                    .build();
+        } catch (JOSEException e) {
+            throw new RuntimeException("Error creating JwtDecoder", e);
+        }
     }
 
     @Bean
