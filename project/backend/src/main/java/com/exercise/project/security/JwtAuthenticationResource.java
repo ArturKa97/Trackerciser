@@ -36,12 +36,12 @@ public class JwtAuthenticationResource {
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(60 * 15))
                 .subject(authentication.getName())
-                .claim("scope", createScope(authentication))
+                .claim("authorities", createAuthorities(authentication))
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
-    private String createScope(Authentication authentication) {
+    private String createAuthorities(Authentication authentication) {
         return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
