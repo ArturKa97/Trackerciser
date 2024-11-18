@@ -30,17 +30,25 @@ public class UserServiceImpl implements UserService {
                 .build();
         User savedUser = userRepository.save(newUser);
 
-        Role role = roleRepository.findById("USER")
-                .orElseThrow(() -> new EntityNotFoundException("[%s] role not found".formatted("USER")));
+        addRoleToUser(savedUser.getId(), "USER");
+    }
+    @Override
+    public void addRoleToUser(Long userId, String roleToAdd) {
+
+        User userToAddRole = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(userId)));
+
+        Role role = roleRepository.findById(roleToAdd)
+                .orElseThrow(() -> new EntityNotFoundException("[%s] role not found".formatted(roleToAdd)));
 
         UserRoleId userRoleId = UserRoleId.builder()
-                .userId(savedUser.getId())
+                .userId(userToAddRole.getId())
                 .roleId(role.getRole())
                 .build();
 
         UserRole userRole = UserRole.builder()
                 .userRoleId(userRoleId)
-                .user(savedUser)
+                .user(userToAddRole)
                 .role(role)
                 .build();
 
@@ -51,4 +59,5 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
+
 }

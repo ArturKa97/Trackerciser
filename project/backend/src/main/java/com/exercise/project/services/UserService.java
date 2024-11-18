@@ -8,5 +8,7 @@ public interface UserService {
 
     void addNewUser(User user);
 
+    void addRoleToUser(Long userId, String roleToAdd);
+
     Optional<User> getUserById(Long id);
 }
