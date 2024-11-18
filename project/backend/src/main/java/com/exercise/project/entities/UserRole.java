@@ -1,5 +1,6 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,11 +21,13 @@ public class UserRole {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @MapsId("roleId")
     @JoinColumn(name = "role_id")
+    @JsonIgnore
     private Role role;
 
 }
