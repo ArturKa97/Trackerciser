@@ -1,5 +1,6 @@
 package com.exercise.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Role implements GrantedAuthority {
     @OneToMany(mappedBy = "role",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonIgnore
     private Set<UserRole> users = new HashSet<>();
 
     @Override

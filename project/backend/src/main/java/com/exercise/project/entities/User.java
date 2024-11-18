@@ -1,6 +1,7 @@
 package com.exercise.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,6 +37,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonIgnore
     private Set<UserRole> roles = new HashSet<>();
 
     @Override
