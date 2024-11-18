@@ -3,10 +3,9 @@ package com.exercise.project.controllers;
 import com.exercise.project.entities.User;
 import com.exercise.project.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -18,6 +17,10 @@ public class UserController {
     @PostMapping
     public void addNewUser(@RequestBody User user) {
         userService.addNewUser(user);
+    }
+    @GetMapping("/{id}")
+    public Optional<User> getUserById (@PathVariable (value = "id") Long id) {
+        return userService.getUserById(id);
     }
 
 }
