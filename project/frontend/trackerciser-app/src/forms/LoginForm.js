@@ -6,6 +6,10 @@ function LoginForm() {
 
   return (
     <Formik
+    initialValues={{
+        username: "",
+        password: "",
+      }}
       //   validationSchema={workoutSessionFormSchema}
       //   onSubmit={onSubmit}
       enableReinitialize
@@ -15,7 +19,7 @@ function LoginForm() {
           <Field
             label="Username"
             placeholder="Username"
-            name="usename"
+            name="username"
             type="text"
           />
           {/* {touched.workoutSessionName && errors.workoutSessionName && (
