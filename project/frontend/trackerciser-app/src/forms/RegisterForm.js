@@ -1,8 +1,24 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
+import { registerNewUser } from "../api/UserApi";
 
 function RegisterForm() {
-  //   const onSubmit
+  const onSubmit = async (values) => {
+    try {
+      await registerNewUserCall(values);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("onSubmit ending");
+    }
+  };
+
+  function registerNewUserCall(values) {
+    registerNewUser(values)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error))
+      .finally(() => console.log("register call end"));
+  }
 
   return (
     <Formik
@@ -11,7 +27,7 @@ function RegisterForm() {
         password: "",
       }}
       //   validationSchema={workoutSessionFormSchema}
-      //   onSubmit={onSubmit}
+      onSubmit={onSubmit}
       enableReinitialize
     >
       {({ isSubmitting, errors, touched }) => (
