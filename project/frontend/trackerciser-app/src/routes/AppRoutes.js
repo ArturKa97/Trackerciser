@@ -4,6 +4,7 @@ import WorkoutSessionPage from "../components/WorkoutSessionPage";
 import WorkoutSessionsTable from "../components/WorkoutSessionsTable";
 import WorkoutSessionForm from "../forms/WorkoutSessionForm";
 import ExerciseForm from "../forms/ExerciseForm";
+import LoginForm from "../forms/LoginForm";
 
 function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ function AppRoutes() {
       <Route path="/workoutSession" element={<WorkoutSessionPage />} />
       <Route path="/workoutSessionForm" element={<WorkoutSessionForm />} />
       <Route path="/exerciseForm" element={<ExerciseForm />} />
+      <Route path="/login" element={<LoginForm />} />
     </Routes>
   );
 }
