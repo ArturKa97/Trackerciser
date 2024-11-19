@@ -4,6 +4,10 @@ import Header from "./components/Header";
 import AppRoutes from "./routes/AppRoutes";
 import store from "./store/store";
 import {Provider} from "react-redux";
+import { initBackendApiClient } from "./api";
+
+
+initBackendApiClient(store)
 
 function App() {
   return (
