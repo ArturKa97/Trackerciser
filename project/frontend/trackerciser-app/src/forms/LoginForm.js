@@ -1,17 +1,34 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
+import { loginAndAuthenticate } from "../api/UserApi";
 
 function LoginForm() {
-  //   const onSubmit
+
+  const onSubmit = async (values) => {
+    try {
+      await LoginAndAuthenticateCall(values);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("onSubmit ending");
+    }
+  };
+
+  function LoginAndAuthenticateCall(values) {
+    return loginAndAuthenticate(values)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error))
+      .finally(() => console.log("register call end"));
+  }
 
   return (
     <Formik
-    initialValues={{
+      initialValues={{
         username: "",
         password: "",
       }}
       //   validationSchema={workoutSessionFormSchema}
-      //   onSubmit={onSubmit}
+      onSubmit={onSubmit}
       enableReinitialize
     >
       {({ isSubmitting, errors, touched }) => (
