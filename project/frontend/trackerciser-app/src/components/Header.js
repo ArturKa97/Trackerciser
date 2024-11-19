@@ -41,6 +41,7 @@ function Header() {
           </Typography>
           <Button variant="contained" onClick={() => navigate("/workoutSessions")}>Workout Sessions</Button>
           <Button variant="contained" onClick={() => navigate("/login")}>Login</Button>
+          <Button variant="contained" onClick={() => navigate("/register")}>Register</Button>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
