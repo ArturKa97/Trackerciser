@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
 import {useDispatch} from "react-redux";
-import {userLoggedIn} from "../../store/slices/userSlice";
+import {userLoggedIn} from "../store/slices/userSlice";
 import { loginAndAuthenticate } from "../api/UserApi";
 
 function LoginForm() {
