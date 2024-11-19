@@ -1,8 +1,11 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
+import {useDispatch} from "react-redux";
+import {userLoggedIn} from "../../store/slices/userSlice";
 import { loginAndAuthenticate } from "../api/UserApi";
 
 function LoginForm() {
+  const dispatch = useDispatch();
 
   const onSubmit = async (values) => {
     try {
@@ -16,7 +19,7 @@ function LoginForm() {
 
   function LoginAndAuthenticateCall(values) {
     return loginAndAuthenticate(values)
-      .then((response) => console.log(response))
+      .then((response) => dispatch(userLoggedIn(response)))
       .catch((error) => console.log(error))
       .finally(() => console.log("register call end"));
   }
