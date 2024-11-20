@@ -1,9 +1,11 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.Role;
 import com.exercise.project.entities.User;
 import com.exercise.project.entities.UserRole;
 import com.exercise.project.entities.UserRoleId;
+import com.exercise.project.mappers.UserDTOMapper;
 import com.exercise.project.repositories.RoleRepository;
 import com.exercise.project.repositories.UserRepository;
 import com.exercise.project.repositories.UserRoleRepository;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
+    private final UserDTOMapper userDTOMapper;
 
     public void addNewUser(User userToRegister) {
         User newUser = User.builder()
@@ -56,8 +59,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public UserDTO getUserById(Long id) {
+        return userRepository.findById(id).map(userDTOMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(id)));
     }
 
 }

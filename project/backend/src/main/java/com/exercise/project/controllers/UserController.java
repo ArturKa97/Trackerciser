@@ -1,11 +1,10 @@
 package com.exercise.project.controllers;
 
+import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
 import com.exercise.project.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -20,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable(value = "id") Long id) {
+    public UserDTO getUserById(@PathVariable(value = "id") Long id) {
         return userService.getUserById(id);
     }
 
