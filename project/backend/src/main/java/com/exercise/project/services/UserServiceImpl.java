@@ -30,20 +30,20 @@ public class UserServiceImpl implements UserService {
                 .build();
         User savedUser = userRepository.save(newUser);
 
-        addRoleToUser(savedUser.getId(), "USER");
+        addRoleToUser(savedUser.getId(), 2L);
     }
     @Override
-    public void addRoleToUser(Long userId, String roleToAdd) {
+    public void addRoleToUser(Long userId, Long roleId) {
 
         User userToAddRole = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(userId)));
 
-        Role role = roleRepository.findById(roleToAdd)
-                .orElseThrow(() -> new EntityNotFoundException("[%s] role not found".formatted(roleToAdd)));
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new EntityNotFoundException("[%s] role not found".formatted(roleId)));
 
         UserRoleId userRoleId = UserRoleId.builder()
                 .userId(userToAddRole.getId())
-                .roleId(role.getRole())
+                .roleId(role.getId())
                 .build();
 
         UserRole userRole = UserRole.builder()

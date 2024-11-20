@@ -20,6 +20,6 @@ public class UserRoleId implements Serializable {
     private Long userId;
 
     @Column(name = "role_id")
-    private String roleId;
+    private Long roleId;
 
 }
