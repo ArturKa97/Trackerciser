@@ -1,8 +1,7 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
-
-import java.util.Optional;
 
 public interface UserService {
 
@@ -10,5 +9,5 @@ public interface UserService {
 
     void addRoleToUser(Long userId, Long roleId);
 
-    Optional<User> getUserById(Long id);
+    UserDTO getUserById(Long id);
 }
