@@ -11,8 +11,11 @@ import Tooltip from "@mui/material/Tooltip";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { deepPurple } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../store/slices/userSlice";
 
 function Header() {
+  const user = useSelector(selectLoggedInUser);
 
   const navigate = useNavigate();
 
@@ -39,9 +42,22 @@ function Header() {
           >
             TRACKERCISER
           </Typography>
-          <Button variant="contained" onClick={() => navigate("/workoutSessions")}>Workout Sessions</Button>
-          <Button variant="contained" onClick={() => navigate("/login")}>Login</Button>
-          <Button variant="contained" onClick={() => navigate("/register")}>Register</Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/workoutSessions")}
+          >
+            Workout Sessions
+          </Button>
+          {!user && (
+            <>
+              <Button variant="contained" onClick={() => navigate("/login")}>
+                Login
+              </Button>
+              <Button variant="contained" onClick={() => navigate("/register")}>
+                Register
+              </Button>
+            </>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
