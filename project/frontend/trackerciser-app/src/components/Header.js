@@ -60,7 +60,13 @@ function Header() {
               </Button>
             </>
           ) : (
-            <Button variant="contained" onClick={() => dispatch(userLoggedOut())}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                dispatch(userLoggedOut());
+                navigate("/");
+              }}
+            >
               Log Out
             </Button>
           )}
