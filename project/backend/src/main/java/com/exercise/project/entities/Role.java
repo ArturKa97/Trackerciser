@@ -22,6 +22,11 @@ public class Role implements GrantedAuthority {
     private static final String SPRING_SECURITY_AUTHORITY_PREFIX = "ROLE_";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "role")
     private String role;
 
     @OneToMany(mappedBy = "role",
