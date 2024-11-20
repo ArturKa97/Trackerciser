@@ -7,8 +7,11 @@ import ExerciseForm from "../forms/ExerciseForm";
 import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
 import HomePage from "../components/HomePage";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../store/slices/userSlice";
 
 function AppRoutes() {
+  const user = useSelector(selectLoggedInUser);
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -17,9 +20,12 @@ function AppRoutes() {
       <Route path="/workoutSession" element={<WorkoutSessionPage />} />
       <Route path="/workoutSessionForm" element={<WorkoutSessionForm />} />
       <Route path="/exerciseForm" element={<ExerciseForm />} />
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterForm />} />
-      
+      {!user && (
+        <>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+        </>
+      )}
     </Routes>
   );
 }

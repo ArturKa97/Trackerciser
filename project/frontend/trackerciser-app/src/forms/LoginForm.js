@@ -1,15 +1,18 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
-import {useDispatch} from "react-redux";
-import {userLoggedIn} from "../store/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { userLoggedIn } from "../store/slices/userSlice";
 import { loginAndAuthenticate } from "../api/UserApi";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     try {
       await LoginAndAuthenticateCall(values);
+      navigate("/");
     } catch (error) {
       console.log(error);
     } finally {
