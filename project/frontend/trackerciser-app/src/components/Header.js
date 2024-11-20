@@ -12,10 +12,12 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { deepPurple } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectLoggedInUser } from "../store/slices/userSlice";
+import { selectLoggedInUser, userLoggedOut } from "../store/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 function Header() {
   const user = useSelector(selectLoggedInUser);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ function Header() {
           >
             Workout Sessions
           </Button>
-          {!user && (
+          {!user ? (
             <>
               <Button variant="contained" onClick={() => navigate("/login")}>
                 Login
@@ -57,6 +59,10 @@ function Header() {
                 Register
               </Button>
             </>
+          ) : (
+            <Button variant="contained" onClick={() => dispatch(userLoggedOut())}>
+              Log Out
+            </Button>
           )}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
