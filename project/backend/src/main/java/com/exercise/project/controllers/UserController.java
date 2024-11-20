@@ -18,9 +18,14 @@ public class UserController {
     public void addNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }
+
     @GetMapping("/{id}")
-    public Optional<User> getUserById (@PathVariable (value = "id") Long id) {
+    public Optional<User> getUserById(@PathVariable(value = "id") Long id) {
         return userService.getUserById(id);
     }
 
+    @PostMapping("/{userId}/{roleId}")
+    public void addRoleToUser(@PathVariable(value = "userId") Long userId, @PathVariable(value = "roleId") Long roleId) {
+        userService.addRoleToUser(userId, roleId);
+    }
 }
