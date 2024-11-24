@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :id")
-    Optional<User> getExerciseById(@Param("id") Long id);
+    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.roles ur LEFT JOIN FETCH ur.role WHERE u.id = :id")
+    Optional<User> getUserById(@Param("id") Long id);
 
 }
