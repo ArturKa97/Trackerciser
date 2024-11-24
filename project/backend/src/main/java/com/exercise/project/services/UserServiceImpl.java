@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        return userRepository.getExerciseById(id).map(userDTOMapper::toDTO)
+        return userRepository.getUserById(id).map(userDTOMapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(id)));
     }
 
