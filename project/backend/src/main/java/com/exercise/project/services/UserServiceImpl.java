@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        return userRepository.findById(id).map(userDTOMapper::toDTO)
+        return userRepository.getExerciseById(id).map(userDTOMapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(id)));
     }
 
