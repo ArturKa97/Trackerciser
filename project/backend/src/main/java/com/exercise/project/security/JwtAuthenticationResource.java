@@ -1,6 +1,11 @@
 package com.exercise.project.security;
 
 import com.exercise.project.dtos.LoginRequest;
+import com.exercise.project.dtos.UserDTO;
+import com.exercise.project.entities.User;
+import com.exercise.project.mappers.UserDTOMapper;
+import com.exercise.project.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,12 +27,23 @@ public class JwtAuthenticationResource {
 
     private final AuthenticationManager authenticationManager;
     private final JwtEncoder jwtEncoder;
+    private final UserRepository userRepository;
+    private final UserDTOMapper userDTOMapper;
 
     @PostMapping("/authenticate")
-    public JwtResponse authenticate(@RequestBody LoginRequest loginRequest) {
-        return new JwtResponse(createToken(authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password())
-        )));
+    public AuthenticationResponse authenticate(@RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
+
+        String token = createToken(authentication);
+
+        User fetchedUser = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new EntityNotFoundException("User with username [%s] not found".formatted(authentication.getName())));
+
+        UserDTO userDTO = userDTOMapper.toDTO(fetchedUser);
+
+        return new AuthenticationResponse(token, userDTO);
     }
 
     private String createToken(Authentication authentication) {
