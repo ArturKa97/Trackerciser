@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 @Builder
-@Table(name = "user")
+@Table(name = "`user`")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
