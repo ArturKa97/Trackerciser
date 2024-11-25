@@ -9,6 +9,7 @@ import RegisterForm from "../forms/RegisterForm";
 import HomePage from "../components/HomePage";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../store/slices/userSlice";
+import WorkoutSessionLineChart from "../api/charts/WorkoutSessionLineChart";
 
 function AppRoutes() {
   const user = useSelector(selectLoggedInUser);
@@ -20,6 +21,7 @@ function AppRoutes() {
       <Route path="/workoutSession" element={<WorkoutSessionPage />} />
       <Route path="/workoutSessionForm" element={<WorkoutSessionForm />} />
       <Route path="/exerciseForm" element={<ExerciseForm />} />
+      <Route path="/chart" element={<WorkoutSessionLineChart />} />
       {!user && (
         <>
           <Route path="/login" element={<LoginForm />} />

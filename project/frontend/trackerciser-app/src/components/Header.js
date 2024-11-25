@@ -50,6 +50,12 @@ function Header() {
           >
             Workout Sessions
           </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/chart")}
+          >
+            Chart
+          </Button>
           {!user ? (
             <>
               <Button variant="contained" onClick={() => navigate("/login")}>
