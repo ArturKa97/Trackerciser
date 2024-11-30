@@ -2,6 +2,7 @@ package com.exercise.project.services;
 
 import com.exercise.project.dtos.WorkoutSessionDTO;
 
+import java.util.Date;
 import java.util.List;
 
 public interface WorkoutSessionService {
@@ -11,6 +12,8 @@ public interface WorkoutSessionService {
     WorkoutSessionDTO getWorkoutSessionById(Long id);
 
     List<WorkoutSessionDTO> getAllWorkoutSessions();
+
+    List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(Date parsedFromDate, Date parsedToDate);
 
     void deleteWorkoutSessionById(Long id);
 
