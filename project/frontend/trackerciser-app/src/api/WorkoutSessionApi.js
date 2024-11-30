@@ -8,6 +8,15 @@ export function retrieveWorkoutSessionById(id) {
   return HTTP.get(`/workout_session/${id}`);
 }
 
+export function retrieveAllWorkoutSessionsBetweenDates(fromDate, toDate) {
+  return HTTP.get("/workout_session/dates", {
+    params: {
+      fromDate: fromDate,
+      toDate: toDate,
+    },
+  });
+}
+
 export function addWorkoutSession(workoutSession) {
   return HTTP.post("/workout_session", workoutSession, {
     headers: {

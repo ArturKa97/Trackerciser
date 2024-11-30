@@ -1,10 +1,14 @@
 import * as React from "react";
-import { retrieveAllWorkoutSessions } from "../WorkoutSessionApi";
+import { retrieveAllWorkoutSessionsBetweenDates } from "../WorkoutSessionApi";
 import { useEffect, useState } from "react";
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Typography from "@mui/material/Typography";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import {
   LineChart,
@@ -19,15 +23,17 @@ import {
 function WorkoutSessionLineChart() {
   const [workoutSessionsData, setWorkoutSessionsData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("Reps");
-  useEffect(() => retrieveWorkoutSessionsCall(), []);
+  const [selectedExercise, setSelectedExercise] = useState("");
+  useEffect(() => retrieveWorkoutSessionsBetweenDatesCall(), []);
 
-  function retrieveWorkoutSessionsCall() {
-    retrieveAllWorkoutSessions()
+  const retrieveWorkoutSessionsBetweenDatesCall = (fromDate, toDate) => {
+    retrieveAllWorkoutSessionsBetweenDates(fromDate, toDate)
       .then((response) => {
         const formattedData = response.data.flatMap((workoutSession) => {
           return workoutSession.exercisesDTO.flatMap((exercise) =>
             exercise.exerciseSetsDTO.map((set) => ({
               date: new Date(workoutSession.date).toISOString().split("T")[0],
+              exercise: exercise.exerciseTypeDTO.name || "",
               set: set.sets || 0,
               reps: set.reps || 0,
               weight: set.weight || 0,
@@ -40,6 +46,7 @@ function WorkoutSessionLineChart() {
           if (!existingEntry) {
             acc.push({
               date: curr.date,
+              exercise: curr.exercise,
               [`set${curr.set}Reps`]: curr.reps,
               [`set${curr.set}Weight`]: curr.weight,
               [`set${curr.set}Rest`]: curr.rest,
@@ -51,14 +58,12 @@ function WorkoutSessionLineChart() {
           }
           return acc;
         }, []);
-
         setWorkoutSessionsData(transformedData);
       })
       .catch((error) => console.log(error))
       .finally(() => console.log("passed"));
-  }
-
-  const data = workoutSessionsData;
+  };
+  console.log(workoutSessionsData);
 
   const renderChart = () => {
     switch (selectedChart) {
@@ -67,7 +72,7 @@ function WorkoutSessionLineChart() {
           <LineChart
             width={1000}
             height={600}
-            data={data}
+            data={workoutSessionsData}
             margin={{
               top: 5,
               right: 30,
@@ -109,7 +114,7 @@ function WorkoutSessionLineChart() {
           <LineChart
             width={1000}
             height={600}
-            data={data}
+            data={workoutSessionsData}
             margin={{
               top: 5,
               right: 30,
@@ -151,7 +156,7 @@ function WorkoutSessionLineChart() {
           <LineChart
             width={1000}
             height={600}
-            data={data}
+            data={workoutSessionsData}
             margin={{
               top: 5,
               right: 30,
@@ -193,8 +198,22 @@ function WorkoutSessionLineChart() {
     }
   };
 
-  const onSubmit = (values) => {
-    console.log(values);
+  const onSubmit = async (values) => {
+    try {
+      await retrieveWorkoutSessionsBetweenDatesCall(
+        values.fromDate,
+        values.toDate
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("WS between dates finally block");
+    }
+  };
+
+  const handleChange = (event) => {
+    setSelectedExercise(event.target.value);
+    console.log(event.target.value);
   };
 
   return (
@@ -215,8 +234,8 @@ function WorkoutSessionLineChart() {
       </Typography>
       <Formik
         initialValues={{
-          dateFrom: "2024-08-01",
-          dateTo: "2024-09-30",
+          fromDate: "2024-08-08",
+          toDate: "2024-09-22",
         }}
         onSubmit={onSubmit}
       >
@@ -225,16 +244,35 @@ function WorkoutSessionLineChart() {
             <Field
               label="Date"
               placeholder="From"
-              name="dateFrom"
+              name="fromDate"
               type="date"
             />
-            <Field label="Date" placeholder="To" name="dateTo" type="date" />
+            <Field label="Date" placeholder="To" name="toDate" type="date" />
             <Button variant="outlined" type="submit" disabled={isSubmitting}>
               Submit
             </Button>
           </Form>
         )}
       </Formik>
+      <FormControl fullWidth>
+        <InputLabel id="exercise-label">Exercise</InputLabel>
+        <Select
+          value={selectedExercise}
+          labelId="exercise-label"
+          id="exercise-select"
+          label="Exercise"
+          onChange={handleChange}
+        >
+          {workoutSessionsData
+            .map((session) => session.exercise)
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .map((exercise, index) => (
+              <MenuItem key={index} value={exercise}>
+                {exercise}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
       <ButtonGroup variant="contained" aria-label="Chart selector">
         <Button
           onClick={() => setSelectedChart("Reps")}
@@ -272,7 +310,7 @@ function WorkoutSessionLineChart() {
           padding: 3,
         }}
       >
-        {renderChart()}
+        {workoutSessionsData && renderChart()}
       </Box>
     </Box>
   );
