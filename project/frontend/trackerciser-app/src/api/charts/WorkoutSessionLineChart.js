@@ -1,6 +1,7 @@
 import * as React from "react";
 import { retrieveAllWorkoutSessions } from "../WorkoutSessionApi";
 import { useEffect, useState } from "react";
+import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Typography from "@mui/material/Typography";
@@ -192,6 +193,10 @@ function WorkoutSessionLineChart() {
     }
   };
 
+  const onSubmit = (values) => {
+    console.log(values);
+  };
+
   return (
     <Box
       sx={{
@@ -208,6 +213,28 @@ function WorkoutSessionLineChart() {
       <Typography variant="h4" component="h1" sx={{ textAlign: "center" }}>
         Workout Progress Charts
       </Typography>
+      <Formik
+        initialValues={{
+          dateFrom: "2024-08-01",
+          dateTo: "2024-09-30",
+        }}
+        onSubmit={onSubmit}
+      >
+        {({ isSubmitting, errors, touched }) => (
+          <Form>
+            <Field
+              label="Date"
+              placeholder="From"
+              name="dateFrom"
+              type="date"
+            />
+            <Field label="Date" placeholder="To" name="dateTo" type="date" />
+            <Button variant="outlined" type="submit" disabled={isSubmitting}>
+              Submit
+            </Button>
+          </Form>
+        )}
+      </Formik>
       <ButtonGroup variant="contained" aria-label="Chart selector">
         <Button
           onClick={() => setSelectedChart("Reps")}
