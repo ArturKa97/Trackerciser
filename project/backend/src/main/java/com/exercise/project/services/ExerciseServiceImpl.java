@@ -4,11 +4,11 @@ import com.exercise.project.dtos.ExerciseDTO;
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseType;
 import com.exercise.project.entities.WorkoutSession;
+import com.exercise.project.exceptions.EntityNotFoundException;
 import com.exercise.project.mappers.ExerciseDTOMapper;
 import com.exercise.project.repositories.ExerciseRepository;
 import com.exercise.project.repositories.ExerciseTypeRepository;
 import com.exercise.project.repositories.WorkoutSessionRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
