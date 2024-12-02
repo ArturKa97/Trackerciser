@@ -1,6 +1,7 @@
 package com.exercise.project.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,14 +13,18 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<CustomException> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest webRequest) {
-        CustomException customException = CustomException.builder()
-                .statusCode(HttpStatus.NOT_FOUND.value())
+    public ResponseEntity<ProblemDetail> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest webRequest) {
+        CustomErrorResponse customErrorResponse = CustomErrorResponse.builder()
+                .type("https://docs.oracle.com/javaee/6/api/javax/persistence/EntityNotFoundException.html")
+                .title("Entity was not found")
+                .statusCode(HttpStatus.NOT_FOUND)
                 .message(ex.getMessage())
                 .timeStamp(new Date())
                 .build();
 
-        return new ResponseEntity<CustomException>(customException, HttpStatus.NOT_FOUND);
+        ProblemDetail problemDetail = customErrorResponse.getBody();
+
+        return new ResponseEntity<ProblemDetail>(problemDetail, HttpStatus.NOT_FOUND);
 
     }
 
