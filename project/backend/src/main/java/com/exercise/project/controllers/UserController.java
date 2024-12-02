@@ -3,6 +3,7 @@ package com.exercise.project.controllers;
 import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
 import com.exercise.project.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public void addNewUser(@RequestBody User user) {
+    public void addNewUser(@Valid @RequestBody User user) {
         userService.addNewUser(user);
     }
 
