@@ -2,6 +2,7 @@ package com.exercise.project.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -20,6 +21,7 @@ public class ExerciseSet {
     private Long id;
 
     @Column(name = "sets")
+    @NotNull(message = "Cannot be null")
     private Long sets;
 
     @Column(name = "reps")
