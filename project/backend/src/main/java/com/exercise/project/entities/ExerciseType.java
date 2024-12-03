@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.HashSet;
@@ -25,6 +28,9 @@ public class ExerciseType {
     private Long id;
 
     @Column(name = "name")
+    @NotNull(message = "Exercise type name value cannot be null")
+    @NotBlank(message = "Exercise type name value cannot be empty")
+    @Size(min = 1, max = 50, message = "Exercise type name value must be between {min} and {max} characters long")
     private String name;
 
     @JsonIgnore
