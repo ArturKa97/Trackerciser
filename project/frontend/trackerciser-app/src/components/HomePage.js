@@ -1,6 +1,8 @@
+import { Typography } from "@mui/material";
+
 function HomePage() {
     return ( 
-        <h3>Home page</h3> 
+        <Typography variant="h2">Home page</Typography>
 
     );
 }
