@@ -22,57 +22,58 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="static">
+    <AppBar>
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <FitnessCenterIcon
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
+        <Toolbar>
+          <FitnessCenterIcon sx={{ mr: 2 }} />
+          <Typography variant="h6" noWrap sx={{ mr: 2 }}>
             TRACKERCISER
           </Typography>
           <Button
             variant="contained"
             onClick={() => navigate("/workoutSessions")}
+            sx={{ m: 1 }}
           >
             Workout Sessions
           </Button>
-          <Button variant="contained" onClick={() => navigate("/chart")}>
+          <Button
+            variant="contained"
+            onClick={() => navigate("/chart")}
+            sx={{ m: 1 }}
+          >
             Charts
           </Button>
-          {!user ? (
-            <>
-              <Button variant="contained" onClick={() => navigate("/login")}>
-                Login
+          <Box sx={{ display: "flex", justifyContent: "flex-end", ml: "auto" }}>
+            {!user ? (
+              <>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/login")}
+                  sx={{ m: 1 }}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/register")}
+                  sx={{ m: 1 }}
+                >
+                  Register
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  dispatch(userLoggedOut());
+                  navigate("/");
+                }}
+                sx={{ m: 1 }}
+              >
+                Log Out
               </Button>
-              <Button variant="contained" onClick={() => navigate("/register")}>
-                Register
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() => {
-                dispatch(userLoggedOut());
-                navigate("/");
-              }}
-            >
-              Log Out
-            </Button>
-          )}
+            )}
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
