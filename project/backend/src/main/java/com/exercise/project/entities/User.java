@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,9 +33,15 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username")
+    @NotNull(message = "Username value cannot be null")
+    @NotBlank(message = "Username value cannot be empty")
+    @Size(min = 1, max = 20, message = "Username value must be between {min} and {max} characters long")
+    //Might add a regex expression
     private String username;
 
     @Column(name = "password")
+    @NotNull(message = "Password value cannot be null")
+    @NotBlank(message = "Password value cannot be empty")
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
             message = "Password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character."
