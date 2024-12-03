@@ -3,6 +3,10 @@ package com.exercise.project.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,11 +30,16 @@ public class WorkoutSession {
     private Long id;
 
     @Column(name = "workoutSessionName")
+    @NotNull(message = "Workout session name value cannot be null")
+    @NotBlank(message = "Workout session name value cannot be empty")
+    @Size(min = 1, max = 50, message = "Workout session name value must be between {min} and {max} characters long")
     private String workoutSessionName;
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     @Temporal(TemporalType.DATE)
+    @NotNull(message = "Date value cannot be null")
+    @PastOrPresent(message = "Date value can only be in the past or the present time")
     private Date date;
 
     @OneToMany(mappedBy = "workoutSession",
