@@ -27,9 +27,12 @@ function App() {
           <Box
             component="main"
             sx={{
+              width: 0.7,
               flexGrow: 1,
               overflowY: "auto",
+              justifyContent: "center",
               padding: 2,
+              margin: "0 auto",
             }}
           >
             <AppRoutes />

@@ -4,6 +4,7 @@ const AppTheme = createTheme({
   palette: {
     primary: {
       main: "#212121",
+      light: "#424242",
       contrastText: "#fff",
     },
     secondary: {
@@ -58,7 +59,14 @@ const AppTheme = createTheme({
         },
       },
     },
+    MuiPapper: {
+      styleOverrides: {
+        backgroundColor: "primary"
+
+        },
+      },
+    },
   },
-});
+);
 
 export default AppTheme;
