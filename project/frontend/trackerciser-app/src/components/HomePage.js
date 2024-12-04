@@ -1,10 +1,11 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 function HomePage() {
-    return ( 
-        <Typography variant="h2">Home page</Typography>
-
-    );
+  return (
+    <Box>
+      <Typography variant="h2">Home page</Typography>
+    </Box>
+  );
 }
 
 export default HomePage;
