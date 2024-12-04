@@ -8,7 +8,8 @@ function Footer() {
         backgroundColor: "primary.main",
         color: "primary.contrastText",
         textAlign: "center",
-        py: 2,
+        py: 1.5,
+        height: "8vh"
       }}
     >
       <Typography variant="h7">
