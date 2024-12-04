@@ -4,9 +4,11 @@ const AppTheme = createTheme({
   palette: {
     primary: {
       main: "#212121",
+      contrastText: "#fff",
     },
     secondary: {
       main: "#801313",
+      contrastText: "#fff",
     },
   },
   typography: {
@@ -30,7 +32,9 @@ const AppTheme = createTheme({
       styleOverrides: {
         root: {
           height: "8vh",
-          maxWidth: "xl"
+          maxWidth: "xl",
+          justifyContent: "center",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
         },
       },
     },
@@ -39,7 +43,18 @@ const AppTheme = createTheme({
         root: {
           display: "flex",
           justifyContent: "flex-start",
-          mr: "auto"
+          mr: "auto",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        text: {
+          color: "#fff",
+          fontWeight: 550,
+          "&:hover": {
+            backgroundColor: "#424242",
+          },
         },
       },
     },

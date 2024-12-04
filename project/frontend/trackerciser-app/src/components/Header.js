@@ -22,7 +22,7 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <AppBar>
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar>
           <FitnessCenterIcon sx={{ mr: 2 }} />
@@ -30,14 +30,14 @@ function Header() {
             TRACKERCISER
           </Typography>
           <Button
-            variant="contained"
+            variant="text"
             onClick={() => navigate("/workoutSessions")}
             sx={{ m: 1 }}
           >
             Workout Sessions
           </Button>
           <Button
-            variant="contained"
+            variant="text"
             onClick={() => navigate("/chart")}
             sx={{ m: 1 }}
           >
@@ -47,14 +47,14 @@ function Header() {
             {!user ? (
               <>
                 <Button
-                  variant="contained"
+                  variant="text"
                   onClick={() => navigate("/login")}
                   sx={{ m: 1 }}
                 >
                   Login
                 </Button>
                 <Button
-                  variant="contained"
+                  variant="text"
                   onClick={() => navigate("/register")}
                   sx={{ m: 1 }}
                 >
@@ -63,7 +63,7 @@ function Header() {
               </>
             ) : (
               <Button
-                variant="contained"
+                variant="text"
                 onClick={() => {
                   dispatch(userLoggedOut());
                   navigate("/");
@@ -74,13 +74,13 @@ function Header() {
               </Button>
             )}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
                 <Avatar sx={{ bgcolor: deepPurple[500] }}>PH</Avatar>
               </IconButton>
             </Tooltip>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>
