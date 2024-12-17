@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         User savedUser = userRepository.save(newUser);
 
-        roleService.addRoleToUser(savedUser.getId(), 2L); // id: 1 = ADMIN, id: 2 = USER, adding a USER role on a newly added user;
+        roleService.addRoleToUser(savedUser.getId(), 2L); //id: 2 = USER, adding a USER role on a newly added user;
     }
 
     @Override
