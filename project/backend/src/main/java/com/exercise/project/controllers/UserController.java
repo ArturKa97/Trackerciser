@@ -2,6 +2,8 @@ package com.exercise.project.controllers;
 
 import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
+import com.exercise.project.services.RoleService;
+import com.exercise.project.services.RoleServiceImpl;
 import com.exercise.project.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @PostMapping
     public void addNewUser(@Valid @RequestBody User user) {
@@ -26,6 +29,6 @@ public class UserController {
 
     @PostMapping("/{userId}/{roleId}")
     public void addRoleToUser(@PathVariable(value = "userId") Long userId, @PathVariable(value = "roleId") Long roleId) {
-        userService.addRoleToUser(userId, roleId);
+        roleService.addRoleToUser(userId, roleId);
     }
 }
