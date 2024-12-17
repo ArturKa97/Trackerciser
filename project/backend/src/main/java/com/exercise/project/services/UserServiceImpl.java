@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper userDTOMapper;
-    private final RoleServiceImpl roleService;
+    private final RoleService roleService;
 
     public void addNewUser(User userToRegister) {
         User newUser = User.builder()

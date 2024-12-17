@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +27,7 @@ class ExerciseSetRepositoryTest {
         ExerciseSet exerciseSet = ExerciseSet.builder()
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L).
                 build();
         //When

@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,14 +42,14 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
         ExerciseSet exerciseSet = ExerciseSet.builder()
                 .id(1L)
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
 
@@ -77,7 +78,7 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
         when(exerciseRepository.getExerciseById(exerciseId)).
@@ -97,7 +98,7 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
 
@@ -105,7 +106,7 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(2L)
                 .reps(20L)
-                .weight(200F)
+                .weight(BigDecimal.valueOf(200F))
                 .rest(100L)
                 .build();
 
@@ -113,7 +114,7 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(2L)
                 .reps(20L)
-                .weight(200F)
+                .weight(BigDecimal.valueOf(200F))
                 .rest(100L)
                 .build();
 
@@ -141,7 +142,7 @@ class ExerciseSetServiceImplTest {
                 .id(1L)
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
         when(exerciseSetRepository.getExerciseSetById(exerciseSetId)).
