@@ -7,7 +7,5 @@ public interface UserService {
 
     void addNewUser(User user);
 
-    void addRoleToUser(Long userId, Long roleId);
-
     UserDTO getUserById(Long id);
 }
