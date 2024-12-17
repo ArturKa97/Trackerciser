@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.math.BigDecimal;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -41,7 +43,7 @@ class ExerciseSetControllerTest {
         ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
                 .sets(1L)
                 .reps(10L)
-                .weight(100F)
+                .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
                 .build();
 
@@ -77,7 +79,7 @@ class ExerciseSetControllerTest {
         ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
                 .sets(1L)
                 .reps(1L)
-                .weight(10.0F)
+                .weight(BigDecimal.valueOf(10.0F))
                 .rest(90L)
                 .build();
 
