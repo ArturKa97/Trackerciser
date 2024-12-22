@@ -4,7 +4,6 @@ import com.exercise.project.dtos.ExerciseDTO;
 import com.exercise.project.entities.Exercise;
 import com.exercise.project.entities.ExerciseType;
 import com.exercise.project.entities.WorkoutSession;
-
 import com.exercise.project.mappers.ExerciseDTOMapper;
 import com.exercise.project.repositories.ExerciseRepository;
 import com.exercise.project.repositories.ExerciseTypeRepository;
@@ -63,5 +62,17 @@ public class ExerciseServiceImpl implements ExerciseService {
         workoutSession.addExercise(exercise);
         Exercise savedExerciseEntity = exerciseRepository.save(exercise);
         return exerciseDTOMapper.toDTO(savedExerciseEntity);
+    }
+    @Override
+    public void removeExerciseFromWorkoutSession(Long workoutSessionId, Long exerciseId) {
+
+        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
+
+        Exercise exercise = exerciseRepository.getExerciseById(exerciseId)
+                .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseId)));
+
+        workoutSession.removeExercise(exercise);
+        workoutSessionRepository.save(workoutSession);
     }
 }

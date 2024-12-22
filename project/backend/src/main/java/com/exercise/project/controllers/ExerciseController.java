@@ -41,4 +41,9 @@ public class ExerciseController {
         return exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
     }
 
+    @DeleteMapping("/{workoutSessionId}/{exerciseId}")
+    public void removeExerciseFromWorkoutSession(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseId") Long exerciseId) {
+        exerciseService.removeExerciseFromWorkoutSession(workoutSessionId, exerciseId);
+    }
+
 }
