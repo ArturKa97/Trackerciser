@@ -10,9 +10,13 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import ExerciseSetForm from "../forms/ExerciseSetForm";
 import { removeExerciseSetById } from "../api/ExerciseSetApi";
+import { removeExerciseFromWorkoutSession } from "../api/ExerciseApi";
+import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton";
 
 function ExerciseTable({
   workoutSessionExercises,
+  workoutSessionId,
   onExerciseUpdated,
   closeAddExerciseForm,
 }) {
@@ -48,6 +52,13 @@ function ExerciseTable({
       .finally(() => console.log("cleanup"));
   }
 
+  function removeExerciseFromWorkoutSessionCall(workoutSessionId, exerciseId) {
+    removeExerciseFromWorkoutSession(workoutSessionId, exerciseId)
+      .then(() => onExerciseUpdated())
+      .catch((error) => console.log(error))
+      .finally(() => console.log("exercise removal block end"));
+  }
+
   return (
     exercises && (
       <TableContainer
@@ -57,7 +68,8 @@ function ExerciseTable({
         <Table sx={{ minWidth: 650 }} aria-label="exercise table">
           <TableHead>
             <TableRow sx={{ minHeight: "48px" }}>
-              <TableCell>ID</TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center">ID</TableCell>
               <TableCell align="center">Exercise name</TableCell>
               <TableCell align="center">Sets</TableCell>
               <TableCell align="center">Reps</TableCell>
@@ -72,6 +84,11 @@ function ExerciseTable({
               return (
                 <React.Fragment key={exercise.id}>
                   <TableRow sx={{ minHeight: "48px" }}>
+                    <TableCell align="center">
+                      <IconButton aria-label="delete" onClick={() => removeExerciseFromWorkoutSessionCall(workoutSessionId, exercise.id)}>
+                        <ClearIcon />
+                      </IconButton>
+                    </TableCell>
                     <TableCell component="th" scope="row">
                       {exercise.id}
                     </TableCell>
@@ -151,6 +168,7 @@ function ExerciseTable({
                           <>
                             <TableCell component="th" scope="row" />
                             <TableCell align="center" />
+                            <TableCell align="center" />
                             <TableCell align="center">{set.sets}</TableCell>
                             <TableCell align="center">{set.reps}</TableCell>
                             <TableCell align="center">{set.weight}</TableCell>
@@ -162,7 +180,7 @@ function ExerciseTable({
                                 }
                                 variant="outlined"
                               >
-                                Edit S
+                                Edit
                               </Button>
                               <Button
                                 variant="outlined"
@@ -200,7 +218,7 @@ function ExerciseTable({
                             color="primary"
                             disabled={!!editingExerciseId}
                           >
-                            Add
+                            Add Set
                           </Button>
                         </TableCell>
                       </TableRow>

@@ -56,6 +56,7 @@ function WorkoutSessionPage() {
       <Divider />
       <ExerciseTable
         workoutSessionExercises={workoutSession.exercisesDTO}
+        workoutSessionId={workoutSession.id}
         onExerciseUpdated={handleExerciseUpdated}
         closeAddExerciseForm={handleAddExerciseClick}
       />
@@ -67,7 +68,10 @@ function WorkoutSessionPage() {
           />
         </Box>
       )}
-      <Button onClick={handleAddExerciseClick}>
+      <Button
+        onClick={handleAddExerciseClick}
+        sx={{ backgroundColor: "#212121" }}
+      >
         {showExerciseForm ? "Cancel" : "Add Exercise"}
       </Button>
     </Card>
