@@ -10,6 +10,7 @@ public record ExerciseSetDTO(
         Long sets,
         Long reps,
         BigDecimal weight,
-        Long rest) {
+        Long rest,
+        Long duration) {
 
 }
