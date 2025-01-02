@@ -45,6 +45,7 @@ class ExerciseSetControllerTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
 
         when(exerciseSetService.addExerciseSetToExercise(exerciseSetDTO, exerciseId)).thenReturn(exerciseSetDTO);
@@ -81,6 +82,7 @@ class ExerciseSetControllerTest {
                 .reps(1L)
                 .weight(BigDecimal.valueOf(10.0F))
                 .rest(90L)
+                .duration(30L)
                 .build();
 
         when(exerciseSetService.updateExerciseSetById(updatedExerciseSetDTO, exerciseSetId)).thenReturn(updatedExerciseSetDTO);

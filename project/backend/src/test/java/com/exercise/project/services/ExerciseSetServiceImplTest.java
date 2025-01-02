@@ -44,6 +44,7 @@ class ExerciseSetServiceImplTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
         ExerciseSet exerciseSet = ExerciseSet.builder()
                 .id(1L)
@@ -51,6 +52,7 @@ class ExerciseSetServiceImplTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
 
         when(exerciseRepository.getExerciseById(exercise.getId())).
@@ -80,6 +82,7 @@ class ExerciseSetServiceImplTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
         when(exerciseRepository.getExerciseById(exerciseId)).
                 thenReturn(Optional.empty());
@@ -100,6 +103,7 @@ class ExerciseSetServiceImplTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
 
         ExerciseSet updatedExerciseSet = ExerciseSet.builder()
@@ -108,6 +112,7 @@ class ExerciseSetServiceImplTest {
                 .reps(20L)
                 .weight(BigDecimal.valueOf(200F))
                 .rest(100L)
+                .duration(40L)
                 .build();
 
         ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
@@ -116,6 +121,7 @@ class ExerciseSetServiceImplTest {
                 .reps(20L)
                 .weight(BigDecimal.valueOf(200F))
                 .rest(100L)
+                .duration(40L)
                 .build();
 
         when(exerciseSetRepository.getExerciseSetById(existingExerciseSet.getId())).thenReturn(Optional.of(existingExerciseSet));
@@ -144,6 +150,7 @@ class ExerciseSetServiceImplTest {
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
                 .rest(90L)
+                .duration(30L)
                 .build();
         when(exerciseSetRepository.getExerciseSetById(exerciseSetId)).
                 thenReturn(Optional.empty());

@@ -28,8 +28,9 @@ class ExerciseSetRepositoryTest {
                 .sets(1L)
                 .reps(10L)
                 .weight(BigDecimal.valueOf(100F))
-                .rest(90L).
-                build();
+                .rest(90L)
+                .duration(30L)
+                .build();
         //When
         ExerciseSet savedExerciseSet = exerciseSetRepository.save(exerciseSet);
         ExerciseSet fetchedExerciseSet = exerciseSetRepository.getExerciseSetById(savedExerciseSet.getId()).get();
