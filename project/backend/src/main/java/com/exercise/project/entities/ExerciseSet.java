@@ -53,6 +53,13 @@ public class ExerciseSet {
     @PositiveOrZero(message = "Rest should be a positive number or 0")
     private Long rest;
 
+    @Column(name = "duration")
+    @NotNull(message = "Duration value cannot be null")
+    @Min(value = 0, message = "Duration must be a positive number or {value} for default value")
+    @Max(value = 14400, message = "Duration cannot exceed {value} seconds")
+    @PositiveOrZero(message = "Duration should be a positive number or 0")
+    private Long duration;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Exercise exercise;
