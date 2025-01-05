@@ -57,7 +57,7 @@ WorkoutSessionRepositoryTest {
                 .date(LocalDate.now())
                 .build();
         WorkoutSession workoutSession2 = WorkoutSession.builder()
-                .workoutSessionName("Leg day")
+                .workoutSessionName("Arm day")
                 .date(LocalDate.now())
                 .build();
         //When
@@ -74,6 +74,46 @@ WorkoutSessionRepositoryTest {
     public void WorkoutSessionRepository_GetAllWorkoutSessions_ShouldReturnEmptyList() {
         //When
         List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getAllWorkoutSessions();
+        //Then
+        assertThat(fetchedWorkoutSessions).isNotNull()
+                .isEmpty();
+    }
+
+    @Test
+    public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnWorkoutSessionsInBetweenProvidedDates() {
+        //Given
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 10, 1);
+
+        WorkoutSession workoutSession1 = WorkoutSession.builder()
+                .workoutSessionName("Leg day")
+                .date(LocalDate.of(2024, 2, 2))
+                .build();
+        WorkoutSession workoutSession2 = WorkoutSession.builder()
+                .workoutSessionName("Arm day")
+                .date(LocalDate.of(2024, 8, 8))
+                .build();
+        WorkoutSession notIncludedWorkoutSession = WorkoutSession.builder()
+                .workoutSessionName("Chest day")
+                .date(LocalDate.of(2024, 12, 12))
+                .build();
+        //When
+        workoutSessionRepository.save(workoutSession1);
+        workoutSessionRepository.save(workoutSession2);
+        workoutSessionRepository.save(notIncludedWorkoutSession);
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate);
+        //Then
+        assertThat(fetchedWorkoutSessions).isNotNull()
+                .hasSize(2)
+                .containsExactlyInAnyOrder(workoutSession1, workoutSession2);
+    }
+    @Test
+    public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnEmptyListIfNoWorkoutSessionsWithProvidedDatesArePresent() {
+        //Given
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 10, 1);
+        //When
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate);
         //Then
         assertThat(fetchedWorkoutSessions).isNotNull()
                 .isEmpty();
