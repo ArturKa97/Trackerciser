@@ -12,7 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -130,8 +133,8 @@ class WorkoutSessionServiceImplTest {
         //When
         List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions();
         //Then
-        assertThat(result)
-                .isNotNull()
+        assertThat(result).isNotNull()
+                .isNotEmpty()
                 .isEqualTo(workoutSessionsDTOs);
         verify(workoutSessionRepository).getAllWorkoutSessions();
         verify(workoutSessionDTOMapper).toDTO(workoutSession1);
@@ -179,8 +182,7 @@ class WorkoutSessionServiceImplTest {
         //When
         WorkoutSessionDTO result = workoutSessionServiceImpl.updateWorkoutSessionById(workoutSession.getId(), updatedWorkoutSessionDTO);
         //Then
-        assertThat(result)
-                .isNotNull()
+        assertThat(result).isNotNull()
                 .isEqualTo(updatedWorkoutSessionDTO);
         verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
         verify(workoutSessionRepository).save(updatedWorkoutSession);
@@ -203,4 +205,60 @@ class WorkoutSessionServiceImplTest {
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
     }
 
+    @Test
+    public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAWorkoutSessionDTOList() {
+        //Given
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 10, 1);
+
+        WorkoutSession workoutSession1 = WorkoutSession.builder()
+                .id(1L)
+                .workoutSessionName("Leg day")
+                .date(LocalDate.of(2024, 2, 2))
+                .build();
+        WorkoutSession workoutSession2 = WorkoutSession.builder()
+                .id(2L)
+                .workoutSessionName("Arm day")
+                .date(LocalDate.of(2024, 8, 8))
+                .build();
+        List<WorkoutSession> workoutSessions = Arrays.asList(workoutSession1, workoutSession2);
+
+        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
+                .id(1L)
+                .workoutSessionName("Leg day")
+                .date(LocalDate.of(2024, 2, 2))
+                .build();
+        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
+                .id(1L)
+                .workoutSessionName("Arm day")
+                .date(LocalDate.of(2024, 8, 8))
+                .build();
+        List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
+
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessions);
+        when(workoutSessionDTOMapper.toDTO(workoutSession1)).thenReturn(workoutSessionDTO1);
+        when(workoutSessionDTOMapper.toDTO(workoutSession2)).thenReturn(workoutSessionDTO2);
+        //When
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(fromDate, toDate);
+        //Then
+        assertThat(result).isNotNull()
+                .isNotEmpty()
+                .isEqualTo(workoutSessionDTOS);
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(fromDate, toDate);
+        verify(workoutSessionDTOMapper).toDTO(workoutSession1);
+        verify(workoutSessionDTOMapper).toDTO(workoutSession2);
+    }
+    @Test
+    public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAnEmptyList() {
+        //Given
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 10, 1);
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(Collections.emptyList());
+        //When
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(fromDate, toDate);
+        //Then
+        assertThat(result).isNotNull()
+                .isEmpty();
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(fromDate, toDate);
+    }
 }
