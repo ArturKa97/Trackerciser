@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -131,7 +132,7 @@ class ExerciseServiceImplTest {
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .exercisesSet(new HashSet<>())
                 .build();
 
@@ -184,7 +185,7 @@ class ExerciseServiceImplTest {
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .exercisesSet(new HashSet<>())
                 .build();
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
