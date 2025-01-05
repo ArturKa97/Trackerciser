@@ -5,9 +5,7 @@ import com.exercise.project.services.WorkoutSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,11 +31,9 @@ public class WorkoutSessionController {
     }
 
     @GetMapping("/dates")
-    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(@RequestParam String fromDate, @RequestParam String toDate) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date parsedFromDate = dateFormat.parse(fromDate);
-        Date parsedToDate = dateFormat.parse(toDate);
+    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(@RequestParam String fromDate, @RequestParam String toDate) {
+        LocalDate parsedFromDate = LocalDate.parse(fromDate);
+        LocalDate parsedToDate = LocalDate.parse(toDate);
         return workoutSessionService.getAllWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate);
     }
 
