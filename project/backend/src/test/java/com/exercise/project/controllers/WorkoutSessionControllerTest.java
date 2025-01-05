@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,7 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         when(workoutSessionService.addWorkoutSession(workoutSessionDTO)).thenReturn(workoutSessionDTO);
@@ -67,7 +68,7 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         when(workoutSessionService.getWorkoutSessionById(workoutSessionId)).thenReturn(workoutSessionDTO);
@@ -89,13 +90,13 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
                 .id(2L)
                 .workoutSessionName("Arm day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         List<WorkoutSessionDTO> workoutSessionDTOList = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
@@ -132,7 +133,7 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         when(workoutSessionService.updateWorkoutSessionById(workoutSessionId, updatedWorkoutSessionDTO)).thenReturn(updatedWorkoutSessionDTO);

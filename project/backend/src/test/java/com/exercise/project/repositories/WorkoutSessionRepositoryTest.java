@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @TestPropertySource(properties = "spring.sql.init.mode=never")
-class WorkoutSessionRepositoryTest {
+class
+WorkoutSessionRepositoryTest {
 
     @Autowired
     private WorkoutSessionRepository workoutSessionRepository;
@@ -27,7 +28,7 @@ class WorkoutSessionRepositoryTest {
         //Given
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         //When
         WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
@@ -53,11 +54,11 @@ class WorkoutSessionRepositoryTest {
         //Given
         WorkoutSession workoutSession1 = WorkoutSession.builder()
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         WorkoutSession workoutSession2 = WorkoutSession.builder()
                 .workoutSessionName("Leg day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         //When
         workoutSessionRepository.save(workoutSession1);

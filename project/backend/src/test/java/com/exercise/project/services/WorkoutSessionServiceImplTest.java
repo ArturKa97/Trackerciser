@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,12 +38,12 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         when(workoutSessionDTOMapper.toEntity(workoutSessionDTO)).thenReturn(workoutSession);
         when(workoutSessionRepository.save(workoutSession)).thenReturn(workoutSession);
@@ -64,12 +65,12 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
         when(workoutSessionDTOMapper.toDTO(workoutSession)).thenReturn(workoutSessionDTO);
@@ -102,24 +103,24 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession workoutSession1 = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         WorkoutSession workoutSession2 = WorkoutSession.builder()
                 .id(2L)
                 .workoutSessionName("Chest Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         List<WorkoutSession> workoutSessions = Arrays.asList(workoutSession1, workoutSession2);
 
         WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
                 .id(2L)
                 .workoutSessionName("Chest Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         List<WorkoutSessionDTO> workoutSessionsDTOs = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
@@ -157,19 +158,19 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession workoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Leg Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         WorkoutSession updatedWorkoutSession = WorkoutSession.builder()
                 .id(1L)
                 .workoutSessionName("Chest Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Chest Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
 
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
@@ -193,7 +194,7 @@ class WorkoutSessionServiceImplTest {
         WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
                 .id(1L)
                 .workoutSessionName("Chest Day")
-                .date(new Date())
+                .date(LocalDate.now())
                 .build();
         // When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
