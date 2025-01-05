@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, 
     List<WorkoutSession> getAllWorkoutSessions();
 
     @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets  WHERE ws.date BETWEEN:fromDate AND:toDate")
-    List<WorkoutSession> getWorkoutSessionsBetweenDates(@Param("fromDate") Date fromDate,
-                                                        @Param("toDate") Date toDate);
+    List<WorkoutSession> getWorkoutSessionsBetweenDates(@Param("fromDate") LocalDate fromDate,
+                                                        @Param("toDate") LocalDate toDate);
 
 }

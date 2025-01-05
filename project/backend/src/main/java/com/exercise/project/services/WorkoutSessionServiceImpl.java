@@ -8,7 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +41,7 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
                 .collect(Collectors.toList());
     }
     @Override
-    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(Date parsedFromDate, Date parsedToDate) {
+    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate) {
         return workoutSessionRepository.getWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate)
                 .stream()
                 .map(workoutSessionDTOMapper::toDTO)
