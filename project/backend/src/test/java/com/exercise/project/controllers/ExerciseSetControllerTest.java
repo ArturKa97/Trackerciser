@@ -96,5 +96,4 @@ class ExerciseSetControllerTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(updatedExerciseSetDTO)));
         verify(exerciseSetService).updateExerciseSetById(updatedExerciseSetDTO, exerciseSetId);
     }
-
 }
