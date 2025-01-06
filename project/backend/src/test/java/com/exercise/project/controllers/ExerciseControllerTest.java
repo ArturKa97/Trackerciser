@@ -65,8 +65,7 @@ class ExerciseControllerTest {
         when(exerciseService.getExerciseById(exerciseId)).thenReturn(exerciseDTO);
         //When
         ResultActions response = mockMvc.perform(get("/exercise/{id}", exerciseId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(exerciseDTO)));
+                .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
@@ -89,8 +88,7 @@ class ExerciseControllerTest {
         when(exerciseService.getAllExercises()).thenReturn(exerciseDTOList);
         //When
         ResultActions response = mockMvc.perform(get("/exercise")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(exerciseDTOList)));
+                .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
@@ -124,8 +122,7 @@ class ExerciseControllerTest {
         when(exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId)).thenReturn(exerciseDTO);
         //When
         ResultActions response = mockMvc.perform(post("/exercise/{workoutSessionId}/{exerciseTypeId}", workoutSessionId, exerciseTypeId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(exerciseDTO)));
+                .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
