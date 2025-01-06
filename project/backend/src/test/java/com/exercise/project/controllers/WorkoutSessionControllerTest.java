@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
@@ -74,8 +73,7 @@ class WorkoutSessionControllerTest {
         when(workoutSessionService.getWorkoutSessionById(workoutSessionId)).thenReturn(workoutSessionDTO);
         //When
         ResultActions response = mockMvc.perform(get("/workout_session/{id}", workoutSessionId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(workoutSessionDTO)));
+                .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
@@ -104,14 +102,47 @@ class WorkoutSessionControllerTest {
         when(workoutSessionService.getAllWorkoutSessions()).thenReturn(workoutSessionDTOList);
         //When
         ResultActions response = mockMvc.perform(get("/workout_session")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(workoutSessionDTOList)));
+                .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTOList)));
 
         verify(workoutSessionService).getAllWorkoutSessions();
+    }
+
+    @Test
+    public void WorkoutSessionController_GetAllWorkoutSessionsBetweenDates_ShouldReturnWorkoutSessionDTOList() throws Exception {
+        //Given
+        LocalDate fromDate = LocalDate.of(2024, 1, 1);
+        LocalDate toDate = LocalDate.of(2024, 10, 1);
+
+        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
+                .id(1L)
+                .workoutSessionName("Leg day")
+                .date(LocalDate.of(2024, 2, 2))
+                .build();
+
+        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
+                .id(2L)
+                .workoutSessionName("Arm day")
+                .date(LocalDate.of(2024, 8, 8))
+                .build();
+
+        List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
+        when(workoutSessionService.getAllWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessionDTOS);
+
+        //When
+        ResultActions response = mockMvc.perform(get("/workout_session/dates")
+                .param("fromDate", fromDate.toString())
+                .param("toDate", toDate.toString())
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //Then
+        response
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTOS)));
+        verify(workoutSessionService).getAllWorkoutSessionsBetweenDates(fromDate, toDate);
     }
 
     @Test

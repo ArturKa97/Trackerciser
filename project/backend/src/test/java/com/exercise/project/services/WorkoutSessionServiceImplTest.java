@@ -229,7 +229,7 @@ class WorkoutSessionServiceImplTest {
                 .date(LocalDate.of(2024, 2, 2))
                 .build();
         WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
-                .id(1L)
+                .id(2L)
                 .workoutSessionName("Arm day")
                 .date(LocalDate.of(2024, 8, 8))
                 .build();
