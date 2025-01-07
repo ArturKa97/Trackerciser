@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
                 .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(userId)));
 
         Role role = roleRepository.findById(roleId)
-                .orElseThrow(() -> new EntityNotFoundException("[%s] role not found".formatted(roleId)));
+                .orElseThrow(() -> new EntityNotFoundException("Role with id [%s] not found".formatted(roleId)));
 
         UserRoleId userRoleId = UserRoleId.builder()
                 .userId(userToAddRole.getId())
