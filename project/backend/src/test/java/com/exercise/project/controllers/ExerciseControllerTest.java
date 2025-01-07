@@ -131,4 +131,21 @@ class ExerciseControllerTest {
         verify(exerciseService).addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
     }
 
+    @Test
+    public void ExerciseController_RemoveExerciseFromWorkoutSession_ShouldReturnIsOk() throws Exception {
+        //Given
+        Long workoutSessionId = 1L;
+        Long exerciseId = 1L;
+
+        //When
+        ResultActions response = mockMvc.perform(delete("/exercise/{workoutSessionId}/{exerciseId}", workoutSessionId, exerciseId)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //Then
+        response
+                .andExpect(status().isOk());
+
+        verify(exerciseService).removeExerciseFromWorkoutSession(workoutSessionId, exerciseId);
+    }
+
 }
