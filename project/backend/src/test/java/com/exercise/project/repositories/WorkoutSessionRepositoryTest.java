@@ -20,16 +20,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class
 WorkoutSessionRepositoryTest {
 
+    private final Long NONEXISTENTID = 999999L;
+    LocalDate fromDate = LocalDate.of(2024, 1, 1);
+    LocalDate toDate = LocalDate.of(2024, 10, 1);
+
     @Autowired
     private WorkoutSessionRepository workoutSessionRepository;
+
+    private WorkoutSession createTestEntity(String workoutSessionName, LocalDate date) {
+        return WorkoutSession.builder()
+                .workoutSessionName(workoutSessionName)
+                .date(date)
+                .build();
+    }
 
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionById_ShouldReturnWorkoutSessionEntity() {
         //Given
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession = createTestEntity("Leg day", LocalDate.now());
         //When
         WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
         WorkoutSession fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSession.getId()).get();
@@ -40,10 +48,8 @@ WorkoutSessionRepositoryTest {
 
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionById_ShouldReturnOptionalWhenWorkoutSessionDoesNotExist() {
-        //Given
-        Long nonExistentId = 999999L;
         //When
-        Optional<WorkoutSession> fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(nonExistentId);
+        Optional<WorkoutSession> fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID);
         //Then
         assertThat(fetchedWorkoutSession).isNotNull()
                 .isEmpty();
@@ -52,14 +58,8 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetAllWorkoutSessions_ShouldReturnListOfWorkoutSessions() {
         //Given
-        WorkoutSession workoutSession1 = WorkoutSession.builder()
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
-        WorkoutSession workoutSession2 = WorkoutSession.builder()
-                .workoutSessionName("Arm day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession1 = createTestEntity("Leg day", LocalDate.now());
+        WorkoutSession workoutSession2 = createTestEntity("Arm day", LocalDate.now());
         //When
         workoutSessionRepository.save(workoutSession1);
         workoutSessionRepository.save(workoutSession2);
@@ -82,21 +82,9 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnWorkoutSessionsInBetweenProvidedDates() {
         //Given
-        LocalDate fromDate = LocalDate.of(2024, 1, 1);
-        LocalDate toDate = LocalDate.of(2024, 10, 1);
-
-        WorkoutSession workoutSession1 = WorkoutSession.builder()
-                .workoutSessionName("Leg day")
-                .date(LocalDate.of(2024, 2, 2))
-                .build();
-        WorkoutSession workoutSession2 = WorkoutSession.builder()
-                .workoutSessionName("Arm day")
-                .date(LocalDate.of(2024, 8, 8))
-                .build();
-        WorkoutSession notIncludedWorkoutSession = WorkoutSession.builder()
-                .workoutSessionName("Chest day")
-                .date(LocalDate.of(2024, 12, 12))
-                .build();
+        WorkoutSession workoutSession1 = createTestEntity("Leg day", LocalDate.of(2024, 2, 2));
+        WorkoutSession workoutSession2 = createTestEntity("Arm day", LocalDate.of(2024, 8, 8));
+        WorkoutSession notIncludedWorkoutSession = createTestEntity("Chest day", LocalDate.of(2024, 12, 12));
         //When
         workoutSessionRepository.save(workoutSession1);
         workoutSessionRepository.save(workoutSession2);
@@ -110,8 +98,6 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnEmptyListIfNoWorkoutSessionsWithProvidedDatesArePresent() {
         //Given
-        LocalDate fromDate = LocalDate.of(2024, 1, 1);
-        LocalDate toDate = LocalDate.of(2024, 10, 1);
         //When
         List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate);
         //Then
