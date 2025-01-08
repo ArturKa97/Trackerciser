@@ -21,11 +21,37 @@ class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
+    public void UserRepository_FindByUsername_ShouldReturnUserEntity() {
+        //Given
+        User user = User.builder()
+                .username("user")
+                .password("UserUser97!")
+                .build();
+        //When
+        User savedUser = userRepository.save(user);
+        User fetchedUser = userRepository.findByUsername(savedUser.getUsername()).get();
+        //Then
+        assertThat(fetchedUser).isNotNull()
+                .isEqualTo(savedUser);
+
+    }
+
+    @Test
+    public void UserRepository_FindByUsername_ShouldReturnOptionalEmptyWhenUserDoesNotExist() {
+        //Given
+        String nonExistentUsername = "nonExistent";
+        //When
+        Optional<User> fetchedUser = userRepository.findByUsername(nonExistentUsername);
+        //Then
+        assertThat(fetchedUser).isNotNull();
+    }
+
+    @Test
     public void UserRepository_GetUserById_ShouldReturnUserEntity() {
         //Given
         User user = User.builder()
                 .username("user")
-                .password("user")
+                .password("UserUser97!")
                 .build();
         //When
         User savedUser = userRepository.save(user);
@@ -48,4 +74,3 @@ class UserRepositoryTest {
                 .isEmpty();
     }
 }
-
