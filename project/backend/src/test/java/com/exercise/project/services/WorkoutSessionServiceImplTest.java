@@ -26,28 +26,34 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class WorkoutSessionServiceImplTest {
 
+    private final Long NONEXISTENTID = 999999L;
+    private final LocalDate FROMDATE = LocalDate.of(2024, 1, 1);
+    private final LocalDate TODATE = LocalDate.of(2024, 10, 1);
     @Mock
     private WorkoutSessionRepository workoutSessionRepository;
-
     @Mock
     private WorkoutSessionDTOMapper workoutSessionDTOMapper;
-
     @InjectMocks
     private WorkoutSessionServiceImpl workoutSessionServiceImpl;
-
+    private WorkoutSession createWorkoutSessionTestEntity(Long id, String name, LocalDate date) {
+        return WorkoutSession.builder()
+                .id(id)
+                .workoutSessionName(name)
+                .date(date)
+                .build();
+    }
+    private WorkoutSessionDTO createWorkoutSessionTestDTO(Long id, String name, LocalDate date) {
+        return WorkoutSessionDTO.builder()
+                .id(id)
+                .workoutSessionName(name)
+                .date(date)
+                .build();
+    }
     @Test
     public void WorkoutSessionServiceImpl_AddWorkoutSession_ShouldReturnWorkoutSessionDTO() {
         //Given
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
-        WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
+        WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
         when(workoutSessionDTOMapper.toEntity(workoutSessionDTO)).thenReturn(workoutSession);
         when(workoutSessionRepository.save(workoutSession)).thenReturn(workoutSession);
         when(workoutSessionDTOMapper.toDTO(workoutSession)).thenReturn(workoutSessionDTO);
@@ -65,16 +71,8 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetWorkoutSessionById_ShouldReturnWorkoutSessionDTO() {
         //Given
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
-        WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
+        WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
         when(workoutSessionDTOMapper.toDTO(workoutSession)).thenReturn(workoutSessionDTO);
         //When
@@ -91,11 +89,10 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetWorkoutSessionById_ShouldThrowEntityNotFoundException() {
         //Given
-        Long nonExistentId = 999999L;
-        when(workoutSessionRepository.getWorkoutSessionById(nonExistentId)).thenReturn(Optional.empty());
+        when(workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            workoutSessionServiceImpl.getWorkoutSessionById(nonExistentId);
+            workoutSessionServiceImpl.getWorkoutSessionById(NONEXISTENTID);
         });
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
     }
@@ -103,28 +100,12 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetAllWorkoutSessions_ShouldReturnAListOfWorkoutSessionDTOS() {
         //Given
-        WorkoutSession workoutSession1 = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
-        WorkoutSession workoutSession2 = WorkoutSession.builder()
-                .id(2L)
-                .workoutSessionName("Chest Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession1 = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
+        WorkoutSession workoutSession2 = createWorkoutSessionTestEntity(2L, "Chest Day", LocalDate.now());
         List<WorkoutSession> workoutSessions = Arrays.asList(workoutSession1, workoutSession2);
 
-        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
-        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
-                .id(2L)
-                .workoutSessionName("Chest Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO workoutSessionDTO1 = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
+        WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Chest Day", LocalDate.now());
         List<WorkoutSessionDTO> workoutSessionsDTOs = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
         when(workoutSessionRepository.getAllWorkoutSessions()).thenReturn(workoutSessions);
@@ -158,23 +139,9 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_UpdateWorkoutSessionById_ShouldReturnWorkoutSessionDTO() {
         //Given
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg Day")
-                .date(LocalDate.now())
-                .build();
-
-        WorkoutSession updatedWorkoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Chest Day")
-                .date(LocalDate.now())
-                .build();
-
-        WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Chest Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
+        WorkoutSession updatedWorkoutSession = createWorkoutSessionTestEntity(1L, "Chest Day", LocalDate.now());
+        WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Chest Day", LocalDate.now());
 
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
         when(workoutSessionRepository.save(workoutSession)).thenReturn(updatedWorkoutSession);
@@ -192,15 +159,10 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_UpdateWorkoutSessionById_ShouldThrowEntityNotFoundException() {
         //Given
-        Long nonExistentId = 999999L;
-        WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Chest Day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Chest Day", LocalDate.now());
         // When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            workoutSessionServiceImpl.updateWorkoutSessionById(nonExistentId, updatedWorkoutSessionDTO);
+            workoutSessionServiceImpl.updateWorkoutSessionById(NONEXISTENTID, updatedWorkoutSessionDTO);
         });
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
     }
@@ -208,57 +170,36 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAWorkoutSessionDTOList() {
         //Given
-        LocalDate fromDate = LocalDate.of(2024, 1, 1);
-        LocalDate toDate = LocalDate.of(2024, 10, 1);
-
-        WorkoutSession workoutSession1 = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.of(2024, 2, 2))
-                .build();
-        WorkoutSession workoutSession2 = WorkoutSession.builder()
-                .id(2L)
-                .workoutSessionName("Arm day")
-                .date(LocalDate.of(2024, 8, 8))
-                .build();
+        WorkoutSession workoutSession1 = createWorkoutSessionTestEntity(1L, "Leg day", LocalDate.of(2024, 2, 2));
+        WorkoutSession workoutSession2 = createWorkoutSessionTestEntity(2L, "Arm day", LocalDate.of(2024, 8, 8));
         List<WorkoutSession> workoutSessions = Arrays.asList(workoutSession1, workoutSession2);
 
-        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.of(2024, 2, 2))
-                .build();
-        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
-                .id(2L)
-                .workoutSessionName("Arm day")
-                .date(LocalDate.of(2024, 8, 8))
-                .build();
+        WorkoutSessionDTO workoutSessionDTO1 = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.of(2024, 2, 2));
+        WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.of(2024, 8, 8));
         List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
-        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessions);
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE)).thenReturn(workoutSessions);
         when(workoutSessionDTOMapper.toDTO(workoutSession1)).thenReturn(workoutSessionDTO1);
         when(workoutSessionDTOMapper.toDTO(workoutSession2)).thenReturn(workoutSessionDTO2);
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(fromDate, toDate);
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE);
         //Then
         assertThat(result).isNotNull()
                 .isNotEmpty()
                 .isEqualTo(workoutSessionDTOS);
-        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(fromDate, toDate);
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
         verify(workoutSessionDTOMapper).toDTO(workoutSession1);
         verify(workoutSessionDTOMapper).toDTO(workoutSession2);
     }
     @Test
     public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAnEmptyList() {
         //Given
-        LocalDate fromDate = LocalDate.of(2024, 1, 1);
-        LocalDate toDate = LocalDate.of(2024, 10, 1);
-        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(Collections.emptyList());
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE)).thenReturn(Collections.emptyList());
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(fromDate, toDate);
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE);
         //Then
         assertThat(result).isNotNull()
                 .isEmpty();
-        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(fromDate, toDate);
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
     }
 }
