@@ -21,13 +21,13 @@ class
 WorkoutSessionRepositoryTest {
 
     private final Long NONEXISTENTID = 999999L;
-    LocalDate fromDate = LocalDate.of(2024, 1, 1);
-    LocalDate toDate = LocalDate.of(2024, 10, 1);
+    private final LocalDate fromDate = LocalDate.of(2024, 1, 1);
+    private final LocalDate toDate = LocalDate.of(2024, 10, 1);
 
     @Autowired
     private WorkoutSessionRepository workoutSessionRepository;
 
-    private WorkoutSession createTestEntity(String workoutSessionName, LocalDate date) {
+    private WorkoutSession createWorkoutSessionTestEntity(String workoutSessionName, LocalDate date) {
         return WorkoutSession.builder()
                 .workoutSessionName(workoutSessionName)
                 .date(date)
@@ -37,7 +37,7 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionById_ShouldReturnWorkoutSessionEntity() {
         //Given
-        WorkoutSession workoutSession = createTestEntity("Leg day", LocalDate.now());
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity("Leg day", LocalDate.now());
         //When
         WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
         WorkoutSession fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSession.getId()).get();
@@ -58,8 +58,8 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetAllWorkoutSessions_ShouldReturnListOfWorkoutSessions() {
         //Given
-        WorkoutSession workoutSession1 = createTestEntity("Leg day", LocalDate.now());
-        WorkoutSession workoutSession2 = createTestEntity("Arm day", LocalDate.now());
+        WorkoutSession workoutSession1 = createWorkoutSessionTestEntity("Leg day", LocalDate.now());
+        WorkoutSession workoutSession2 = createWorkoutSessionTestEntity("Arm day", LocalDate.now());
         //When
         workoutSessionRepository.save(workoutSession1);
         workoutSessionRepository.save(workoutSession2);
@@ -82,9 +82,9 @@ WorkoutSessionRepositoryTest {
     @Test
     public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnWorkoutSessionsInBetweenProvidedDates() {
         //Given
-        WorkoutSession workoutSession1 = createTestEntity("Leg day", LocalDate.of(2024, 2, 2));
-        WorkoutSession workoutSession2 = createTestEntity("Arm day", LocalDate.of(2024, 8, 8));
-        WorkoutSession notIncludedWorkoutSession = createTestEntity("Chest day", LocalDate.of(2024, 12, 12));
+        WorkoutSession workoutSession1 = createWorkoutSessionTestEntity("Leg day", LocalDate.of(2024, 2, 2));
+        WorkoutSession workoutSession2 = createWorkoutSessionTestEntity("Arm day", LocalDate.of(2024, 8, 8));
+        WorkoutSession notIncludedWorkoutSession = createWorkoutSessionTestEntity("Chest day", LocalDate.of(2024, 12, 12));
         //When
         workoutSessionRepository.save(workoutSession1);
         workoutSessionRepository.save(workoutSession2);
