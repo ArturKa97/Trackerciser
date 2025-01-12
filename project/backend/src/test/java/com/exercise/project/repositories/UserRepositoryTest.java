@@ -17,16 +17,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(properties = "spring.sql.init.mode=never")
 class UserRepositoryTest {
 
+    private final String NONEXISTENTUSERNAME = "nonExistent";
+    private final Long NONEXISTENTID = 999999L;
     @Autowired
     private UserRepository userRepository;
-
+    private User createUserTestEntity(String username, String password) {
+        return User.builder()
+                .username(username)
+                .password(password)
+                .build();
+    }
     @Test
     public void UserRepository_FindByUsername_ShouldReturnUserEntity() {
         //Given
-        User user = User.builder()
-                .username("user")
-                .password("UserUser97!")
-                .build();
+        User user = createUserTestEntity("user", "UserUser97!");
         //When
         User savedUser = userRepository.save(user);
         User fetchedUser = userRepository.findByUsername(savedUser.getUsername()).get();
@@ -38,10 +42,8 @@ class UserRepositoryTest {
 
     @Test
     public void UserRepository_FindByUsername_ShouldReturnOptionalEmptyWhenUserDoesNotExist() {
-        //Given
-        String nonExistentUsername = "nonExistent";
         //When
-        Optional<User> fetchedUser = userRepository.findByUsername(nonExistentUsername);
+        Optional<User> fetchedUser = userRepository.findByUsername(NONEXISTENTUSERNAME);
         //Then
         assertThat(fetchedUser).isNotNull();
     }
@@ -49,26 +51,19 @@ class UserRepositoryTest {
     @Test
     public void UserRepository_GetUserById_ShouldReturnUserEntity() {
         //Given
-        User user = User.builder()
-                .username("user")
-                .password("UserUser97!")
-                .build();
+        User user = createUserTestEntity("user", "UserUser97!");
         //When
         User savedUser = userRepository.save(user);
         User fetchedUser = userRepository.getUserById(savedUser.getId()).get();
-
         //Then
         assertThat(fetchedUser).isNotNull()
                 .isEqualTo(savedUser);
-
     }
 
     @Test
     public void UserRepository_GetUserById_ShouldReturnOptionalEmptyWhenUserDoesNotExist() {
-        //Given
-        Long nonExistentId = 999999L;
         //When
-        Optional<User> fetchedUser = userRepository.getUserById(nonExistentId);
+        Optional<User> fetchedUser = userRepository.getUserById(NONEXISTENTID);
         //Then
         assertThat(fetchedUser).isNotNull()
                 .isEmpty();
