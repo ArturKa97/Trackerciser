@@ -21,8 +21,8 @@ class
 WorkoutSessionRepositoryTest {
 
     private final Long NONEXISTENTID = 999999L;
-    private final LocalDate fromDate = LocalDate.of(2024, 1, 1);
-    private final LocalDate toDate = LocalDate.of(2024, 10, 1);
+    private final LocalDate FROMDATE = LocalDate.of(2024, 1, 1);
+    private final LocalDate TODATE = LocalDate.of(2024, 10, 1);
 
     @Autowired
     private WorkoutSessionRepository workoutSessionRepository;
@@ -89,7 +89,7 @@ WorkoutSessionRepositoryTest {
         workoutSessionRepository.save(workoutSession1);
         workoutSessionRepository.save(workoutSession2);
         workoutSessionRepository.save(notIncludedWorkoutSession);
-        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate);
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
         //Then
         assertThat(fetchedWorkoutSessions).isNotNull()
                 .hasSize(2)
@@ -99,7 +99,7 @@ WorkoutSessionRepositoryTest {
     public void WorkoutSessionRepository_GetWorkoutSessionsBetweenDates_ShouldReturnEmptyListIfNoWorkoutSessionsWithProvidedDatesArePresent() {
         //Given
         //When
-        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(fromDate, toDate);
+        List<WorkoutSession> fetchedWorkoutSessions = workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
         //Then
         assertThat(fetchedWorkoutSessions).isNotNull()
                 .isEmpty();
