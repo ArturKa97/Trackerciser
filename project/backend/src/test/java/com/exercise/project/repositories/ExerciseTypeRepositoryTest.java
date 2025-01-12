@@ -18,15 +18,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(properties = "spring.sql.init.mode=never")
 class ExerciseTypeRepositoryTest {
 
+    private final Long NONEXISTENTID = 999999L;
     @Autowired
     private ExerciseTypeRepository exerciseTypeRepository;
+    private ExerciseType createExerciseTypeTestEntity(String name) {
+        return ExerciseType.builder()
+                .name(name)
+                .build();
+    }
 
     @Test
     public void ExerciseTypeRepository_GetExerciseTypeById_ShouldReturnExerciseTypeEntity() {
         //Given
-        ExerciseType exerciseType = ExerciseType.builder()
-                .name("Squats")
-                .build();
+        ExerciseType exerciseType = createExerciseTypeTestEntity("Squats");
         //When
         ExerciseType savedExerciseType = exerciseTypeRepository.save(exerciseType);
         ExerciseType fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(savedExerciseType.getId()).get();
@@ -37,10 +41,8 @@ class ExerciseTypeRepositoryTest {
 
     @Test
     public void ExerciseTypeRepository_GetExerciseTypeById_ShouldReturnOptionalWhenExerciseTypeDoesNotExist() {
-        //Given
-        Long nonExistentId = 999999L;
         //When
-        Optional<ExerciseType> fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(nonExistentId);
+        Optional<ExerciseType> fetchedExerciseType = exerciseTypeRepository.getExerciseTypeById(NONEXISTENTID);
         //Then
         assertThat(fetchedExerciseType).isNotNull()
                 .isEmpty();
@@ -50,12 +52,8 @@ class ExerciseTypeRepositoryTest {
     @Test
     public void ExerciseTypeRepository_GetAllExerciseTypes_ShouldReturnAnExerciseTypeList() {
         //Given
-        ExerciseType exerciseType1 = ExerciseType.builder()
-                .name("Bench Press")
-                .build();
-        ExerciseType exerciseType2 = ExerciseType.builder()
-                .name("Curls")
-                .build();
+        ExerciseType exerciseType1 = createExerciseTypeTestEntity("Bench Press");
+        ExerciseType exerciseType2 = createExerciseTypeTestEntity("Curls");
         //When
         exerciseTypeRepository.save(exerciseType1);
         exerciseTypeRepository.save(exerciseType2);
