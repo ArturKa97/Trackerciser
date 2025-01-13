@@ -40,7 +40,7 @@ WorkoutSessionRepositoryTest {
         WorkoutSession workoutSession = createWorkoutSessionTestEntity("Leg day", LocalDate.now());
         //When
         WorkoutSession savedWorkoutSession = workoutSessionRepository.save(workoutSession);
-        WorkoutSession fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSession.getId()).get();
+        WorkoutSession fetchedWorkoutSession = workoutSessionRepository.getWorkoutSessionById(savedWorkoutSession.getId()).get();
         //Then
         assertThat(fetchedWorkoutSession).isNotNull()
                 .isEqualTo(savedWorkoutSession);

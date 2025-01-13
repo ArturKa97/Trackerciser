@@ -27,7 +27,7 @@ class ExerciseRepositoryTest {
         Exercise exercise = new Exercise();
         //When
         Exercise savedExercise = exerciseRepository.save(exercise);
-        Exercise fetchedExercise = exerciseRepository.getExerciseById(exercise.getId()).get();
+        Exercise fetchedExercise = exerciseRepository.getExerciseById(savedExercise.getId()).get();
         //Then
         assertThat(fetchedExercise).isNotNull()
                 .isEqualTo(savedExercise);
