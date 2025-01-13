@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ExerciseSetServiceImplTest {
 
+    private final Long NONEXISTENTID = 999999L;
     @Mock
     private ExerciseSetDTOMapper exerciseSetDTOMapper;
     @Mock
@@ -33,27 +34,32 @@ class ExerciseSetServiceImplTest {
     private ExerciseRepository exerciseRepository;
     @InjectMocks
     private ExerciseSetServiceImpl exerciseSetServiceImpl;
-
+    private ExerciseSet createExerciseSetTestEntity(Long id, Long sets, Long reps, Float weight, Long rest, Long duration) {
+        return ExerciseSet.builder()
+                .id(id)
+                .sets(sets)
+                .reps(reps)
+                .weight(BigDecimal.valueOf(weight))
+                .rest(rest)
+                .duration(duration)
+                .build();
+    }
+    private ExerciseSetDTO createExerciseSetTestDTO(Long id, Long sets, Long reps, Float weight, Long rest, Long duration) {
+        return ExerciseSetDTO.builder()
+                .id(id)
+                .sets(sets)
+                .reps(reps)
+                .weight(BigDecimal.valueOf(weight))
+                .rest(rest)
+                .duration(duration)
+                .build();
+    }
     @Test
     public void ExerciseSetServiceImpl_AddExerciseSetToExercise_ShouldReturnExerciseSetDTO() {
         //Given
         Exercise exercise = new Exercise();
-        ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
-                .id(1L)
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
-        ExerciseSet exerciseSet = ExerciseSet.builder()
-                .id(1L)
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
+        ExerciseSet exerciseSet = createExerciseSetTestEntity(1L, 1L, 10L, 100F, 90L, 30L);
+        ExerciseSetDTO exerciseSetDTO = createExerciseSetTestDTO(1L, 1L, 10L, 100F, 90L, 30L);
 
         when(exerciseRepository.getExerciseById(exercise.getId())).
                 thenReturn(Optional.of(exercise));
@@ -75,54 +81,23 @@ class ExerciseSetServiceImplTest {
     @Test
     public void ExerciseSetServiceImpl_AddExerciseSetToExercise_ShouldThrowEntityNotFoundException() {
         //Given
-        Long exerciseId = 99999L;
-        ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
-                .id(1L)
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
-        when(exerciseRepository.getExerciseById(exerciseId)).
+        ExerciseSetDTO exerciseSetDTO = createExerciseSetTestDTO(1L, 1L, 10L, 100F, 90L, 30L);
+        when(exerciseRepository.getExerciseById(NONEXISTENTID)).
                 thenReturn(Optional.empty());
 
         // When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseSetServiceImpl.addExerciseSetToExercise(exerciseSetDTO, exerciseId);
+            exerciseSetServiceImpl.addExerciseSetToExercise(exerciseSetDTO, NONEXISTENTID);
         });
-        assertEquals("Exercise with id [99999] not found", exception.getMessage());
+        assertEquals("Exercise with id [999999] not found", exception.getMessage());
     }
 
     @Test
     public void ExerciseSetServiceImpl_UpdateExerciseSetById_ShouldReturnUpdatedExerciseSetDTO() {
         //Given
-        ExerciseSet existingExerciseSet = ExerciseSet.builder()
-                .id(1L)
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
-
-        ExerciseSet updatedExerciseSet = ExerciseSet.builder()
-                .id(1L)
-                .sets(2L)
-                .reps(20L)
-                .weight(BigDecimal.valueOf(200F))
-                .rest(100L)
-                .duration(40L)
-                .build();
-
-        ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
-                .id(1L)
-                .sets(2L)
-                .reps(20L)
-                .weight(BigDecimal.valueOf(200F))
-                .rest(100L)
-                .duration(40L)
-                .build();
+        ExerciseSet existingExerciseSet = createExerciseSetTestEntity(1L, 1L, 10L, 100F, 90L, 30L);
+        ExerciseSet updatedExerciseSet = createExerciseSetTestEntity(1L, 2L, 20L, 200F, 100L, 40L);
+        ExerciseSetDTO updatedExerciseSetDTO = createExerciseSetTestDTO(1L, 2L, 20L, 200F, 100L, 40L);
 
         when(exerciseSetRepository.getExerciseSetById(existingExerciseSet.getId())).thenReturn(Optional.of(existingExerciseSet));
         when(exerciseSetRepository.save(existingExerciseSet)).thenReturn(updatedExerciseSet);
@@ -143,23 +118,15 @@ class ExerciseSetServiceImplTest {
     @Test
     public void ExerciseSetServiceImpl_UpdateExerciseSetById_ShouldThrowEntityNotFoundException() {
         //Given
-        Long exerciseSetId = 9999999L;
-        ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
-                .id(1L)
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
-        when(exerciseSetRepository.getExerciseSetById(exerciseSetId)).
+        ExerciseSetDTO exerciseSetDTO = createExerciseSetTestDTO(1L, 1L, 10L, 100F, 90L, 30L);
+        when(exerciseSetRepository.getExerciseSetById(NONEXISTENTID)).
                 thenReturn(Optional.empty());
 
         // When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseSetServiceImpl.updateExerciseSetById(exerciseSetDTO, exerciseSetId);
+            exerciseSetServiceImpl.updateExerciseSetById(exerciseSetDTO, NONEXISTENTID);
         });
-        assertEquals("ExerciseSet with id [9999999] not found", exception.getMessage());
+        assertEquals("ExerciseSet with id [999999] not found", exception.getMessage());
     }
 
 }
