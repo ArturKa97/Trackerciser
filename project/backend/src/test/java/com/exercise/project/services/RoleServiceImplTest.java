@@ -25,17 +25,23 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class RoleServiceImplTest {
 
+    private final Long NONEXISTENTID = 999999L;
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private RoleRepository roleRepository;
-
     @Mock
     private UserRoleRepository userRoleRepository;
-
     @InjectMocks
     private RoleServiceImpl roleServiceImpl;
+    private User createTestUserEntity(Long id, String username, String password, Set<UserRole> roles) {
+        return User.builder()
+                .id(id)
+                .username(username)
+                .password(password)
+                .roles(roles)
+                .build();
+    }
 
     @Test
     public void RoleServiceImpl_AddRoleToUser_ShouldAddARoleToAnUser() {
@@ -43,12 +49,7 @@ class RoleServiceImplTest {
         Long userId = 1L;
         Long roleId = 2L;
 
-        User user = User.builder()
-                .id(userId)
-                .username("user")
-                .password("encodedPassword")
-                .roles(Set.of())
-                .build();
+        User user = createTestUserEntity(userId, "user", "encodedPassword", Set.of());
 
         Role role = Role.builder()
                 .id(roleId)
@@ -80,12 +81,11 @@ class RoleServiceImplTest {
     @Test
     public void RoleServiceImpl_AddRoleToUser_ShouldThrowEntityNotFoundExceptionWhenUserDoesNotExist() {
         //Given
-        Long nonExistentUserId = 999999L;
         Long roleId = 1L;
-        when(userRepository.findById(nonExistentUserId)).thenReturn(Optional.empty());
+        when(userRepository.findById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            roleServiceImpl.addRoleToUser(nonExistentUserId, roleId);
+            roleServiceImpl.addRoleToUser(NONEXISTENTID, roleId);
         });
         assertEquals("User with id [999999] not found", exception.getMessage());
     }
@@ -94,16 +94,11 @@ class RoleServiceImplTest {
     public void RoleServiceImpl_AddRoleToUser_ShouldThrowEntityNotFoundExceptionWhenRoleDoesNotExist() {
         //Given
         Long userId = 1L;
-        User user = User.builder()
-                .id(1L)
-                .username("test")
-                .password("encodedPassword")
-                .build();
-        Long nonExistentRoleId = 999999L;
+        User user = createTestUserEntity(userId, "user", "encodedPassword", Set.of());
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            roleServiceImpl.addRoleToUser(userId, nonExistentRoleId);
+            roleServiceImpl.addRoleToUser(userId, NONEXISTENTID);
         });
         assertEquals("Role with id [999999] not found", exception.getMessage());
     }
