@@ -25,30 +25,41 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ExerciseServiceImplTest {
 
+    private final Long NONEXISTENTID = 999999L;
     @Mock
     private ExerciseRepository exerciseRepository;
-
     @Mock
     private ExerciseDTOMapper exerciseDTOMapper;
-
     @Mock
     private WorkoutSessionRepository workoutSessionRepository;
-
     @Mock
     private ExerciseTypeRepository exerciseTypeRepository;
-
     @InjectMocks
     private ExerciseServiceImpl exerciseServiceImpl;
+    private Exercise createTestExerciseEntity(Long id) {
+        return Exercise.builder()
+                .id(id)
+                .build();
+    }
+    private ExerciseDTO createTestExerciseDTO(Long id) {
+        return ExerciseDTO.builder()
+                .id(id)
+                .build();
+    }
+    private WorkoutSession createWorkoutSessionTestEntity(Long id, String name, LocalDate date, Set<Exercise> exercises) {
+        return WorkoutSession.builder()
+                .id(id)
+                .workoutSessionName(name)
+                .date(date)
+                .exercisesSet(exercises)
+                .build();
+    }
 
     @Test
     public void ExerciseServiceImpl_GetExerciseById_ShouldReturnAnExerciseDTO() {
         //Given
-        Exercise exercise = Exercise.builder()
-                .id(1L)
-                .build();
-        ExerciseDTO exerciseDTO = ExerciseDTO.builder()
-                .id(1L)
-                .build();
+        Exercise exercise = createTestExerciseEntity(1L);
+        ExerciseDTO exerciseDTO = createTestExerciseDTO(1L);
 
         when(exerciseRepository.getExerciseById(exercise.getId())).thenReturn(Optional.of(exercise));
         when(exerciseDTOMapper.toDTO(exercise)).thenReturn(exerciseDTO);
@@ -65,12 +76,10 @@ class ExerciseServiceImplTest {
     @Test
     public void ExerciseServiceImpl_GetExerciseById_ShouldThrowEntityNotFoundException() {
         //Given
-        Long nonExistentId = 999999L;
-
-        when(exerciseRepository.getExerciseById(nonExistentId)).thenReturn(Optional.empty());
+        when(exerciseRepository.getExerciseById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseServiceImpl.getExerciseById(nonExistentId);
+            exerciseServiceImpl.getExerciseById(NONEXISTENTID);
         });
         assertEquals("Exercise with id [999999] not found", exception.getMessage());
     }
@@ -78,24 +87,12 @@ class ExerciseServiceImplTest {
     @Test
     public void ExerciseServiceImpl_GetAllExercises_ShouldReturnAnExerciseDTOList() {
         //Given
-        Exercise exercise1 = Exercise.builder()
-                .id(1L)
-                .build();
-
-        Exercise exercise2 = Exercise.builder()
-                .id(2L)
-                .build();
-
+        Exercise exercise1 = createTestExerciseEntity(1L);
+        Exercise exercise2 = createTestExerciseEntity(2L);
         List<Exercise> exercises = Arrays.asList(exercise1, exercise2);
 
-        ExerciseDTO exerciseDTO1 = ExerciseDTO.builder()
-                .id(1L)
-                .build();
-
-        ExerciseDTO exerciseDTO2 = ExerciseDTO.builder()
-                .id(1L)
-                .build();
-
+        ExerciseDTO exerciseDTO1 = createTestExerciseDTO(1L);
+        ExerciseDTO exerciseDTO2 = createTestExerciseDTO(2L);
         List<ExerciseDTO> exercisesDTOs = Arrays.asList(exerciseDTO1, exerciseDTO2);
 
         when(exerciseRepository.getAllExercises()).thenReturn(exercises);
@@ -128,76 +125,64 @@ class ExerciseServiceImplTest {
     @Test
     public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldReturnAnExerciseDTO() {
         //Given
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .exercisesSet(new HashSet<>())
-                .build();
+        Long workoutSessionId = 1L;
+        Long exerciseTypeId = 2L;
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(workoutSessionId, "Leg day", LocalDate.now(), new HashSet<>());
 
         ExerciseType exerciseType = ExerciseType.builder()
-                .id(1L)
+                .id(exerciseTypeId)
                 .name("Squats")
                 .build();
 
         Exercise exercise = new Exercise();
+        Exercise savedExercise = createTestExerciseEntity(1L);
+        ExerciseDTO exerciseDTO = createTestExerciseDTO(1L);
 
-        ExerciseDTO exerciseDTO = ExerciseDTO.builder()
-                .id(1L)
-                .build();
-
-        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
-        when(exerciseTypeRepository.getExerciseTypeById(exerciseType.getId())).thenReturn(Optional.of(exerciseType));
-        when(exerciseRepository.save(exercise)).thenReturn(exercise);
-        when(exerciseDTOMapper.toDTO(exercise)).thenReturn(exerciseDTO);
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSessionId)).thenReturn(Optional.of(workoutSession));
+        when(exerciseTypeRepository.getExerciseTypeById(exerciseTypeId)).thenReturn(Optional.of(exerciseType));
+        when(exerciseRepository.save(exercise)).thenReturn(savedExercise);
+        when(exerciseDTOMapper.toDTO(savedExercise)).thenReturn(exerciseDTO);
 
         //When
-        ExerciseDTO result = exerciseServiceImpl.addExerciseToWorkoutSession(workoutSession.getId(), exerciseType.getId());
+        ExerciseDTO result = exerciseServiceImpl.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
         //Then
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(exerciseDTO);
-        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
-        verify(exerciseTypeRepository).getExerciseTypeById(exerciseType.getId());
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSessionId);
+        verify(exerciseTypeRepository).getExerciseTypeById(exerciseTypeId);
         verify(exerciseRepository).save(exercise);
-        verify(exerciseDTOMapper).toDTO(exercise);
+        verify(exerciseDTOMapper).toDTO(savedExercise);
     }
 
     @Test
     public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenWorkoutSessionDoesNotExist() {
         //Given
-        Long nonExistentWorkoutSessionId = 999999L;
         Long exerciseTypeId = 1L;
-        when(workoutSessionRepository.getWorkoutSessionById(nonExistentWorkoutSessionId)).thenReturn(Optional.empty());
+        when(workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseServiceImpl.addExerciseToWorkoutSession(nonExistentWorkoutSessionId, exerciseTypeId);
+            exerciseServiceImpl.addExerciseToWorkoutSession(NONEXISTENTID, exerciseTypeId);
         });
         //Then
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
-        verify(workoutSessionRepository).getWorkoutSessionById(nonExistentWorkoutSessionId);
+        verify(workoutSessionRepository).getWorkoutSessionById(NONEXISTENTID);
         verifyNoInteractions(exerciseTypeRepository, exerciseRepository, exerciseDTOMapper);
     }
 
     @Test
     public void ExerciseServiceImpl_AddExerciseToWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenExerciseTypeDoesNotExist() {
         //Given
-        Long nonExistentExerciseTypeId = 999999L;
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .exercisesSet(new HashSet<>())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg day", LocalDate.now(), new HashSet<>());
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
-        when(exerciseTypeRepository.getExerciseTypeById(nonExistentExerciseTypeId)).thenReturn(Optional.empty());
+        when(exerciseTypeRepository.getExerciseTypeById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseServiceImpl.addExerciseToWorkoutSession(workoutSession.getId(), nonExistentExerciseTypeId);
+            exerciseServiceImpl.addExerciseToWorkoutSession(workoutSession.getId(), NONEXISTENTID);
         });
         //Then
         assertEquals("ExerciseType with id [999999] not found", exception.getMessage());
-        verify(exerciseTypeRepository).getExerciseTypeById(nonExistentExerciseTypeId);
+        verify(exerciseTypeRepository).getExerciseTypeById(NONEXISTENTID);
         verifyNoInteractions(exerciseRepository, exerciseDTOMapper);
     }
 
@@ -206,13 +191,7 @@ class ExerciseServiceImplTest {
         // Given
         Long workoutSessionId = 1L;
         Long exerciseId = 2L;
-
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(workoutSessionId)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .exercisesSet(new HashSet<>())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(workoutSessionId, "Leg day", LocalDate.now(), new HashSet<>());
 
         Exercise exercise = Exercise.builder()
                 .id(exerciseId)
@@ -232,38 +211,31 @@ class ExerciseServiceImplTest {
     @Test
     public void ExerciseServiceImpl_RemoveExerciseFromWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenWorkoutSessionDoesNotExist() {
         //Given
-        Long nonExistentWorkoutSessionId = 999999L;
         Long exerciseId = 1L;
-        when(workoutSessionRepository.getWorkoutSessionById(nonExistentWorkoutSessionId)).thenReturn(Optional.empty());
+        when(workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseServiceImpl.removeExerciseFromWorkoutSession(nonExistentWorkoutSessionId, exerciseId);
+            exerciseServiceImpl.removeExerciseFromWorkoutSession(NONEXISTENTID, exerciseId);
         });
         //Then
         assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
-        verify(workoutSessionRepository).getWorkoutSessionById(nonExistentWorkoutSessionId);
+        verify(workoutSessionRepository).getWorkoutSessionById(NONEXISTENTID);
         verifyNoInteractions(exerciseRepository);
     }
 
     @Test
     public void ExerciseServiceImpl_RemoveExerciseFromWorkoutSession_ShouldThrowEntityNotFoundExceptionWhenExerciseDoesNotExist() {
         //Given
-        Long nonExistentExerciseId = 999999L;
-        WorkoutSession workoutSession = WorkoutSession.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .exercisesSet(new HashSet<>())
-                .build();
+        WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg day", LocalDate.now(), new HashSet<>());
         when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
-        when(exerciseRepository.getExerciseById(nonExistentExerciseId)).thenReturn(Optional.empty());
+        when(exerciseRepository.getExerciseById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            exerciseServiceImpl.removeExerciseFromWorkoutSession(workoutSession.getId(), nonExistentExerciseId);
+            exerciseServiceImpl.removeExerciseFromWorkoutSession(workoutSession.getId(), NONEXISTENTID);
         });
         //Then
         assertEquals("Exercise with id [999999] not found", exception.getMessage());
-        verify(exerciseRepository).getExerciseById(nonExistentExerciseId);
+        verify(exerciseRepository).getExerciseById(NONEXISTENTID);
     }
 }
 
