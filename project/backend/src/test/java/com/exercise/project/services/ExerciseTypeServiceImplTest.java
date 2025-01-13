@@ -30,29 +30,28 @@ class ExerciseTypeServiceImplTest {
     @InjectMocks
     private ExerciseTypeServiceImpl exerciseTypeServiceImpl;
 
+    private ExerciseType createExerciseTypeTestEntity(Long id, String name) {
+        return ExerciseType.builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
+    private ExerciseTypeDTO createExerciseTypeTestDTO(Long id, String name) {
+        return ExerciseTypeDTO.builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
+
     @Test
     public void ExerciseTypeServiceImpl_GetAllExerciseTypes_ShouldReturnAnExerciseTypeDTOList() {
         //Given
-        ExerciseType exerciseType1 = ExerciseType.builder()
-                .id(1L)
-                .name("Squats")
-                .build();
-
-        ExerciseType exerciseType2 = ExerciseType.builder()
-                .id(2L)
-                .name("Curls")
-                .build();
-
+        ExerciseType exerciseType1 = createExerciseTypeTestEntity(1L, "Squats");
+        ExerciseType exerciseType2 = createExerciseTypeTestEntity(2L, "Curls");
         List<ExerciseType> exerciseTypes = Arrays.asList(exerciseType1, exerciseType2);
 
-        ExerciseTypeDTO exerciseTypeDTO1 = ExerciseTypeDTO.builder()
-                .id(1L)
-                .name("Squats")
-                .build();
-        ExerciseTypeDTO exerciseTypeDTO2 = ExerciseTypeDTO.builder()
-                .id(2L)
-                .name("Curls")
-                .build();
+        ExerciseTypeDTO exerciseTypeDTO1 = createExerciseTypeTestDTO(1L, "Squats");
+        ExerciseTypeDTO exerciseTypeDTO2 = createExerciseTypeTestDTO(2L, "Curls");
         List<ExerciseTypeDTO> exerciseTypesDTO = Arrays.asList(exerciseTypeDTO1, exerciseTypeDTO2);
 
         when(exerciseTypeRepository.getAllExerciseTypes()).thenReturn(exerciseTypes);
