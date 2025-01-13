@@ -1,7 +1,9 @@
 package com.exercise.project.services;
 
 import com.exercise.project.dtos.UserDTO;
+import com.exercise.project.dtos.UserRoleDTO;
 import com.exercise.project.entities.User;
+import com.exercise.project.entities.UserRole;
 import com.exercise.project.mappers.UserDTOMapper;
 import com.exercise.project.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,45 +26,43 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
+    private final Long NONEXISTENTID = 999999L;
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private RoleService roleService;
-
     @Mock
     private UserDTOMapper userDTOMapper;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @InjectMocks
     private UserServiceImpl userService;
+    private User createTestUserEntity(Long id, String username, String password, Set<UserRole> roles) {
+        return User.builder()
+                .id(id)
+                .username(username)
+                .password(password)
+                .roles(roles)
+                .build();
+    }
+    private UserDTO createTestUserDTO(Long id, String username, Set<UserRoleDTO> roles) {
+        return UserDTO.builder()
+                .id(id)
+                .username(username)
+                .rolesDTO(roles)
+                .build();
+    }
 
     @Test
     public void UserServiceImpl_AddNewUser_ShouldAddANewUserWithRole() {
         //Given
-        User userToRegister = User.builder()
-                .username("user")
-                .password("rawPassword")
-                .build();
-
+        User userToRegister = createTestUserEntity(null, "user", "rawPassword", Set.of());
         String encodedPassword = "encodedPassword";
-
-        User newUser = User.builder()
-                .username(userToRegister.getUsername())
-                .password(encodedPassword)
-                .build();
-
-        User savedUser = User.builder()
-                .id(1L)
-                .username("user")
-                .password(encodedPassword)
-                .build();
+        User newUser = createTestUserEntity(null, "user", encodedPassword, Set.of());
+        User savedUser = createTestUserEntity(1L, "user", encodedPassword, Set.of());
 
         when(passwordEncoder.encode(userToRegister.getPassword())).thenReturn(encodedPassword);
         when(userRepository.save(newUser)).thenReturn(savedUser);
-
         //When
         userService.addNewUser(userToRegister);
 
@@ -81,20 +81,11 @@ class UserServiceImplTest {
     public void UserServiceImpl_GetUserById_ShouldReturnAnUserDTO() {
         //Given
         Long userId = 1L;
-        User fetchedUser = User.builder()
-                .username("user")
-                .password("encodedPassword")
-                .roles(Set.of())
-                .build();
-
-        UserDTO returnedUserDTO = UserDTO.builder()
-                .username("user")
-                .rolesDTO(Set.of())
-                .build();
+        User fetchedUser = createTestUserEntity(1L, "user", "encodedPassword", Set.of());
+        UserDTO returnedUserDTO = createTestUserDTO(1L, "user", Set.of());
 
         when(userRepository.getUserById(userId)).thenReturn(Optional.of(fetchedUser));
         when(userDTOMapper.toDTO(fetchedUser)).thenReturn(returnedUserDTO);
-
         //When
         UserDTO result = userService.getUserById(userId);
 
@@ -106,11 +97,10 @@ class UserServiceImplTest {
     @Test
     public void UserServiceImpl_GetUserById_ShouldThrowEntityNotFoundException() {
         //Given
-        Long nonExistentId = 999999L;
-        when(userRepository.getUserById(nonExistentId)).thenReturn(Optional.empty());
+        when(userRepository.getUserById(NONEXISTENTID)).thenReturn(Optional.empty());
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            userService.getUserById(nonExistentId);
+            userService.getUserById(NONEXISTENTID);
         });
         assertEquals("User with id [999999] not found", exception.getMessage());
     }
