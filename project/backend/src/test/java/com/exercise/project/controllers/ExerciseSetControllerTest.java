@@ -36,17 +36,22 @@ class ExerciseSetControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private ExerciseSetDTO createExerciseSetTestDTO(Long id, Long sets, Long reps, Float weight, Long rest, Long duration) {
+        return ExerciseSetDTO.builder()
+                .id(id)
+                .sets(sets)
+                .reps(reps)
+                .weight(BigDecimal.valueOf(weight))
+                .rest(rest)
+                .duration(duration)
+                .build();
+    }
+
     @Test
     public void ExerciseSetController_AddExerciseSetToExercise_ShouldReturnExerciseSetDTO() throws Exception {
         //Given
         Long exerciseId = 1L;
-        ExerciseSetDTO exerciseSetDTO = ExerciseSetDTO.builder()
-                .sets(1L)
-                .reps(10L)
-                .weight(BigDecimal.valueOf(100F))
-                .rest(90L)
-                .duration(30L)
-                .build();
+        ExerciseSetDTO exerciseSetDTO = createExerciseSetTestDTO(1L, 1L, 10L, 100F, 90L, 30L);
 
         when(exerciseSetService.addExerciseSetToExercise(exerciseSetDTO, exerciseId)).thenReturn(exerciseSetDTO);
         //When
@@ -76,14 +81,8 @@ class ExerciseSetControllerTest {
     @Test
     public void ExerciseSetController_UpdateExerciseSetById_ShouldReturnUpdatedExerciseSetDTO() throws Exception {
         //Given
-        Long exerciseSetId = 1L;
-        ExerciseSetDTO updatedExerciseSetDTO = ExerciseSetDTO.builder()
-                .sets(1L)
-                .reps(1L)
-                .weight(BigDecimal.valueOf(10.0F))
-                .rest(90L)
-                .duration(30L)
-                .build();
+        Long exerciseSetId = 2L;
+        ExerciseSetDTO updatedExerciseSetDTO = createExerciseSetTestDTO(1L, 1L, 10L, 10F, 90L, 30L);
 
         when(exerciseSetService.updateExerciseSetById(updatedExerciseSetDTO, exerciseSetId)).thenReturn(updatedExerciseSetDTO);
         //When
