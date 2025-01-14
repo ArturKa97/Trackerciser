@@ -38,12 +38,21 @@ class ExerciseControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private Exercise createTestExerciseEntity(Long id) {
+        return Exercise.builder()
+                .id(id)
+                .build();
+    }
+    private ExerciseDTO createTestExerciseDTO(Long id) {
+        return ExerciseDTO.builder()
+                .id(id)
+                .build();
+    }
+
     @Test
     public void ExerciseController_AddExercise_ShouldReturnIsOk() throws Exception {
         //Given
-        Exercise exercise = Exercise.builder()
-                .id(1L)
-                .build();
+        Exercise exercise = createTestExerciseEntity(1L);
         //When
         ResultActions response = mockMvc.perform(post("/exercise")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -58,9 +67,7 @@ class ExerciseControllerTest {
     public void ExerciseController_GetExerciseById_ShouldReturnExerciseDTO() throws Exception {
         //Given
         Long exerciseId = 1L;
-        ExerciseDTO exerciseDTO = ExerciseDTO.builder()
-                .id(1L)
-                .build();
+        ExerciseDTO exerciseDTO = createTestExerciseDTO(1L);
 
         when(exerciseService.getExerciseById(exerciseId)).thenReturn(exerciseDTO);
         //When
@@ -77,12 +84,8 @@ class ExerciseControllerTest {
     @Test
     public void ExerciseController_GetAllExercises_ShouldReturnExerciseDTOList() throws Exception {
         //Given
-        ExerciseDTO exerciseDTO1 = ExerciseDTO.builder()
-                .id(1L)
-                .build();
-        ExerciseDTO exerciseDTO2 = ExerciseDTO.builder()
-                .id(2L)
-                .build();
+        ExerciseDTO exerciseDTO1 = createTestExerciseDTO(1L);
+        ExerciseDTO exerciseDTO2 = createTestExerciseDTO(2L);
         List<ExerciseDTO> exerciseDTOList = Arrays.asList(exerciseDTO1, exerciseDTO2);
 
         when(exerciseService.getAllExercises()).thenReturn(exerciseDTOList);
@@ -114,10 +117,8 @@ class ExerciseControllerTest {
     public void ExerciseController_AddExerciseToWorkoutSession_ShouldReturnExerciseDTO() throws Exception {
         //Given
         Long workoutSessionId = 1L;
-        Long exerciseTypeId = 1L;
-        ExerciseDTO exerciseDTO = ExerciseDTO.builder()
-                .id(1L)
-                .build();
+        Long exerciseTypeId = 2L;
+        ExerciseDTO exerciseDTO = createTestExerciseDTO(3L);
 
         when(exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId)).thenReturn(exerciseDTO);
         //When
@@ -135,7 +136,7 @@ class ExerciseControllerTest {
     public void ExerciseController_RemoveExerciseFromWorkoutSession_ShouldReturnIsOk() throws Exception {
         //Given
         Long workoutSessionId = 1L;
-        Long exerciseId = 1L;
+        Long exerciseId = 2L;
 
         //When
         ResultActions response = mockMvc.perform(delete("/exercise/{workoutSessionId}/{exerciseId}", workoutSessionId, exerciseId)
