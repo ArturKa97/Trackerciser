@@ -37,19 +37,18 @@ class ExerciseTypeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private ExerciseTypeDTO createExerciseTypeTestDTO(Long id, String name) {
+        return ExerciseTypeDTO.builder()
+                .id(id)
+                .name(name)
+                .build();
+    }
+
     @Test
     public void ExerciseTypeController_GetAllExerciseTypes() throws Exception {
         //Given
-        ExerciseTypeDTO exerciseTypeDTO1 = ExerciseTypeDTO.builder()
-                .id(1L)
-                .name("Squats")
-                .build();
-
-        ExerciseTypeDTO exerciseTypeDTO2 = ExerciseTypeDTO.builder()
-                .id(1L)
-                .name("Curls")
-                .build();
-
+        ExerciseTypeDTO exerciseTypeDTO1 = createExerciseTypeTestDTO(1L, "Squats");
+        ExerciseTypeDTO exerciseTypeDTO2 = createExerciseTypeTestDTO(2L, "Curls");
         List<ExerciseTypeDTO> exerciseTypeDTOList = Arrays.asList(exerciseTypeDTO1, exerciseTypeDTO2);
 
         when(exerciseTypeService.getAllExerciseTypes()).thenReturn(exerciseTypeDTOList);
