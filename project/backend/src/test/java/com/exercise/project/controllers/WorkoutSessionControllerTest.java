@@ -38,14 +38,18 @@ class WorkoutSessionControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private WorkoutSessionDTO createWorkoutSessionTestDTO(Long id, String name, LocalDate date) {
+        return WorkoutSessionDTO.builder()
+                .id(id)
+                .workoutSessionName(name)
+                .date(date)
+                .build();
+    }
+
     @Test
     public void WorkoutSessionController_AddWorkoutSession_ShouldReturnWorkoutSessionDTO() throws Exception {
         //Given
-        WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
         when(workoutSessionService.addWorkoutSession(workoutSessionDTO)).thenReturn(workoutSessionDTO);
         //When
@@ -64,11 +68,7 @@ class WorkoutSessionControllerTest {
     public void WorkoutSessionController_GetWorkoutSessionById_ShouldReturnWorkoutSessionDTO() throws Exception {
         //Given
         Long workoutSessionId = 1L;
-        WorkoutSessionDTO workoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
         when(workoutSessionService.getWorkoutSessionById(workoutSessionId)).thenReturn(workoutSessionDTO);
         //When
@@ -85,17 +85,8 @@ class WorkoutSessionControllerTest {
     @Test
     public void WorkoutSessionController_GetAllWorkoutSessions_ShouldReturnWorkoutSessionDTOList() throws Exception {
         //Given
-        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
-
-        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
-                .id(2L)
-                .workoutSessionName("Arm day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO workoutSessionDTO1 = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
+        WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.now());
 
         List<WorkoutSessionDTO> workoutSessionDTOList = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
@@ -117,21 +108,11 @@ class WorkoutSessionControllerTest {
         LocalDate fromDate = LocalDate.of(2024, 1, 1);
         LocalDate toDate = LocalDate.of(2024, 10, 1);
 
-        WorkoutSessionDTO workoutSessionDTO1 = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.of(2024, 2, 2))
-                .build();
-
-        WorkoutSessionDTO workoutSessionDTO2 = WorkoutSessionDTO.builder()
-                .id(2L)
-                .workoutSessionName("Arm day")
-                .date(LocalDate.of(2024, 8, 8))
-                .build();
-
+        WorkoutSessionDTO workoutSessionDTO1 = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.of(2024, 2, 2));
+        WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.of(2024, 8, 8));
         List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
-        when(workoutSessionService.getAllWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessionDTOS);
 
+        when(workoutSessionService.getAllWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessionDTOS);
         //When
         ResultActions response = mockMvc.perform(get("/workout_session/dates")
                 .param("fromDate", fromDate.toString())
@@ -161,11 +142,7 @@ class WorkoutSessionControllerTest {
     public void WorkoutSessionController_UpdateWorkoutSessionById_ShouldReturnUpdatedWorkoutSessionDTO() throws Exception {
         //Given
         Long workoutSessionId = 1L;
-        WorkoutSessionDTO updatedWorkoutSessionDTO = WorkoutSessionDTO.builder()
-                .id(1L)
-                .workoutSessionName("Leg day")
-                .date(LocalDate.now())
-                .build();
+        WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
         when(workoutSessionService.updateWorkoutSessionById(workoutSessionId, updatedWorkoutSessionDTO)).thenReturn(updatedWorkoutSessionDTO);
         //When
