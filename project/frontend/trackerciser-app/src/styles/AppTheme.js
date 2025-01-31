@@ -6,11 +6,12 @@ const AppTheme = createTheme({
     primary: {
       main: "#212121",
       light: "#424242",
-      contrastText: "#fff",
+      contrastText: "#fafafa",
     },
     secondary: {
-      main: "#801313",
-      contrastText: "#fff",
+      main: "#b71c1c",
+      light: "#c62828",
+      contrastText: "#212121",
     },
   },
   components: {
