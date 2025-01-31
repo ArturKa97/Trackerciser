@@ -1,9 +1,5 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
@@ -15,6 +11,8 @@ import {
   FlexToolbar,
   HeaderButton,
   HeaderButtonBox,
+  HeaderLogoBox,
+  LogoTypography,
   StyledAppBar,
 } from "../styles/StyledComponents";
 
@@ -28,8 +26,10 @@ function Header() {
     <StyledAppBar>
       <FlexToolbar>
         <HeaderButtonBox>
-          <FitnessCenterIcon />
-          <Typography>TRACKERCISER</Typography>
+          <HeaderLogoBox>
+            <FitnessCenterIcon />
+            <LogoTypography>TRACKERCISER</LogoTypography>
+          </HeaderLogoBox>
           <HeaderButton onClick={() => navigate("/workoutSessions")}>
             Workout Sessions
           </HeaderButton>
