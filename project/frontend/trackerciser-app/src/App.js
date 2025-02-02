@@ -6,6 +6,7 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import { initBackendApiClient } from "./api";
 import Footer from "./components/Footer";
+import { AppBox, AppRoutesBox } from "./styles/StyledComponents";
 
 initBackendApiClient(store);
 
@@ -13,9 +14,13 @@ function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <Header />
-        <AppRoutes />
-        <Footer />
+        <AppBox>
+          <Header />
+          <AppRoutesBox component="main">
+            <AppRoutes />
+          </AppRoutesBox>
+          <Footer />
+        </AppBox>
       </Provider>
     </BrowserRouter>
   );
