@@ -1,6 +1,16 @@
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { AppBar, Toolbar, Box, Typography } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography, Container } from "@mui/material";
+
+export const AppBox = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+});
+
+export const AppRoutesBox = styled(Box)({
+  flex: 1,
+});
 
 export const StyledAppBar = styled(AppBar)({
   position: "sticky",
@@ -36,4 +46,19 @@ export const LogoTypography = styled(Typography)({
   fontSize: "1.4rem",
   letterSpacing: "0.15rem",
   fontWeight: "500",
+});
+
+export const MainContainer = styled(Container)({
+  maxWidth: "120rem",
+  padding: "4.8rem 0 9.6rem 0",
+  margin: "0 auto",
+});
+
+export const TwoColumnGridBox = styled(Box)({
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  columnGap: "3.2rem",
+  alignItems: "center",
+  justifyItems: "center",
+  padding: "0 3.2rem",
 });

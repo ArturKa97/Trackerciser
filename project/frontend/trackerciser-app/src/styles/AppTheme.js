@@ -30,15 +30,29 @@ const AppTheme = createTheme({
       light: "#c62828",
       contrastText: "#212121",
     },
+    text: {
+      primary: "#fafafa",
+    },
+  },
+  typography: {
+    fontFamily: "'Roboto', sans-serif",
+
+    h1: {
+      fontSize: "5.2rem",
+      fontWeight: 600,
+    },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundImage: `url(${background})`,
+          backgroundImage: ` linear-gradient(
+              rgba(0, 0, 0, 0.5), 
+              rgba(0, 0, 0, 0.5)
+            ),url(${background})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: "100vh",
+          minHeight: "100vh",
           backgroundPosition: "center",
         },
       },
