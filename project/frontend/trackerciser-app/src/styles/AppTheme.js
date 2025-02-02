@@ -41,14 +41,19 @@ const AppTheme = createTheme({
       fontSize: "5.2rem",
       fontWeight: 600,
     },
+
+    h2: {
+      fontSize: "2.4rem",
+      fontWeight: 500,
+    },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
           backgroundImage: ` linear-gradient(
-              rgba(0, 0, 0, 0.5), 
-              rgba(0, 0, 0, 0.5)
+              rgba(0, 0, 0, 0.7), 
+              rgba(0, 0, 0, 0.7)
             ),url(${background})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",

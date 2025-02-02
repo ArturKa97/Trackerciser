@@ -1,6 +1,14 @@
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { AppBar, Toolbar, Box, Typography, Container } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Container,
+  Card,
+  CardContent,
+} from "@mui/material";
 
 export const AppBox = styled(Box)({
   display: "flex",
@@ -48,11 +56,11 @@ export const LogoTypography = styled(Typography)({
   fontWeight: "500",
 });
 
-export const MainContainer = styled(Container)({
-  maxWidth: "120rem",
+export const MainContainer = styled(Container)(({ theme }) => ({
+  maxWidth: theme.breakpoints.values["lg"],
   padding: "4.8rem 0 9.6rem 0",
   margin: "0 auto",
-});
+}));
 
 export const TwoColumnGridBox = styled(Box)({
   display: "grid",
@@ -61,4 +69,29 @@ export const TwoColumnGridBox = styled(Box)({
   alignItems: "center",
   justifyItems: "center",
   padding: "0 3.2rem",
+});
+
+export const AlignStartGridBox = styled(Box)({
+  alignSelf: "start",
+});
+
+export const FeaturesCard = styled(Card)({
+  backgroundColor: "transparent",
+  boxShadow: "none",
+  border: "none",
+});
+
+export const FeaturesCardContent = styled(CardContent)({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-start",
+  gap: "1.2rem",
+  "& > :first-child": {
+    textAlign: "center",
+  },
+});
+
+export const FeaturesTypography = styled(Typography)({
+  fontSize: "1.6rem",
+  lineHeight: "2.2rem",
 });
