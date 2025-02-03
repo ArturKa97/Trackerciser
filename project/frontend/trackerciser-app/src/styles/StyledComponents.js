@@ -8,6 +8,9 @@ import {
   Container,
   Card,
   CardContent,
+  IconButton,
+  List,
+  ListItem,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -65,7 +68,7 @@ export const MainContainer = styled(Container)(({ theme }) => ({
 export const TwoColumnGridBox = styled(Box)({
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
-  columnGap: "3.2rem",
+  columnGap: "4.8rem",
   alignItems: "center",
   justifyItems: "center",
   padding: "0 3.2rem",
@@ -73,25 +76,67 @@ export const TwoColumnGridBox = styled(Box)({
 
 export const AlignStartGridBox = styled(Box)({
   alignSelf: "start",
+  position: "relative",
 });
+
+const slideAnimation = {
+  "@keyframes slide-in-next": {
+    "0%": { transform: "translateX(100%)", opacity: 0 },
+    "100%": { transform: "translateX(0)", opacity: 1 },
+  },
+  "@keyframes slide-in-prev": {
+    "0%": { transform: "translateX(-100%)", opacity: 0 },
+    "100%": { transform: "translateX(0)", opacity: 1 },
+  },
+};
 
 export const FeaturesCard = styled(Card)({
   backgroundColor: "transparent",
   boxShadow: "none",
   border: "none",
+  height: "38rem",
 });
 
-export const FeaturesCardContent = styled(CardContent)({
+export const FeaturesCardContent = styled(CardContent)(({ direction }) => ({
+  ...slideAnimation,
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-start",
   gap: "1.2rem",
-  "& > :first-child": {
-    textAlign: "center",
-  },
-});
+  textAlign: "center",
+  animation:
+    direction === 1
+      ? "slide-in-next 0.3s ease-in"
+      : "slide-in-prev 0.3s ease-in",
+}));
 
 export const FeaturesTypography = styled(Typography)({
   fontSize: "1.6rem",
   lineHeight: "2.2rem",
+});
+
+export const PrevIconButton = styled(IconButton)({
+  backgroundColor: "white",
+  position: "absolute",
+  left: 0,
+  top: "50%",
+  transform: "translate(-100%, -50%)",
+});
+export const NextIconButton = styled(IconButton)({
+  backgroundColor: "white",
+  position: "absolute",
+  right: 0,
+  top: "50%",
+  transform: "translate(0, -50%)",
+});
+
+export const FeaturesList = styled(List)({
+  listStyleType: "disc",
+  padding: "0 1.6rem",
+});
+
+export const FeaturesListItem = styled(ListItem)({
+  display: "list-item",
+  fontSize: "1.6rem",
+  lineHeight: "2.0rem",
 });
