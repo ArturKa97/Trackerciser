@@ -11,6 +11,7 @@ import {
   IconButton,
   List,
   ListItem,
+  Radio,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -67,7 +68,7 @@ export const MainContainer = styled(Container)(({ theme }) => ({
 
 export const TwoColumnGridBox = styled(Box)({
   display: "grid",
-  gridTemplateColumns: "1fr 1fr",
+  gridTemplateColumns: "0.8fr 1.2fr",
   columnGap: "4.8rem",
   alignItems: "center",
   justifyItems: "center",
@@ -77,6 +78,7 @@ export const TwoColumnGridBox = styled(Box)({
 export const AlignStartGridBox = styled(Box)({
   alignSelf: "start",
   position: "relative",
+  paddingBottom: "4.8rem",
 });
 
 const slideAnimation = {
@@ -148,3 +150,16 @@ export const FeaturesListItem = styled(ListItem)({
   fontSize: "1.6rem",
   lineHeight: "2.0rem",
 });
+
+export const FlexRadioGroupBox = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-end",
+});
+
+export const StyledRadioButton = styled(Radio)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  "&.Mui-checked": {
+    color: theme.palette.secondary.main,
+  },
+}));

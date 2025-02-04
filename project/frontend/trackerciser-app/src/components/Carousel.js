@@ -6,8 +6,10 @@ import {
   FeaturesCardContent,
   FeaturesList,
   FeaturesListItem,
+  FlexRadioGroupBox,
   NextIconButton,
   PrevIconButton,
+  StyledRadioButton,
 } from "../styles/StyledComponents";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -27,7 +29,6 @@ function Carousel() {
   function handleNextCardClick() {
     setDirection(1);
     setActiveIndex((prevIndex) => (prevIndex + 1) % cardData.length);
-    console.log(activeIndex);
   }
 
   const cardData = [
@@ -85,6 +86,16 @@ function Carousel() {
           <ArrowForwardIosIcon />
         </NextIconButton>
       </FeaturesCard>
+      <FlexRadioGroupBox>
+        {cardData.map((_, index) => (
+          <StyledRadioButton
+            key={index}
+            checked={activeIndex === index}
+            onChange={() => setActiveIndex(index)}
+            value={index}
+          />
+        ))}
+      </FlexRadioGroupBox>
     </AlignStartGridBox>
   );
 }
