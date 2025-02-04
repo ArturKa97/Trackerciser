@@ -115,20 +115,28 @@ export const FeaturesTypography = styled(Typography)({
   lineHeight: "2.2rem",
 });
 
-export const PrevIconButton = styled(IconButton)({
-  backgroundColor: "white",
+export const PrevIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
   position: "absolute",
   left: 0,
   top: "50%",
   transform: "translate(-100%, -50%)",
-});
-export const NextIconButton = styled(IconButton)({
-  backgroundColor: "white",
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+export const NextIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
   position: "absolute",
   right: 0,
   top: "50%",
   transform: "translate(0, -50%)",
-});
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
 
 export const FeaturesList = styled(List)({
   listStyleType: "disc",
