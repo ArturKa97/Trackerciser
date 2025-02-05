@@ -62,6 +62,47 @@ const AppTheme = createTheme({
         },
       },
     },
+
+    MuiTableHead: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.main,
+          borderBottom: "2px solid #fafafa",
+        }),
+      },
+    },
+    MuiTableBody: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          borderBottom: "2px solid #fafafa",
+        }),
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          transition: "background-color 0.3s ease-in-out",
+          "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+          },
+        }),
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: ({ theme }) => ({
+          color: theme.palette.text.primary,
+          fontSize: "1.2rem",
+          fontWeight: 600,
+          textTransform: "uppercase",
+        }),
+        body: ({ theme }) => ({
+          color: theme.palette.text.primary,
+          fontSize: "1rem",
+        }),
+      },
+    },
   },
 });
 
