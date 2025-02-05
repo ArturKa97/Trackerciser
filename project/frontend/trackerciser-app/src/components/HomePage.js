@@ -11,7 +11,7 @@ function HomePage() {
             SIMPLIFY YOUR WORKOUT AND PROGRESS TRACKING
           </Typography>
         </Box>
-        <Carousel></Carousel>
+        <Carousel />
       </TwoColumnGridBox>
     </MainContainer>
   );
