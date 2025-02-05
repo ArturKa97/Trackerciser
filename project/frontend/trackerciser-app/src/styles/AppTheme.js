@@ -75,13 +75,13 @@ const AppTheme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.light,
-          borderBottom: "2px solid #fafafa",
         }),
       },
     },
     MuiTableRow: {
       styleOverrides: {
         root: ({ theme }) => ({
+          borderBottom: "2px solid #fafafa",
           transition: "background-color 0.3s ease-in-out",
           "&:hover": {
             backgroundColor: theme.palette.primary.main,
