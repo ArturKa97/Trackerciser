@@ -12,14 +12,14 @@ import {
 } from "../api/WorkoutSessionApi";
 import WorkoutSessionForm from "../forms/WorkoutSessionForm";
 import {
-  DeleteActionButton,
+  DeleteOrCloseActionButton,
   EditActionButton,
   MainContainer,
-  WorkoutSessionFormStateButton,
+  WorkoutSessionFormAddButton,
 } from "../styles/StyledComponents";
 import EditIcon from "@mui/icons-material/Edit";
-import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
@@ -48,12 +48,12 @@ function WorkoutSessionsTable() {
       .catch((error) => console.log(error))
       .finally(() => console.log("deleted"));
   }
-  function handleFormSuccess() {
+  const handleFormSuccess = () => {
     setShowWorkoutSessionForm(false);
     setAddingNewWorkoutSession(false);
     setEditWorkoutSessionId(null);
     retrieveWorkoutSessionsCall();
-  }
+  };
   const handleEditClick = (workoutSesionId) => {
     setEditWorkoutSessionId(workoutSesionId);
     setAddingNewWorkoutSession(false);
@@ -65,13 +65,18 @@ function WorkoutSessionsTable() {
     setEditWorkoutSessionId(null);
   };
 
+  const handleCloseClick = () => {
+    setEditWorkoutSessionId(null);
+    setShowWorkoutSessionForm(false);
+    setAddingNewWorkoutSession(false);
+  };
+
   return (
     <>
       <MainContainer>
-        <Table aria-label="simple table">
+        <Table aria-label="workout sessions table">
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Actions</TableCell>
@@ -84,18 +89,16 @@ function WorkoutSessionsTable() {
                 key={workoutSession.id}
               >
                 {editWorkoutSessionId === workoutSession.id ? (
-                  <TableCell onClick={(e) => e.stopPropagation()}>
+                  <TableCell colSpan={3} onClick={(e) => e.stopPropagation()}>
                     <WorkoutSessionForm
                       initialWorkoutSessionValues={workoutSession}
                       isAddingNew={addingNewWorkoutSession}
                       onSuccess={handleFormSuccess}
+                      onClose={handleCloseClick}
                     />
                   </TableCell>
                 ) : (
                   <>
-                    <TableCell component="th" scope="row">
-                      {workoutSession.id}
-                    </TableCell>
                     <TableCell>{workoutSession.workoutSessionName}</TableCell>
                     <TableCell>{workoutSession.date}</TableCell>
                     <TableCell>
@@ -107,14 +110,14 @@ function WorkoutSessionsTable() {
                       >
                         <EditIcon />
                       </EditActionButton>
-                      <DeleteActionButton
+                      <DeleteOrCloseActionButton
                         onClick={(e) => {
                           e.stopPropagation();
                           deleteWorkoutSessionByIdCall(workoutSession.id);
                         }}
                       >
-                        <ClearIcon />
-                      </DeleteActionButton>
+                        <DeleteIcon />
+                      </DeleteOrCloseActionButton>
                     </TableCell>
                   </>
                 )}
@@ -122,19 +125,22 @@ function WorkoutSessionsTable() {
             ))}
             {showWorkoutSessionForm && (
               <TableRow>
-                <TableCell>
+                <TableCell colSpan={3}>
                   <WorkoutSessionForm
                     onSuccess={handleFormSuccess}
                     isAddingNew={addingNewWorkoutSession}
+                    onClose={handleCloseClick}
                   />
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-        <WorkoutSessionFormStateButton onClick={handleAddClick}>
-          {showWorkoutSessionForm ? <ClearIcon /> : <AddIcon />}
-        </WorkoutSessionFormStateButton>
+        {!showWorkoutSessionForm && (
+          <WorkoutSessionFormAddButton onClick={handleAddClick}>
+            <AddIcon />
+          </WorkoutSessionFormAddButton>
+        )}
       </MainContainer>
     </>
   );
