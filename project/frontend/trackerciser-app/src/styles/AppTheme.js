@@ -96,11 +96,75 @@ const AppTheme = createTheme({
           fontSize: "1.2rem",
           fontWeight: 600,
           textTransform: "uppercase",
+          textAlign: "left",
+          "&:first-of-type": {
+            width: "40%",
+          },
+
+          "&:nth-of-type(2)": {
+            width: "40%",
+          },
+          "&:last-child": {
+            textAlign: "right",
+          },
         }),
         body: ({ theme }) => ({
           color: theme.palette.text.primary,
           fontSize: "1rem",
+          textAlign: "left",
+          "&:first-of-type": {
+            width: "40%",
+          },
+
+          "&:nth-of-type(2)": {
+            width: "40%",
+          },
+
+          "&:last-child": {
+            width: "20%",
+            textAlign: "right",
+          },
         }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#fafafa",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#fafafa",
+              borderWidth: "2px",
+              transition: "border-width 0.3s ease-in-out",
+            },
+            "&:hover.Mui-error .MuiOutlinedInput-notchedOutline": {
+              borderColor: "red",
+              borderWidth: "2px",
+              transition: "border-width 0.3s ease-in-out",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#fafafa",
+              borderWidth: "3px",
+              transition: "border-width 0.3s ease-in-out",
+            },
+            "&.Mui-focused.Mui-error .MuiOutlinedInput-notchedOutline": {
+              borderColor: "red",
+              borderWidth: "3px",
+              transition: "border-width 0.3s ease-in-out",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "#fafafa",
+          },
+          "& .MuiInputLabel-root.Mui-error.Mui-focused": {
+            color: "red",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "#fafafa",
+          },
+        },
       },
     },
   },

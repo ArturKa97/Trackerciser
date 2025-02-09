@@ -1,15 +1,26 @@
 import { Field, Form, Formik } from "formik";
-import Button from "@mui/material/Button";
 import {
   addWorkoutSession,
   updateWorkoutSessionById,
 } from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
+import { TextField, Box } from "@mui/material";
+import {
+  AddActionButton,
+  DeleteOrCloseActionButton,
+  EditActionButton,
+  FormBox,
+  FormTextFieldBox,
+} from "../styles/StyledComponents";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
+import EditIcon from "@mui/icons-material/Edit";
 
 function WorkoutSessionForm({
   onSuccess,
   initialWorkoutSessionValues,
   isAddingNew,
+  onClose,
 }) {
   const onSubmit = async (values, actions) => {
     try {
@@ -61,25 +72,48 @@ function WorkoutSessionForm({
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
-          <Field
-            label="Name"
-            placeholder="Enter your workout session name"
-            name="workoutSessionName"
-            type="text"
-          />
-          {touched.workoutSessionName && errors.workoutSessionName && (
-            <div>{errors.workoutSessionName}</div>
-          )}
-          <Field
-            label="Date"
-            placeholder="Enter your workout session date"
-            name="date"
-            type="date"
-          />
-          {touched.date && errors.date && <div>{errors.date}</div>}
-          <Button variant="outlined" type="submit" disabled={isSubmitting}>
-            {isAddingNew ? "Submit" : "Edit"}
-          </Button>
+          <FormBox>
+            <FormTextFieldBox>
+              <Field
+                label="Name *"
+                error={
+                  touched.workoutSessionName && !!errors.workoutSessionName
+                }
+                helperText={
+                  touched.workoutSessionName && errors.workoutSessionName
+                }
+                as={TextField}
+                placeholder="Enter your workout session name"
+                name="workoutSessionName"
+                type="text"
+              />
+
+              <Field
+                label="Date *"
+                error={touched.date && !!errors.date}
+                helperText={touched.date && errors.date}
+                as={TextField}
+                placeholder="Enter your workout session date"
+                name="date"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+              />
+            </FormTextFieldBox>
+            <Box>
+              {isAddingNew ? (
+                <AddActionButton type="submit" disabled={isSubmitting}>
+                  <AddIcon />
+                </AddActionButton>
+              ) : (
+                <EditActionButton type="submit" disabled={isSubmitting}>
+                  <EditIcon />
+                </EditActionButton>
+              )}
+              <DeleteOrCloseActionButton onClick={onClose}>
+                <ClearIcon />
+              </DeleteOrCloseActionButton>
+            </Box>
+          </FormBox>
         </Form>
       )}
     </Formik>

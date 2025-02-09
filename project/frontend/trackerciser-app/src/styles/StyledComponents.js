@@ -173,7 +173,7 @@ export const EditActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export const DeleteActionButton = styled(IconButton)(({ theme }) => ({
+export const DeleteOrCloseActionButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.secondary.main,
   transition: "color 0.3s ease-in-out",
   "&:hover": {
@@ -181,15 +181,35 @@ export const DeleteActionButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.primary.contrastText,
   },
 }));
-export const WorkoutSessionFormStateButton = styled(IconButton)(
-  ({ theme }) => ({
+
+export const WorkoutSessionFormAddButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.light,
+  borderRadius: "0px",
+  transition: "background-color 0.3s ease-in-out",
+  width: "100%",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+
+export const AddActionButton = styled(IconButton)(({ theme }) => ({
+  color: "#1976d2",
+  transition: "color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: "transparent",
     color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.light,
-    borderRadius: "0px",
-    transition: "background-color 0.3s ease-in-out",
-    width: "100%",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-    },
-  })
-);
+  },
+}));
+
+export const FormBox = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+export const FormTextFieldBox = styled(Box)({
+  display: "flex",
+  gap: "2.4rem",
+  alignItems: "center",
+});
