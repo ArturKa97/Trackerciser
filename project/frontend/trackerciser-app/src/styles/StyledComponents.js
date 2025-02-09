@@ -213,3 +213,7 @@ export const FormTextFieldBox = styled(Box)({
   gap: "2.4rem",
   alignItems: "center",
 });
+
+export const TextAlignCenterBox = styled(Box)({
+  textAlign: "center",
+});

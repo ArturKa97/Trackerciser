@@ -15,11 +15,13 @@ import {
   DeleteOrCloseActionButton,
   EditActionButton,
   MainContainer,
+  TextAlignCenterBox,
   WorkoutSessionFormAddButton,
 } from "../styles/StyledComponents";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Typography } from "@mui/material";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
@@ -83,6 +85,15 @@ function WorkoutSessionsTable() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {workoutSessions.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <TextAlignCenterBox>
+                    <Typography>NO WORKOUT SESSIONS FOUND</Typography>
+                  </TextAlignCenterBox>
+                </TableCell>
+              </TableRow>
+            )}
             {workoutSessions.map((workoutSession) => (
               <TableRow
                 onClick={() => selectRow(workoutSession.id)}
