@@ -191,6 +191,12 @@ export const WorkoutSessionFormAddButton = styled(IconButton)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
   },
+  "&.Mui-disabled": {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText,
+    cursor: "not-allowed",
+    opacity: 0.5,
+  },
 }));
 
 export const AddActionButton = styled(IconButton)(({ theme }) => ({
