@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   Radio,
+  Select,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -182,7 +183,7 @@ export const DeleteOrCloseActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export const WorkoutSessionFormAddButton = styled(IconButton)(({ theme }) => ({
+export const BigTableAddButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
   backgroundColor: theme.palette.primary.light,
   borderRadius: "0px",
@@ -222,4 +223,28 @@ export const FormTextFieldBox = styled(Box)({
 
 export const TextAlignCenterBox = styled(Box)({
   textAlign: "center",
+});
+
+export const WorkoutSessionPageHeaderBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "2.4rem",
+  gap: "1.2rem",
+  borderBottom: "2px solid #fafafa",
+}));
+
+export const ExerciseFormBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "1.0rem",
+  backgroundColor: theme.palette.primary.main,
+  borderBottom: "2px solid #fafafa",
+}));
+
+export const StyledFormSelect = styled(Select)({
+  width: "50%",
 });

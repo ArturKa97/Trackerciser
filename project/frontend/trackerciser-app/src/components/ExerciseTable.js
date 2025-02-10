@@ -1,4 +1,3 @@
-import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -61,15 +60,11 @@ function ExerciseTable({
 
   return (
     exercises && (
-      <TableContainer
-        component={Paper}
-        sx={{ width: "100%", overflowX: "auto" }}
-      >
-        <Table sx={{ minWidth: 650 }} aria-label="exercise table">
+      <TableContainer>
+        <Table aria-label="exercises table">
           <TableHead>
-            <TableRow sx={{ minHeight: "48px" }}>
+            <TableRow>
               <TableCell align="center"></TableCell>
-              <TableCell align="center">ID</TableCell>
               <TableCell align="center">Exercise name</TableCell>
               <TableCell align="center">Sets</TableCell>
               <TableCell align="center">Reps</TableCell>
@@ -83,18 +78,24 @@ function ExerciseTable({
               const exerciseSets = exercise.exerciseSetsDTO || [];
               return (
                 <React.Fragment key={exercise.id}>
-                  <TableRow sx={{ minHeight: "48px" }}>
-                    <TableCell align="center">
-                      <IconButton aria-label="delete" onClick={() => removeExerciseFromWorkoutSessionCall(workoutSessionId, exercise.id)}>
+                  <TableRow>
+                    <TableCell>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() =>
+                          removeExerciseFromWorkoutSessionCall(
+                            workoutSessionId,
+                            exercise.id
+                          )
+                        }
+                      >
                         <ClearIcon />
                       </IconButton>
                     </TableCell>
                     <TableCell component="th" scope="row">
                       {exercise.id}
                     </TableCell>
-                    <TableCell align="center">
-                      {exercise.exerciseTypeDTO.name}
-                    </TableCell>
+                    <TableCell>{exercise.exerciseTypeDTO.name}</TableCell>
                     {exerciseSets.length > 0 &&
                     editingExerciseId === exercise.id &&
                     editingExerciseSetId === exerciseSets[0].id ? (
@@ -152,7 +153,7 @@ function ExerciseTable({
 
                   {exerciseSets.length > 1 &&
                     exerciseSets.slice(1)?.map((set) => (
-                      <TableRow key={set.id} sx={{ minHeight: "48px" }}>
+                      <TableRow key={set.id}>
                         {editingExerciseId === exercise.id &&
                         editingExerciseSetId === set.id ? (
                           <>
@@ -197,7 +198,7 @@ function ExerciseTable({
                     ))}
                   {addingNewExercise && editingExerciseId === exercise.id ? (
                     <>
-                      <TableRow sx={{ minHeight: "48px" }}>
+                      <TableRow>
                         <TableCell colSpan={7}>
                           <ExerciseSetForm
                             exerciseId={exercise.id}
@@ -210,8 +211,8 @@ function ExerciseTable({
                     </>
                   ) : (
                     <>
-                      <TableRow sx={{ minHeight: "48px" }}>
-                        <TableCell colSpan={7} align="center">
+                      <TableRow>
+                        <TableCell colSpan={7}>
                           <Button
                             onClick={() => handleAddClick(exercise.id)}
                             variant="contained"

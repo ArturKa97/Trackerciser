@@ -1,12 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import { useEffect, useState } from "react";
 import { retrieveAllExerciseTypes } from "../api/ExerciseTypeApi";
 import { addExerciseToWorkoutSession } from "../api/ExerciseApi";
+import { ExerciseFormBox, StyledFormSelect } from "../styles/StyledComponents";
+import { MenuItem } from "@mui/material";
 
 function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
   const [exerciseTypes, setExerciseTypes] = useState([]);
@@ -48,32 +46,30 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
     >
       {({ isSubmitting, errors, touched, setFieldValue }) => (
         <Form>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel id="exercise-select-label">
-              Choose the exercise
-            </InputLabel>
+          <ExerciseFormBox>
             <Field
               name="exerciseId"
-              as={Select}
+              as={StyledFormSelect}
               labelId="exercise-select-label"
               label="Choose the exercise"
+              displayEmpty
               onChange={(event) =>
                 setFieldValue("exerciseId", event.target.value)
               }
             >
+              <MenuItem value="" disabled>
+                Choose the exercise...
+              </MenuItem>
               {exerciseTypes.map((exerciseType) => (
                 <MenuItem key={exerciseType.id} value={exerciseType.id}>
                   {exerciseType.name}
                 </MenuItem>
               ))}
             </Field>
-          </FormControl>
-          {touched.workoutSessionName && errors.workoutSessionName && (
-            <div>{errors.workoutSessionName}</div>
-          )}
-          <Button variant="outlined" type="submit" disabled={isSubmitting}>
-            Submit
-          </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              Submit
+            </Button>
+          </ExerciseFormBox>
         </Form>
       )}
     </Formik>
