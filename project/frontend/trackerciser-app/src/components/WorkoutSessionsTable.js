@@ -147,11 +147,12 @@ function WorkoutSessionsTable() {
             )}
           </TableBody>
         </Table>
-        {!showWorkoutSessionForm && (
-          <WorkoutSessionFormAddButton onClick={handleAddClick}>
-            <AddIcon />
-          </WorkoutSessionFormAddButton>
-        )}
+        <WorkoutSessionFormAddButton
+          onClick={handleAddClick}
+          disabled={showWorkoutSessionForm}
+        >
+          <AddIcon />
+        </WorkoutSessionFormAddButton>
       </MainContainer>
     </>
   );
