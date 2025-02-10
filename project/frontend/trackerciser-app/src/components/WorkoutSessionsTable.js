@@ -12,11 +12,11 @@ import {
 } from "../api/WorkoutSessionApi";
 import WorkoutSessionForm from "../forms/WorkoutSessionForm";
 import {
+  BigTableAddButton,
   DeleteOrCloseActionButton,
   EditActionButton,
   MainContainer,
   TextAlignCenterBox,
-  WorkoutSessionFormAddButton,
 } from "../styles/StyledComponents";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -147,12 +147,12 @@ function WorkoutSessionsTable() {
             )}
           </TableBody>
         </Table>
-        <WorkoutSessionFormAddButton
+        <BigTableAddButton
           onClick={handleAddClick}
           disabled={showWorkoutSessionForm}
         >
           <AddIcon />
-        </WorkoutSessionFormAddButton>
+        </BigTableAddButton>
       </MainContainer>
     </>
   );

@@ -46,6 +46,10 @@ const AppTheme = createTheme({
       fontSize: "2.4rem",
       fontWeight: 500,
     },
+    h3: {
+      fontSize: "1.8rem",
+      fontWeight: 500,
+    },
   },
   components: {
     MuiCssBaseline: {
@@ -67,7 +71,7 @@ const AppTheme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.main,
-          borderBottom: "2px solid #fafafa",
+          borderBottom: `2px solid ${theme.palette.primary.contrastText}`,
         }),
       },
     },
@@ -81,7 +85,7 @@ const AppTheme = createTheme({
     MuiTableRow: {
       styleOverrides: {
         root: ({ theme }) => ({
-          borderBottom: "2px solid #fafafa",
+          borderBottom: `2px solid ${theme.palette.primary.contrastText}`,
           transition: "background-color 0.3s ease-in-out",
           "&:hover": {
             backgroundColor: theme.palette.primary.main,
@@ -129,42 +133,87 @@ const AppTheme = createTheme({
     },
     MuiTextField: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           "& .MuiOutlinedInput-root": {
             "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#fafafa",
+              borderColor: theme.palette.primary.contrastText,
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#fafafa",
-              borderWidth: "2px",
-              transition: "border-width 0.3s ease-in-out",
+              boxShadow: `0 0 0 1px ${theme.palette.primary.contrastText}`,
+              transition: "box-shadow 0.3s ease-in-out",
             },
             "&:hover.Mui-error .MuiOutlinedInput-notchedOutline": {
-              borderColor: "red",
-              borderWidth: "2px",
-              transition: "border-width 0.3s ease-in-out",
+              boxShadow: `0 0 0 1px ${theme.palette.secondary.main}`,
+              transition: "box-shadow 0.3s ease-in-out",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#fafafa",
-              borderWidth: "3px",
-              transition: "border-width 0.3s ease-in-out",
+              boxShadow: `0 0 0 2px ${theme.palette.primary.contrastText}`,
+              transition: "box-shadow 0.3s ease-in-out",
             },
             "&.Mui-focused.Mui-error .MuiOutlinedInput-notchedOutline": {
-              borderColor: "red",
-              borderWidth: "3px",
-              transition: "border-width 0.3s ease-in-out",
+              boxShadow: `0 0 0 2px ${theme.palette.secondary.main}`,
+              transition: "box-shadow 0.3s ease-in-out",
             },
           },
           "& .MuiInputLabel-root": {
-            color: "#fafafa",
+            color: theme.palette.primary.contrastText,
           },
           "& .MuiInputLabel-root.Mui-error.Mui-focused": {
-            color: "red",
+            color: theme.palette.secondary.main,
           },
           "& .MuiInputLabel-root.Mui-focused": {
-            color: "#fafafa",
+            color: theme.palette.primary.contrastText,
+          },
+        }),
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          border: "1px solid #fafafa",
+          boxShadow: "none",
+          transition: "box-shadow 0.3s ease-in-out",
+          "&:hover": {
+            boxShadow: `0 0 0 1px ${theme.palette.primary.contrastText}`,
+          },
+          "&.Mui-focused": {
+            boxShadow: `0 0 0 2px ${theme.palette.primary.contrastText}`,
+          },
+        }),
+      },
+      defaultProps: {
+        MenuProps: {
+          PaperProps: {
+            sx: {
+              backgroundColor: (theme) => theme.palette.primary.light,
+            },
           },
         },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+        }),
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+          },
+          "&.Mui-selected": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+          },
+        }),
       },
     },
   },

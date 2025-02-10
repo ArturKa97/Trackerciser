@@ -1,15 +1,17 @@
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { retrieveWorkoutSessionById } from "../api/WorkoutSessionApi";
 import ExerciseTable from "./ExerciseTable";
-import { Button } from "@mui/material";
 import ExerciseForm from "../forms/ExerciseForm";
+import {
+  BigTableAddButton,
+  MainContainer,
+  WorkoutSessionPageHeaderBox,
+} from "../styles/StyledComponents";
+import AddIcon from "@mui/icons-material/Add";
 
 function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
@@ -28,6 +30,7 @@ function WorkoutSessionPage() {
   );
 
   const handleExerciseUpdated = () => {
+    handleAddExerciseClick();
     retrieveWorkoutSessionByIdCall();
   };
 
@@ -36,24 +39,13 @@ function WorkoutSessionPage() {
   };
 
   return (
-    <Card variant="outlined" sx={{ maxWidth: 900 }}>
-      <Box sx={{ p: 2 }}>
-        <Stack
-          direction="row"
-          sx={{ justifyContent: "space-between", alignItems: "center" }}
-        >
-          <Typography gutterBottom variant="h5" component="div">
-            {workoutSession.workoutSessionName}
-          </Typography>
-          <Typography gutterBottom variant="h6" component="div">
-            {workoutSession.id}
-          </Typography>
-        </Stack>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {workoutSession.date}
+    <MainContainer>
+      <WorkoutSessionPageHeaderBox>
+        <Typography variant="h3">{workoutSession.date}</Typography>
+        <Typography variant="h3">
+          {workoutSession.workoutSessionName}
         </Typography>
-      </Box>
-      <Divider />
+      </WorkoutSessionPageHeaderBox>
       <ExerciseTable
         workoutSessionExercises={workoutSession.exercisesDTO}
         workoutSessionId={workoutSession.id}
@@ -61,20 +53,20 @@ function WorkoutSessionPage() {
         closeAddExerciseForm={handleAddExerciseClick}
       />
       {showExerciseForm && (
-        <Box sx={{ mt: 2 }}>
+        <Box>
           <ExerciseForm
             workoutSessionId={workoutSession.id}
             onExerciseAdded={handleExerciseUpdated}
           />
         </Box>
       )}
-      <Button
+      <BigTableAddButton
         onClick={handleAddExerciseClick}
-        sx={{ backgroundColor: "#212121" }}
+        disabled={showExerciseForm}
       >
-        {showExerciseForm ? "Cancel" : "Add Exercise"}
-      </Button>
-    </Card>
+        <AddIcon />
+      </BigTableAddButton>
+    </MainContainer>
   );
 }
 
