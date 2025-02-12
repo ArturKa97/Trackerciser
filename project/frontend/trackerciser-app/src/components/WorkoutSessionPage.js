@@ -34,6 +34,7 @@ function WorkoutSessionPage() {
     retrieveWorkoutSessionByIdCall();
   };
 
+  //TODO: Find a way to prevent both close buttons opening two forms.
   const handleAddExerciseClick = () => {
     setShowExerciseForm((prev) => !prev);
   };
