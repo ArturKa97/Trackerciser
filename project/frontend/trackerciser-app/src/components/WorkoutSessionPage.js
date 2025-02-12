@@ -57,6 +57,7 @@ function WorkoutSessionPage() {
           <ExerciseForm
             workoutSessionId={workoutSession.id}
             onExerciseAdded={handleExerciseUpdated}
+            onFormClose={handleAddExerciseClick}
           />
         </Box>
       )}
