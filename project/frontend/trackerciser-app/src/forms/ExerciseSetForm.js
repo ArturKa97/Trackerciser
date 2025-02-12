@@ -5,7 +5,6 @@ import {
 } from "../api/ExerciseSetApi";
 import { exerciseSetFormSchema } from "../schemas";
 import Box from "@mui/material/Box";
-import "../styles/form.css";
 import { TextField } from "@mui/material";
 import {
   AddActionButton,
