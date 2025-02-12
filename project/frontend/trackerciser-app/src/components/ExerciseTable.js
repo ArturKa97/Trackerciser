@@ -110,7 +110,7 @@ function ExerciseTable({
                     {exerciseSets.length > 0 &&
                     editingExerciseId === exercise.id &&
                     editingExerciseSetId === set.id ? (
-                      <TableCell colSpan={8}>
+                      <TableCell colSpan={7}>
                         <ExerciseSetForm
                           exerciseSets={set}
                           onFormClose={handleFormClose}
@@ -152,7 +152,7 @@ function ExerciseTable({
                   </TableRow>
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={8}>
+                    <TableCell colSpan={7}>
                       <AddActionButton
                         onClick={() => handleAddClick(exercise.id)}
                         disabled={!!editingExerciseId}

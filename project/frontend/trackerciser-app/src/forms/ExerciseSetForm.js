@@ -1,5 +1,4 @@
 import { Field, Form, Formik } from "formik";
-import Button from "@mui/material/Button";
 import {
   addExerciseSetToExercise,
   updateExerciseSetById,
@@ -7,8 +6,24 @@ import {
 import { exerciseSetFormSchema } from "../schemas";
 import Box from "@mui/material/Box";
 import "../styles/form.css";
+import { TextField } from "@mui/material";
+import {
+  AddActionButton,
+  DeleteOrCloseActionButton,
+  EditActionButton,
+  FormBox,
+  FormTextFieldBox,
+} from "../styles/StyledComponents";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import ClearIcon from "@mui/icons-material/Clear";
 
-function ExerciseSetForm({ exerciseId, exerciseSets, onFormClose, isAddingNew }) {
+function ExerciseSetForm({
+  exerciseId,
+  exerciseSets,
+  onFormClose,
+  isAddingNew,
+}) {
   const onSubmit = async (values) => {
     try {
       if (isAddingNew) {
@@ -40,6 +55,7 @@ function ExerciseSetForm({ exerciseId, exerciseSets, onFormClose, isAddingNew })
       .finally(() => console.log("cleanup"));
   };
 
+  // TODO: Integrate the newly added duration field
   return (
     <Formik
       initialValues={{
@@ -53,70 +69,64 @@ function ExerciseSetForm({ exerciseId, exerciseSets, onFormClose, isAddingNew })
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            gap={1}
-          >
-            <Box flex={1}>
+          <FormBox>
+            <FormTextFieldBox>
               <Field
-                className="form-field"
-                label="Sets"
+                label="Sets *"
+                error={touched.sets && !!errors.sets}
+                helperText={touched.sets && errors.sets}
+                as={TextField}
                 placeholder="Set"
                 name="sets"
                 type="text"
               />
-              {touched.sets && errors.sets && (
-                <div className="form-error">{errors.sets}</div>
-              )}
-            </Box>
-            <Box flex={1}>
+
               <Field
-                className="form-field"
-                label="Reps"
+                label="Reps *"
+                error={touched.reps && !!errors.reps}
+                helperText={touched.reps && errors.reps}
+                as={TextField}
                 placeholder="Repetitions"
                 name="reps"
                 type="text"
               />
-              {touched.reps && errors.reps && (
-                <div className="form-error">{errors.reps}</div>
-              )}
-            </Box>
-            <Box flex={1}>
+
               <Field
-                className="form-field"
-                label="Weight"
+                label="Weight *"
+                error={touched.weight && !!errors.weight}
+                helperText={touched.weight && errors.weight}
+                as={TextField}
                 placeholder="Weight"
                 name="weight"
                 type="text"
               />
-              {touched.weight && errors.weight && (
-                <div className="form-error">{errors.weight}</div>
-              )}
-            </Box>
-            <Box flex={1}>
+
               <Field
-                className="form-field"
-                label="Rest"
+                label="Rest *"
+                error={touched.rest && !!errors.rest}
+                helperText={touched.rest && errors.rest}
+                as={TextField}
                 placeholder="Rest between sets"
                 name="rest"
                 type="text"
               />
-              {touched.rest && errors.rest && (
-                <div className="form-error">{errors.rest}</div>
-              )}
-            </Box>
+            </FormTextFieldBox>
 
-            <Button
-              variant="outlined"
-              type="submit"
-              disabled={isSubmitting}
-              sx={{ mt: 1, alignSelf: "center" }}
-            >
-              {isAddingNew ? "Add" : "Update"}
-            </Button>
-          </Box>
+            <Box>
+              {isAddingNew ? (
+                <AddActionButton type="submit" disabled={isSubmitting}>
+                  <AddIcon />
+                </AddActionButton>
+              ) : (
+                <EditActionButton type="submit" disabled={isSubmitting}>
+                  <EditIcon />
+                </EditActionButton>
+              )}
+              <DeleteOrCloseActionButton onClick={onFormClose}>
+                <ClearIcon />
+              </DeleteOrCloseActionButton>
+            </Box>
+          </FormBox>
         </Form>
       )}
     </Formik>
