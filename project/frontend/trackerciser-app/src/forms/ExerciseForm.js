@@ -1,12 +1,18 @@
 import { Field, Form, Formik } from "formik";
-import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { retrieveAllExerciseTypes } from "../api/ExerciseTypeApi";
 import { addExerciseToWorkoutSession } from "../api/ExerciseApi";
-import { ExerciseFormBox, StyledFormSelect } from "../styles/StyledComponents";
-import { MenuItem } from "@mui/material";
+import {
+  AddActionButton,
+  DeleteOrCloseActionButton,
+  ExerciseFormBox,
+  StyledFormSelect,
+} from "../styles/StyledComponents";
+import { Box, MenuItem } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
 
-function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
+function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
   const [exerciseTypes, setExerciseTypes] = useState([]);
   useEffect(() => retrieveAllExerciseTypesCall(), []);
 
@@ -41,7 +47,7 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
   return (
     <Formik
       initialValues={{ exerciseId: "" }}
-      //   validationSchema={workoutSessionFormSchema}
+      //   validationSchema={workoutSessionFormSchema}  // TODO: Write a schema for this form.
       onSubmit={onSubmit}
     >
       {({ isSubmitting, errors, touched, setFieldValue }) => (
@@ -66,9 +72,14 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded }) {
                 </MenuItem>
               ))}
             </Field>
-            <Button type="submit" disabled={isSubmitting}>
-              Submit
-            </Button>
+            <Box>
+              <AddActionButton type="submit" disabled={isSubmitting}>
+                <AddIcon />
+              </AddActionButton>
+              <DeleteOrCloseActionButton onClick={onFormClose}>
+                <ClearIcon />
+              </DeleteOrCloseActionButton>
+            </Box>
           </ExerciseFormBox>
         </Form>
       )}
