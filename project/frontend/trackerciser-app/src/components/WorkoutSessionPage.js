@@ -30,13 +30,19 @@ function WorkoutSessionPage() {
   );
 
   const handleExerciseUpdated = () => {
-    handleAddExerciseClick();
+    handleCloseExerciseClick();
     retrieveWorkoutSessionByIdCall();
   };
 
   //TODO: Find a way to prevent both close buttons opening two forms.
   const handleAddExerciseClick = () => {
-    setShowExerciseForm((prev) => !prev);
+    console.log("Page activation");
+    setShowExerciseForm(true);
+  };
+
+  const handleCloseExerciseClick = () => {
+    console.log("Page activation");
+    setShowExerciseForm(false);
   };
 
   return (
@@ -51,14 +57,14 @@ function WorkoutSessionPage() {
         workoutSessionExercises={workoutSession.exercisesDTO}
         workoutSessionId={workoutSession.id}
         onExerciseUpdated={handleExerciseUpdated}
-        closeAddExerciseForm={handleAddExerciseClick}
+        closeAddExerciseForm={handleCloseExerciseClick}
       />
       {showExerciseForm && (
         <Box>
           <ExerciseForm
             workoutSessionId={workoutSession.id}
             onExerciseAdded={handleExerciseUpdated}
-            onFormClose={handleAddExerciseClick}
+            onFormClose={handleCloseExerciseClick}
           />
         </Box>
       )}
