@@ -40,6 +40,7 @@ function ExerciseTable({
     setEditingExerciseSetId(null);
     setAddingNewExercise(true);
     closeAddExerciseForm();
+    console.log("ExerciseT add");
   };
 
   const handleFormClose = () => {
@@ -47,6 +48,7 @@ function ExerciseTable({
     setEditingExerciseSetId(null);
     setAddingNewExercise(false);
     onExerciseUpdated();
+    console.log("ExerciseT close");
   };
 
   function removeExerciseSetByIdCall(exerciseSetId) {
