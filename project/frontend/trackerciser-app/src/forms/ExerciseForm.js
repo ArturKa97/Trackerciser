@@ -6,9 +6,10 @@ import {
   AddActionButton,
   DeleteOrCloseActionButton,
   ExerciseFormBox,
+  FormActionButtonBox,
   StyledFormSelect,
 } from "../styles/StyledComponents";
-import { Box, MenuItem } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 
@@ -72,14 +73,14 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
                 </MenuItem>
               ))}
             </Field>
-            <Box>
+            <FormActionButtonBox>
               <AddActionButton type="submit" disabled={isSubmitting}>
                 <AddIcon />
               </AddActionButton>
               <DeleteOrCloseActionButton onClick={onFormClose}>
                 <ClearIcon />
               </DeleteOrCloseActionButton>
-            </Box>
+            </FormActionButtonBox>
           </ExerciseFormBox>
         </Form>
       )}
