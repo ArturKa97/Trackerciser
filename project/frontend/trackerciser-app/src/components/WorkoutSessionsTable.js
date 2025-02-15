@@ -15,8 +15,10 @@ import {
   BigTableAddButton,
   DeleteOrCloseActionButton,
   EditActionButton,
+  FourtyWidthTableCell,
   MainContainer,
   TextAlignCenterBox,
+  TwentyRightAlignWidthTableCell,
 } from "../styles/StyledComponents";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -79,9 +81,11 @@ function WorkoutSessionsTable() {
         <Table aria-label="workout sessions table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Actions</TableCell>
+              <FourtyWidthTableCell>Name</FourtyWidthTableCell>
+              <FourtyWidthTableCell>Date</FourtyWidthTableCell>
+              <TwentyRightAlignWidthTableCell>
+                Actions
+              </TwentyRightAlignWidthTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -110,9 +114,13 @@ function WorkoutSessionsTable() {
                   </TableCell>
                 ) : (
                   <>
-                    <TableCell>{workoutSession.workoutSessionName}</TableCell>
-                    <TableCell>{workoutSession.date}</TableCell>
-                    <TableCell>
+                    <FourtyWidthTableCell>
+                      {workoutSession.workoutSessionName}
+                    </FourtyWidthTableCell>
+                    <FourtyWidthTableCell>
+                      {workoutSession.date}
+                    </FourtyWidthTableCell>
+                    <TwentyRightAlignWidthTableCell>
                       <EditActionButton
                         onClick={(e) => {
                           e.stopPropagation();
@@ -129,7 +137,7 @@ function WorkoutSessionsTable() {
                       >
                         <DeleteIcon />
                       </DeleteOrCloseActionButton>
-                    </TableCell>
+                    </TwentyRightAlignWidthTableCell>
                   </>
                 )}
               </TableRow>

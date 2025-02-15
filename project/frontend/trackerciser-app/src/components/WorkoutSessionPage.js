@@ -34,7 +34,6 @@ function WorkoutSessionPage() {
     retrieveWorkoutSessionByIdCall();
   };
 
-  //TODO: Find a way to prevent both close buttons opening two forms.
   const handleAddExerciseClick = () => {
     console.log("Page activation");
     setShowExerciseForm(true);
@@ -44,7 +43,7 @@ function WorkoutSessionPage() {
     console.log("Page activation");
     setShowExerciseForm(false);
   };
-
+  //TODO: Prevent the ability of adding the same exercise if it already exists.
   return (
     <MainContainer>
       <WorkoutSessionPageHeaderBox>
