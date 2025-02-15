@@ -193,7 +193,7 @@ export const BigTableAddButton = styled(IconButton)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
   },
-  "&.Mui-disabled": {
+  "&:disabled": {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
     cursor: "not-allowed",
@@ -222,9 +222,26 @@ export const FormTextFieldBox = styled(Box)({
   alignItems: "center",
 });
 
+export const ColumnFlexBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "2.4rem",
+  backgroundColor: theme.palette.primary.light,
+  padding: "3.2rem 3.2rem",
+}));
+
 export const TextAlignCenterBox = styled(Box)({
   textAlign: "center",
 });
+
+export const TextAlignCenterBoxMainColor = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  backgroundColor: theme.palette.primary.main,
+  padding: "3.2rem 3.2rem",
+  borderBottom: "2px solid #fafafa",
+}));
 
 export const WorkoutSessionPageHeaderBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -272,3 +289,21 @@ export const TwentyRightAlignWidthTableCell = styled(TableCell)({
 export const RightAlingTableCell = styled(TableCell)({
   textAlign: "right",
 });
+
+export const LoginAndRegisterButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#1976d2",
+  color: theme.palette.primary.contrastText,
+  width: "20%",
+  padding: "0.8rem 1.2rem",
+  fontSize: "1.2rem",
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&:disabled": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    cursor: "not-allowed",
+    opacity: 0.5,
+  },
+}));
