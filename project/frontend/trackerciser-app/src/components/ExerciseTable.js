@@ -16,6 +16,10 @@ import {
   AddActionButton,
   DeleteOrCloseActionButton,
   EditActionButton,
+  RightAlingTableCell,
+  TenWidthTableCell,
+  TwentyRightAlignWidthTableCell,
+  TwentyWidthTableCell,
 } from "../styles/StyledComponents";
 
 function ExerciseTable({
@@ -70,13 +74,16 @@ function ExerciseTable({
       <Table aria-label="exercises table">
         <TableHead>
           <TableRow>
-            <TableCell align="center"></TableCell>
-            <TableCell align="center">Exercise name</TableCell>
-            <TableCell align="center">Sets</TableCell>
-            <TableCell align="center">Reps</TableCell>
-            <TableCell align="center">Weight</TableCell>
-            <TableCell align="center">Rest</TableCell>
-            <TableCell align="center">Actions</TableCell>
+            <TenWidthTableCell></TenWidthTableCell>
+            <TwentyWidthTableCell>Exercise name</TwentyWidthTableCell>
+            <TenWidthTableCell>Sets</TenWidthTableCell>
+            <TenWidthTableCell>Reps</TenWidthTableCell>
+            <TenWidthTableCell>Weight</TenWidthTableCell>
+            <TenWidthTableCell>Rest</TenWidthTableCell>
+            <TenWidthTableCell>Duration</TenWidthTableCell>
+            <TwentyRightAlignWidthTableCell>
+              Actions
+            </TwentyRightAlignWidthTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -88,7 +95,7 @@ function ExerciseTable({
                   <TableRow key={set.id}>
                     {index === 0 ? (
                       <>
-                        <TableCell>
+                        <TenWidthTableCell>
                           <DeleteOrCloseActionButton
                             aria-label="delete"
                             onClick={() =>
@@ -100,8 +107,10 @@ function ExerciseTable({
                           >
                             <ClearIcon />
                           </DeleteOrCloseActionButton>
-                        </TableCell>
-                        <TableCell>{exercise.exerciseTypeDTO.name}</TableCell>
+                        </TenWidthTableCell>
+                        <TwentyWidthTableCell>
+                          {exercise.exerciseTypeDTO.name}
+                        </TwentyWidthTableCell>
                       </>
                     ) : (
                       <>
@@ -112,7 +121,7 @@ function ExerciseTable({
                     {exerciseSets.length > 0 &&
                     editingExerciseId === exercise.id &&
                     editingExerciseSetId === set.id ? (
-                      <TableCell colSpan={7}>
+                      <TableCell colSpan={8}>
                         <ExerciseSetForm
                           exerciseSets={set}
                           onFormClose={handleFormClose}
@@ -121,11 +130,12 @@ function ExerciseTable({
                       </TableCell>
                     ) : (
                       <>
-                        <TableCell align="center">{set.sets}</TableCell>
-                        <TableCell align="center">{set.reps}</TableCell>
-                        <TableCell align="center">{set.weight}</TableCell>
-                        <TableCell align="center">{set.rest}</TableCell>
-                        <TableCell align="center">
+                        <TenWidthTableCell>{set.sets}</TenWidthTableCell>
+                        <TenWidthTableCell>{set.reps}</TenWidthTableCell>
+                        <TenWidthTableCell>{set.weight}</TenWidthTableCell>
+                        <TenWidthTableCell>{set.rest}</TenWidthTableCell>
+                        <TenWidthTableCell>{set.duration}</TenWidthTableCell>
+                        <TwentyRightAlignWidthTableCell>
                           <EditActionButton
                             onClick={() => handleEditClick(exercise.id, set.id)}
                           >
@@ -136,14 +146,16 @@ function ExerciseTable({
                           >
                             <DeleteIcon />
                           </DeleteOrCloseActionButton>
-                        </TableCell>
+                        </TwentyRightAlignWidthTableCell>
                       </>
                     )}
                   </TableRow>
                 ))}
                 {addingNewExercise && editingExerciseId === exercise.id ? (
                   <TableRow>
-                    <TableCell colSpan={7}>
+                    <TableCell />
+                    <TableCell />
+                    <TableCell colSpan={8}>
                       <ExerciseSetForm
                         exerciseId={exercise.id}
                         exerciseSets={null}
@@ -154,14 +166,14 @@ function ExerciseTable({
                   </TableRow>
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={7}>
+                    <RightAlingTableCell colSpan={8}>
                       <AddActionButton
                         onClick={() => handleAddClick(exercise.id)}
                         disabled={!!editingExerciseId}
                       >
                         <AddIcon />
                       </AddActionButton>
-                    </TableCell>
+                    </RightAlingTableCell>
                   </TableRow>
                 )}
               </React.Fragment>

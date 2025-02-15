@@ -4,12 +4,12 @@ import {
   updateExerciseSetById,
 } from "../api/ExerciseSetApi";
 import { exerciseSetFormSchema } from "../schemas";
-import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import {
   AddActionButton,
   DeleteOrCloseActionButton,
   EditActionButton,
+  FormActionButtonBox,
   FormBox,
   FormTextFieldBox,
 } from "../styles/StyledComponents";
@@ -62,6 +62,7 @@ function ExerciseSetForm({
         reps: exerciseSets?.reps || "",
         weight: exerciseSets?.weight || "",
         rest: exerciseSets?.rest || "",
+        duration: exerciseSets?.duration || "",
       }}
       validationSchema={exerciseSetFormSchema}
       onSubmit={onSubmit}
@@ -109,9 +110,18 @@ function ExerciseSetForm({
                 name="rest"
                 type="text"
               />
+              <Field
+                label="Duration *"
+                error={touched.duration && !!errors.duration}
+                helperText={touched.duration && errors.duration}
+                as={TextField}
+                placeholder="Exercise duration"
+                name="duration"
+                type="text"
+              />
             </FormTextFieldBox>
 
-            <Box>
+            <FormActionButtonBox>
               {isAddingNew ? (
                 <AddActionButton type="submit" disabled={isSubmitting}>
                   <AddIcon />
@@ -124,7 +134,7 @@ function ExerciseSetForm({
               <DeleteOrCloseActionButton onClick={onFormClose}>
                 <ClearIcon />
               </DeleteOrCloseActionButton>
-            </Box>
+            </FormActionButtonBox>
           </FormBox>
         </Form>
       )}

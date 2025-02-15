@@ -101,33 +101,11 @@ const AppTheme = createTheme({
           fontWeight: 600,
           textTransform: "uppercase",
           textAlign: "left",
-          "&:first-of-type": {
-            width: "40%",
-          },
-
-          "&:nth-of-type(2)": {
-            width: "40%",
-          },
-          "&:last-child": {
-            textAlign: "right",
-          },
         }),
         body: ({ theme }) => ({
           color: theme.palette.text.primary,
           fontSize: "1rem",
           textAlign: "left",
-          "&:first-of-type": {
-            width: "40%",
-          },
-
-          "&:nth-of-type(2)": {
-            width: "40%",
-          },
-
-          "&:last-child": {
-            width: "20%",
-            textAlign: "right",
-          },
         }),
       },
     },

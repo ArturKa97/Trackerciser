@@ -13,6 +13,7 @@ import {
   ListItem,
   Radio,
   Select,
+  TableCell,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -245,6 +246,29 @@ export const ExerciseFormBox = styled(Box)(({ theme }) => ({
   borderBottom: "2px solid #fafafa",
 }));
 
+export const FormActionButtonBox = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
 export const StyledFormSelect = styled(Select)({
   width: "50%",
+});
+
+export const FourtyWidthTableCell = styled(TableCell)({
+  width: "40%",
+});
+export const TwentyWidthTableCell = styled(TableCell)({
+  width: "20%",
+});
+export const TenWidthTableCell = styled(TableCell)({
+  width: "10%",
+});
+export const TwentyRightAlignWidthTableCell = styled(TableCell)({
+  width: "20%",
+  textAlign: "right",
+});
+export const RightAlingTableCell = styled(TableCell)({
+  textAlign: "right",
 });

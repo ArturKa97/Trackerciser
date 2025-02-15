@@ -4,11 +4,12 @@ import {
   updateWorkoutSessionById,
 } from "../api/WorkoutSessionApi";
 import { workoutSessionFormSchema } from "../schemas";
-import { TextField, Box } from "@mui/material";
+import { TextField } from "@mui/material";
 import {
   AddActionButton,
   DeleteOrCloseActionButton,
   EditActionButton,
+  FormActionButtonBox,
   FormBox,
   FormTextFieldBox,
 } from "../styles/StyledComponents";
@@ -99,7 +100,7 @@ function WorkoutSessionForm({
                 InputLabelProps={{ shrink: true }}
               />
             </FormTextFieldBox>
-            <Box>
+            <FormActionButtonBox>
               {isAddingNew ? (
                 <AddActionButton type="submit" disabled={isSubmitting}>
                   <AddIcon />
@@ -112,7 +113,7 @@ function WorkoutSessionForm({
               <DeleteOrCloseActionButton onClick={onClose}>
                 <ClearIcon />
               </DeleteOrCloseActionButton>
-            </Box>
+            </FormActionButtonBox>
           </FormBox>
         </Form>
       )}
