@@ -1,6 +1,10 @@
 import { Field, Form, Formik } from "formik";
-import Button from "@mui/material/Button";
 import { registerNewUser } from "../api/UserApi";
+import { TextField } from "@mui/material";
+import {
+  ColumnFlexBox,
+  LoginAndRegisterButton,
+} from "../styles/StyledComponents";
 
 function RegisterForm() {
   const onSubmit = async (values) => {
@@ -21,6 +25,7 @@ function RegisterForm() {
   }
 
   return (
+    //TODO: Make a validation schema
     <Formik
       initialValues={{
         username: "",
@@ -32,25 +37,29 @@ function RegisterForm() {
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
-          <Field
-            label="Username"
-            placeholder="e.g., myusername66"
-            name="username"
-            type="text"
-          />
-          {/* {touched.workoutSessionName && errors.workoutSessionName && (
-            <div>{errors.workoutSessionName}</div>
-          )} */}
-          <Field
-            label="Password"
-            placeholder="*password validation*"
-            name="password"
-            type="password"
-          />
-          {/* {touched.date && errors.date && <div>{errors.date}</div>} */}
-          <Button variant="outlined" type="submit" disabled={isSubmitting}>
-            Sign Up
-          </Button>
+          <ColumnFlexBox>
+            <Field
+              label="Username"
+              as={TextField}
+              error={touched.username && !!errors.username}
+              helperText={touched.username && errors.username}
+              placeholder="e.g., myusername66"
+              name="username"
+              type="text"
+            />
+            <Field
+              label="Password"
+              as={TextField}
+              error={touched.password && !!errors.password}
+              helperText={touched.password && errors.password}
+              placeholder="*password validation*"
+              name="password"
+              type="password"
+            />
+            <LoginAndRegisterButton type="submit" disabled={isSubmitting}>
+              SIGN UP
+            </LoginAndRegisterButton>
+          </ColumnFlexBox>
         </Form>
       )}
     </Formik>

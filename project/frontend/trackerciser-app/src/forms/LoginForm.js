@@ -1,9 +1,13 @@
 import { Field, Form, Formik } from "formik";
-import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { userLoggedIn } from "../store/slices/userSlice";
 import { loginAndAuthenticate } from "../api/UserApi";
 import { useNavigate } from "react-router-dom";
+import {
+  ColumnFlexBox,
+  LoginAndRegisterButton,
+} from "../styles/StyledComponents";
+import { TextField } from "@mui/material";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -26,7 +30,7 @@ function LoginForm() {
       .catch((error) => console.log(error))
       .finally(() => console.log("register call end"));
   }
-
+  //TODO: Make a validation schema
   return (
     <Formik
       initialValues={{
@@ -39,25 +43,30 @@ function LoginForm() {
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
-          <Field
-            label="Username"
-            placeholder="Username"
-            name="username"
-            type="text"
-          />
-          {/* {touched.workoutSessionName && errors.workoutSessionName && (
-            <div>{errors.workoutSessionName}</div>
-          )} */}
-          <Field
-            label="Password"
-            placeholder="Password"
-            name="password"
-            type="password"
-          />
-          {/* {touched.date && errors.date && <div>{errors.date}</div>} */}
-          <Button variant="outlined" type="submit" disabled={isSubmitting}>
-            Login
-          </Button>
+          <ColumnFlexBox>
+            <Field
+              label="Username"
+              as={TextField}
+              error={touched.username && !!errors.username}
+              helperText={touched.username && errors.username}
+              placeholder="Username"
+              name="username"
+              type="text"
+            />
+
+            <Field
+              label="Password"
+              as={TextField}
+              error={touched.password && !!errors.password}
+              helperText={touched.password && errors.password}
+              placeholder="Password"
+              name="password"
+              type="password"
+            />
+            <LoginAndRegisterButton type="submit" disabled={isSubmitting}>
+              LOGIN
+            </LoginAndRegisterButton>
+          </ColumnFlexBox>
         </Form>
       )}
     </Formik>
