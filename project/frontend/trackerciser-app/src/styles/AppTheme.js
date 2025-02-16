@@ -50,6 +50,10 @@ const AppTheme = createTheme({
       fontSize: "1.8rem",
       fontWeight: 500,
     },
+    h4: {
+      fontSize: "1.4rem",
+      fontWeight: 400,
+    },
   },
   components: {
     MuiCssBaseline: {
