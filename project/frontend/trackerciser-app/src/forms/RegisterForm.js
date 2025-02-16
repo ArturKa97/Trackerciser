@@ -3,7 +3,7 @@ import { registerNewUser } from "../api/UserApi";
 import { TextField } from "@mui/material";
 import {
   ColumnFlexBox,
-  LoginAndRegisterButton,
+  MainFormSubmitButton,
 } from "../styles/StyledComponents";
 
 function RegisterForm() {
@@ -56,9 +56,9 @@ function RegisterForm() {
               name="password"
               type="password"
             />
-            <LoginAndRegisterButton type="submit" disabled={isSubmitting}>
+            <MainFormSubmitButton type="submit" disabled={isSubmitting}>
               SIGN UP
-            </LoginAndRegisterButton>
+            </MainFormSubmitButton>
           </ColumnFlexBox>
         </Form>
       )}

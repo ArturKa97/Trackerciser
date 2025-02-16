@@ -7,7 +7,7 @@ import ExerciseForm from "../forms/ExerciseForm";
 import HomePage from "../components/HomePage";
 import { useSelector } from "react-redux";
 import { selectLoggedInUser } from "../store/slices/userSlice";
-import WorkoutSessionLineChart from "../api/charts/WorkoutSessionLineChart";
+import WorkoutSessionLineChart from "../charts/WorkoutSessionLineChart";
 import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
 

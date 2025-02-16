@@ -5,7 +5,7 @@ import { loginAndAuthenticate } from "../api/UserApi";
 import { useNavigate } from "react-router-dom";
 import {
   ColumnFlexBox,
-  LoginAndRegisterButton,
+  MainFormSubmitButton,
 } from "../styles/StyledComponents";
 import { TextField } from "@mui/material";
 
@@ -63,9 +63,9 @@ function LoginForm() {
               name="password"
               type="password"
             />
-            <LoginAndRegisterButton type="submit" disabled={isSubmitting}>
+            <MainFormSubmitButton type="submit" disabled={isSubmitting}>
               LOGIN
-            </LoginAndRegisterButton>
+            </MainFormSubmitButton>
           </ColumnFlexBox>
         </Form>
       )}
