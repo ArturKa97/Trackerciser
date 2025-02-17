@@ -1,16 +1,18 @@
 import * as React from "react";
 import { retrieveAllWorkoutSessionsBetweenDates } from "../api/WorkoutSessionApi";
 import { useMemo, useState } from "react";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Box from "@mui/material/Box";
 import {
+  ChartButtonGroup,
+  ChartButtonGroupBox,
+  ChartButtonGroupButton,
+  ChartList,
+  ChartListBox,
+  ChartListItemButton,
   MainContainer,
   TextAlignCenterBoxLightColor,
   TextAlignCenterBoxMainColor,
+  TwoColumnChartGridBox,
 } from "../styles/StyledComponents";
 import {
   LineChart,
@@ -20,6 +22,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 import WorkoutSessionChartForm from "../forms/WorkoutSessionChartForm";
 
@@ -27,10 +30,6 @@ function WorkoutSessionLineChart() {
   const [workoutSessionsData, setWorkoutSessionsData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("Reps");
   const [selectedExercise, setSelectedExercise] = useState("");
-
-  const handleChange = (event) => {
-    setSelectedExercise(event.target.value);
-  };
 
   const selectedExerciseChartData = useMemo(() => {
     return selectedExercise
@@ -87,20 +86,34 @@ function WorkoutSessionLineChart() {
   }, [workoutSessionsData]);
 
   const renderWorkoutChart = (valueType, label) => (
-    <LineChart width={800} height={400} data={selectedExerciseChartData}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <LineChart
+      data={selectedExerciseChartData}
+      margin={{ top: 30, right: 20, left: 48, bottom: 30 }}
+    >
+      <CartesianGrid stroke="#fafafa" strokeDasharray="0" strokeWidth={2} />
       <XAxis
         dataKey="date"
         scale="point"
-        label={{ value: "Date", position: "insideBottom", offset: -5 }}
+        tick={{ fill: "#fafafa" }}
+        tickLine={{ stroke: "#fafafa", strokeWidth: 2 }}
+        tickMargin={14}
+        label={{ value: "DATE", dy: 32, fill: "#fafafa" }}
       />
       <YAxis
         yAxisId="right"
         orientation="right"
-        label={{ value: label, angle: -90 }}
+        tick={{ fill: "#fafafa" }}
+        tickLine={{ stroke: "#fafafa", strokeWidth: 2 }}
+        tickMargin={14}
+        label={{ value: label, dx: 32, fill: "#fafafa", angle: -90 }}
       />
-      <Tooltip />
-      <Legend />
+      <Tooltip labelStyle={{ color: "black" }} />
+      <Legend
+        layout="horizontal"
+        verticalAlign="top"
+        align="center"
+        wrapperStyle={{ marginTop: "-20px" }}
+      />
       {selectedExerciseChartData.length > 0 &&
         Object.keys(selectedExerciseChartData[0])
           .filter((key) => key.includes(valueType))
@@ -110,9 +123,11 @@ function WorkoutSessionLineChart() {
               yAxisId="right"
               type="monotone"
               dataKey={setKey}
-              name={`Set ${index + 1}`}
+              name={`SET ${index + 1}`}
               stroke={`hsl(${index * 50}, 70%, 50%)`}
+              strokeWidth={4}
               activeDot={{ r: 8 }}
+              animationDuration={600}
             />
           ))}
     </LineChart>
@@ -146,35 +161,65 @@ function WorkoutSessionLineChart() {
         retrieveWorkoutSessions={retrieveWorkoutSessionsBetweenDatesCall}
       />
       {workoutSessionsData && workoutSessionsData.length > 0 && (
-        <Select
-          value={selectedExercise}
-          labelId="exercise-label"
-          id="exercise-select"
-          label="Exercise"
-          onChange={handleChange}
-        >
-          {uniqueExercises.map((exercise, index) => (
-            <MenuItem key={index} value={exercise}>
-              {exercise}
-            </MenuItem>
-          ))}
-        </Select>
-      )}
-
-      {selectedExerciseChartData && selectedExerciseChartData.length > 0 ? (
         <>
-          <ButtonGroup variant="contained" aria-label="Chart selector">
-            <Button onClick={() => setSelectedChart("Reps")}>Reps</Button>
-            <Button onClick={() => setSelectedChart("Weight")}>Weight</Button>
-            <Button onClick={() => setSelectedChart("Rest")}>Rest</Button>
-          </ButtonGroup>
-          <Box>{renderChart()}</Box>
+          <TwoColumnChartGridBox>
+            <ChartListBox>
+              <ChartList>
+                {uniqueExercises.map((exercise, index) => (
+                  <ChartListItemButton
+                    key={index}
+                    selected={selectedExercise === exercise}
+                    onClick={() => setSelectedExercise(exercise)}
+                    sx={{}}
+                  >
+                    {exercise}
+                  </ChartListItemButton>
+                ))}
+              </ChartList>
+            </ChartListBox>
+
+            <ChartListBox>
+              <ChartButtonGroupBox>
+                <ChartButtonGroup
+                  aria-label="Chart data selector"
+                  disabled={
+                    !selectedExerciseChartData ||
+                    selectedExerciseChartData.length === 0
+                  }
+                  value={selectedChart}
+                  exclusive
+                  onChange={(event, newValue) => {
+                    if (newValue !== null) setSelectedChart(newValue);
+                  }}
+                >
+                  <ChartButtonGroupButton
+                    onClick={() => setSelectedChart("Reps")}
+                    value="Reps"
+                  >
+                    Reps
+                  </ChartButtonGroupButton>
+                  <ChartButtonGroupButton
+                    onClick={() => setSelectedChart("Weight")}
+                    value="Weight"
+                  >
+                    Weight
+                  </ChartButtonGroupButton>
+                  <ChartButtonGroupButton
+                    onClick={() => setSelectedChart("Rest")}
+                    value="Rest"
+                  >
+                    Rest
+                  </ChartButtonGroupButton>
+                </ChartButtonGroup>
+              </ChartButtonGroupBox>
+
+              <ResponsiveContainer width="100%" height={600}>
+                {renderChart()}
+              </ResponsiveContainer>
+            </ChartListBox>
+          </TwoColumnChartGridBox>
         </>
-      ) : workoutSessionsData && workoutSessionsData.length > 0 ? (
-        <Typography>
-          Select the exercise to render the progress data you want to view
-        </Typography>
-      ) : null}
+      )}
     </MainContainer>
   );
 }

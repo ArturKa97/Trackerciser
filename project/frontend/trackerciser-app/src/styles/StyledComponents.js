@@ -14,6 +14,9 @@ import {
   Radio,
   Select,
   TableCell,
+  ListItemButton,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -76,6 +79,17 @@ export const TwoColumnGridBox = styled(Box)({
   justifyItems: "center",
   padding: "0 3.2rem",
 });
+export const TwoColumnChartGridBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  borderTop: "2px solid #fafafa",
+  display: "grid",
+  gridTemplateColumns: "0.4fr 1.6fr",
+  columnGap: "3.2rem",
+  alignItems: "start",
+  justifyItems: "center",
+  padding: "2.4rem 1.2rem",
+  minHeight: "30rem",
+}));
 
 export const AlignStartGridBox = styled(Box)({
   alignSelf: "start",
@@ -321,6 +335,7 @@ export const MainFormSubmitButton = styled(Button)(({ theme }) => ({
     opacity: 0.5,
   },
 }));
+
 export const SmallFormSubmitButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1976d2",
   color: theme.palette.primary.contrastText,
@@ -329,6 +344,61 @@ export const SmallFormSubmitButton = styled(Button)(({ theme }) => ({
   fontSize: "1.0rem",
   transition: "background-color 0.3s ease-in-out",
   "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&:disabled": {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    cursor: "not-allowed",
+    opacity: 0.5,
+  },
+}));
+
+export const ChartListBox = styled(Box)(({ theme }) => ({
+  height: "100%",
+  width: "100%",
+  backgroundColor: theme.palette.primary.light,
+}));
+
+export const ChartList = styled(List)(({ theme }) => ({
+  height: "100%",
+  border: "2px solid #fafafa",
+}));
+
+export const ChartListItemButton = styled(ListItemButton)(({ theme }) => ({
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&.Mui-selected": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+
+export const ChartButtonGroupBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingBottom: "1.2rem",
+}));
+
+export const ChartButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  border: "2px solid #fafafa",
+  "&:disabled": {
+    cursor: "not-allowed",
+    opacity: 0.5,
+    borderColor: "rgba(250, 250, 250, 0.3)",
+  },
+}));
+
+export const ChartButtonGroupButton = styled(ToggleButton)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  color: theme.palette.primary.contrastText,
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&.Mui-selected": {
     backgroundColor: theme.palette.primary.main,
   },
   "&:disabled": {
