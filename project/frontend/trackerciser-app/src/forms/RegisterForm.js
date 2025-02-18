@@ -1,8 +1,9 @@
 import { Field, Form, Formik } from "formik";
 import { registerNewUser } from "../api/UserApi";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import {
   ColumnFlexBox,
+  FormTextFieldBoxWithLabel,
   MainFormSubmitButton,
 } from "../styles/StyledComponents";
 
@@ -38,24 +39,30 @@ function RegisterForm() {
       {({ isSubmitting, errors, touched }) => (
         <Form>
           <ColumnFlexBox>
-            <Field
-              label="Username"
-              as={TextField}
-              error={touched.username && !!errors.username}
-              helperText={touched.username && errors.username}
-              placeholder="e.g., myusername66"
-              name="username"
-              type="text"
-            />
-            <Field
-              label="Password"
-              as={TextField}
-              error={touched.password && !!errors.password}
-              helperText={touched.password && errors.password}
-              placeholder="*password validation*"
-              name="password"
-              type="password"
-            />
+            <FormTextFieldBoxWithLabel>
+              <Typography variant="h6">USERNAME:</Typography>
+              <Field
+                label="Username"
+                as={TextField}
+                error={touched.username && !!errors.username}
+                helperText={touched.username && errors.username}
+                placeholder="e.g., myusername66"
+                name="username"
+                type="text"
+              />
+            </FormTextFieldBoxWithLabel>
+            <FormTextFieldBoxWithLabel>
+              <Typography variant="h6">PASSWORD:</Typography>
+              <Field
+                label="Password"
+                as={TextField}
+                error={touched.password && !!errors.password}
+                helperText={touched.password && errors.password}
+                placeholder="*password validation*"
+                name="password"
+                type="password"
+              />
+            </FormTextFieldBoxWithLabel>
             <MainFormSubmitButton type="submit" disabled={isSubmitting}>
               SIGN UP
             </MainFormSubmitButton>
