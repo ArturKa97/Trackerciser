@@ -72,8 +72,8 @@ const AppTheme = createTheme({
       styleOverrides: {
         body: {
           backgroundImage: ` linear-gradient(
-              rgba(0, 0, 0, 0.7), 
-              rgba(0, 0, 0, 0.7)
+              rgba(0, 0, 0, 0.8), 
+              rgba(0, 0, 0, 0.8)
             ),url(${background})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -199,11 +199,34 @@ const AppTheme = createTheme({
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.light,
           color: theme.palette.primary.contrastText,
+          transition: "background-color 0.3s ease-in-out",
           "&:hover": {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
           },
           "&.Mui-selected": {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+          },
+        }),
+      },
+    },
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          boxShadow: `0 0 0 1px ${theme.palette.primary.contrastText}`,
+
+          fontSize: "1.0rem",
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          transition: "background-color 0.3s ease-in-out",
+          "&:hover": {
+            transition: "box-shadow 0.3s ease-in-out",
+            backgroundColor: theme.palette.primary.main,
+          },
+          "&.Mui-selected": {
+            transition: "box-shadow 0.3s ease-in-out",
+            boxShadow: `0 0 0 2px ${theme.palette.primary.contrastText}`,
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
           },
