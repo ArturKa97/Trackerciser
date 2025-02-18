@@ -421,7 +421,7 @@ export const FooterBox = styled(Box)(({ theme }) => ({
 export const FooterVersionBox = styled(Box)({
   position: "absolute",
   bottom: "0",
-  right: "0",
+  right: "0.5%",
 });
 
 export const FormTextFieldBoxWithLabel = styled(Box)({
