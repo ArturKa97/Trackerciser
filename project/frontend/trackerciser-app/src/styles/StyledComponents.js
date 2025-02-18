@@ -408,3 +408,18 @@ export const ChartButtonGroupButton = styled(ToggleButton)(({ theme }) => ({
     opacity: 0.5,
   },
 }));
+
+export const FooterBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "1.4rem 1.4rem",
+  position: "relative",
+}));
+
+export const FooterVersionBox = styled(Box)({
+  position: "absolute",
+  bottom: "0",
+  right: "0",
+});
