@@ -6,7 +6,7 @@ function Footer() {
   return (
     <FooterBox>
       <Box>
-        <Typography variant="h5">
+        <Typography variant="h6">
           © 2025 TRACKERCISER. ALL RIGHTS RESERVED.
         </Typography>
       </Box>
