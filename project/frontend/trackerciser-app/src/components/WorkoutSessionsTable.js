@@ -17,13 +17,14 @@ import {
   EditActionButton,
   FourtyWidthTableCell,
   MainContainer,
+  PaginationBox,
   TextAlignCenterBox,
   TwentyRightAlignWidthTableCell,
 } from "../styles/StyledComponents";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Typography } from "@mui/material";
+import { Pagination, Typography } from "@mui/material";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
@@ -161,6 +162,9 @@ function WorkoutSessionsTable() {
         >
           <AddIcon />
         </BigTableAddButton>
+        <PaginationBox>
+          <Pagination count={10} variant="outlined" shape="rounded" />
+        </PaginationBox>
       </MainContainer>
     </>
   );

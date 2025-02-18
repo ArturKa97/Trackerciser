@@ -429,3 +429,10 @@ export const FormTextFieldBoxWithLabel = styled(Box)({
   flexDirection: "column",
   gap: "0.8rem",
 });
+
+export const PaginationBox = styled(Box)({
+  padding: "2.4rem 2.4rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
