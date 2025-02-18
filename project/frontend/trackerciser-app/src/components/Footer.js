@@ -1,21 +1,19 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { FooterBox, FooterVersionBox } from "../styles/StyledComponents";
 
 function Footer() {
   return (
-    <Box
-      sx={{
-        backgroundColor: "primary.main",
-        color: "primary.contrastText",
-        textAlign: "center",
-        py: 1.5,
-        height: "8vh"
-      }}
-    >
-      <Typography variant="h7">
-        © 2024 Trackerciser. All rights reserved.
-      </Typography>
-    </Box>
+    <FooterBox>
+      <Box>
+        <Typography variant="h5">
+          © 2025 TRACKERCISER. ALL RIGHTS RESERVED.
+        </Typography>
+      </Box>
+      <FooterVersionBox>
+        <Typography variant="h6">Version: v1.0</Typography>
+      </FooterVersionBox>
+    </FooterBox>
   );
 }
 
