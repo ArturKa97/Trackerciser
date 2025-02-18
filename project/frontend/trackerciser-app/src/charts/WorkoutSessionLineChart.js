@@ -75,6 +75,7 @@ function WorkoutSessionLineChart() {
           entry[`set${set.sets}Reps`] = set.reps || 0;
           entry[`set${set.sets}Weight`] = set.weight || 0;
           entry[`set${set.sets}Rest`] = set.rest || 0;
+          entry[`set${set.sets}Duration`] = set.duration || 0;
         });
       });
     });
@@ -136,11 +137,13 @@ function WorkoutSessionLineChart() {
   const renderChart = () => {
     switch (selectedChart) {
       case "Reps":
-        return renderWorkoutChart("Reps", "Reps");
+        return renderWorkoutChart("Reps", "REPS");
       case "Weight":
-        return renderWorkoutChart("Weight", "Weight");
+        return renderWorkoutChart("Weight", "WEIGHT");
       case "Rest":
-        return renderWorkoutChart("Rest", "Rest");
+        return renderWorkoutChart("Rest", "REST");
+      case "Duration":
+        return renderWorkoutChart("Duration", "DURATION");
       default:
         return null;
     }
@@ -209,6 +212,12 @@ function WorkoutSessionLineChart() {
                     value="Rest"
                   >
                     Rest
+                  </ChartButtonGroupButton>
+                  <ChartButtonGroupButton
+                    onClick={() => setSelectedChart("Duration")}
+                    value="Duration"
+                  >
+                    Duration
                   </ChartButtonGroupButton>
                 </ChartButtonGroup>
               </ChartButtonGroupBox>
