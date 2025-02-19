@@ -10,6 +10,7 @@ import {
   ChartListBox,
   ChartListItemButton,
   MainContainer,
+  ScrollableChartListBox,
   TextAlignCenterBoxLightColor,
   TextAlignCenterBoxMainColor,
   TwoColumnChartGridBox,
@@ -167,18 +168,20 @@ function WorkoutSessionLineChart() {
         <>
           <TwoColumnChartGridBox>
             <ChartListBox>
-              <ChartList>
-                {uniqueExercises.map((exercise, index) => (
-                  <ChartListItemButton
-                    key={index}
-                    selected={selectedExercise === exercise}
-                    onClick={() => setSelectedExercise(exercise)}
-                    sx={{}}
-                  >
-                    {exercise}
-                  </ChartListItemButton>
-                ))}
-              </ChartList>
+              <ScrollableChartListBox>
+                <ChartList>
+                  {uniqueExercises.map((exercise, index) => (
+                    <ChartListItemButton
+                      key={index}
+                      selected={selectedExercise === exercise}
+                      onClick={() => setSelectedExercise(exercise)}
+                      sx={{}}
+                    >
+                      {exercise}
+                    </ChartListItemButton>
+                  ))}
+                </ChartList>
+              </ScrollableChartListBox>
             </ChartListBox>
 
             <ChartListBox>
