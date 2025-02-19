@@ -355,18 +355,24 @@ export const SmallFormSubmitButton = styled(Button)(({ theme }) => ({
 }));
 
 export const ChartListBox = styled(Box)(({ theme }) => ({
-  flexGrow: 1,
+  height: "100%",
   width: "100%",
+  backgroundColor: theme.palette.primary.light,
+}));
+export const ChartListBoxWithBorder = styled(Box)(({ theme }) => ({
+  height: "100%",
+  width: "100%",
+  border: "2px solid #fafafa",
   backgroundColor: theme.palette.primary.light,
 }));
 
 export const ScrollableChartListBox = styled(Box)({
-  minHeight: "44.0rem",
+  maxHeight: "44.0rem",
   overflowY: "auto",
-  border: "2px solid #fafafa",
 });
 export const ChartList = styled(List)(({ theme }) => ({
-  flexGrow: 1,
+  height: "100%",
+  width: "100%",
   overflowY: "auto",
 }));
 

@@ -8,6 +8,7 @@ import {
   ChartButtonGroupButton,
   ChartList,
   ChartListBox,
+  ChartListBoxWithBorder,
   ChartListItemButton,
   MainContainer,
   ScrollableChartListBox,
@@ -167,7 +168,7 @@ function WorkoutSessionLineChart() {
       {workoutSessionsData && workoutSessionsData.length > 0 && (
         <>
           <TwoColumnChartGridBox>
-            <ChartListBox>
+            <ChartListBoxWithBorder>
               <ScrollableChartListBox>
                 <ChartList>
                   {uniqueExercises.map((exercise, index) => (
@@ -182,7 +183,7 @@ function WorkoutSessionLineChart() {
                   ))}
                 </ChartList>
               </ScrollableChartListBox>
-            </ChartListBox>
+            </ChartListBoxWithBorder>
 
             <ChartListBox>
               <ChartButtonGroupBox>
