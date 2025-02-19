@@ -32,7 +32,6 @@ function LoginForm() {
       .catch((error) => console.log(error))
       .finally(() => console.log("register call end"));
   }
-  //TODO: Make a validation schema
   return (
     <Formik
       initialValues={{

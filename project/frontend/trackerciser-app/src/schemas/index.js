@@ -52,3 +52,20 @@ export const loginAndRegisterFormSchema = yup.object().shape({
     )
     .required("Required field"),
 });
+
+export const chartFormSchema = yup.object().shape({
+  fromDate: yup
+    .date()
+    .required("Date is required")
+    .min(new Date(1900, 0, 1), "Date must be later than January 1st, 1900")
+    .max(new Date(), "Date cannot be in the future"),
+  toDate: yup
+    .date()
+    .required("Date is required")
+    .min(new Date(1900, 0, 1), "Date must be later than January 1st, 1900")
+    .max(new Date(), "Date cannot be in the future")
+    .test("is-later", "To date must be later than from Date", function (value) {
+      const { fromDate } = this.parent;
+      return value >= fromDate || !value;
+    }),
+});

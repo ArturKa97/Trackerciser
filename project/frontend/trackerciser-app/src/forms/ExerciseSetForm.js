@@ -53,8 +53,6 @@ function ExerciseSetForm({
       .catch((error) => console.log(error))
       .finally(() => console.log("cleanup"));
   };
-
-  // TODO: Integrate the newly added duration field
   return (
     <Formik
       initialValues={{
