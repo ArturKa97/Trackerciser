@@ -27,7 +27,6 @@ function RegisterForm() {
   }
 
   return (
-    //TODO: Make a validation schema
     <Formik
       initialValues={{
         username: "",

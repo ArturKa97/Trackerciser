@@ -1,6 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import { RowFlexBox, SmallFormSubmitButton } from "../styles/StyledComponents";
 import { TextField } from "@mui/material";
+import { chartFormSchema } from "../schemas";
 
 function WorkoutSessionChartForm({ retrieveWorkoutSessions }) {
   const onSubmit = async (values) => {
@@ -12,7 +13,6 @@ function WorkoutSessionChartForm({ retrieveWorkoutSessions }) {
       console.log("WS between dates finally block");
     }
   };
-  //TODO: Make a validation schema
   return (
     <Formik
       initialValues={{
@@ -20,6 +20,7 @@ function WorkoutSessionChartForm({ retrieveWorkoutSessions }) {
         toDate: "2025-02-16",
       }}
       onSubmit={onSubmit}
+      validationSchema={chartFormSchema}
     >
       {({ isSubmitting, errors, touched }) => (
         <Form>
