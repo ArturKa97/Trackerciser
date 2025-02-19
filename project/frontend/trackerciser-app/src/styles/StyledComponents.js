@@ -361,7 +361,7 @@ export const ChartListBox = styled(Box)(({ theme }) => ({
 }));
 
 export const ScrollableChartListBox = styled(Box)({
-  maxHeight: "46.0rem",
+  minHeight: "44.0rem",
   overflowY: "auto",
   border: "2px solid #fafafa",
 });
