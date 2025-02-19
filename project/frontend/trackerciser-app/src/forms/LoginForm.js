@@ -9,6 +9,7 @@ import {
   MainFormSubmitButton,
 } from "../styles/StyledComponents";
 import { TextField, Typography } from "@mui/material";
+import { loginAndRegisterFormSchema } from "../schemas";
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ function LoginForm() {
         username: "",
         password: "",
       }}
-      //   validationSchema={workoutSessionFormSchema}
+      validationSchema={loginAndRegisterFormSchema}
       onSubmit={onSubmit}
       enableReinitialize
     >
@@ -68,6 +69,7 @@ function LoginForm() {
                 placeholder="Password"
                 name="password"
                 type="password"
+                multiline
               />
             </FormTextFieldBoxWithLabel>
             <MainFormSubmitButton type="submit" disabled={isSubmitting}>

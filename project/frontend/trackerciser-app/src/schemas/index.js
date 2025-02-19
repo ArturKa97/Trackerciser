@@ -4,8 +4,8 @@ export const workoutSessionFormSchema = yup.object().shape({
   workoutSessionName: yup
     .string()
     .min(2, ({ min }) => `Requires atleast ${min} characters`)
-    .required("Required"),
-  date: yup.date().required("Required"),
+    .required("Required field"),
+  date: yup.date().required("Required field"),
 });
 
 export const exerciseSetFormSchema = yup.object().shape({
@@ -35,5 +35,20 @@ export const exerciseSetFormSchema = yup.object().shape({
     .max(999, ({ max }) => `Maximum value is ${max}`)
     .positive("Value must be positive")
     .integer("Must be an integer")
+    .required("Required field"),
+});
+
+export const loginAndRegisterFormSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(1, ({ min }) => `Requires atleast ${min} characters`)
+    .max(20, ({ max }) => `Maximum ${max} characters allowed`)
+    .required("Required field"),
+  password: yup
+    .string()
+    .matches(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      "Password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character."
+    )
     .required("Required field"),
 });

@@ -6,6 +6,7 @@ import {
   FormTextFieldBoxWithLabel,
   MainFormSubmitButton,
 } from "../styles/StyledComponents";
+import { loginAndRegisterFormSchema } from "../schemas";
 
 function RegisterForm() {
   const onSubmit = async (values) => {
@@ -32,7 +33,7 @@ function RegisterForm() {
         username: "",
         password: "",
       }}
-      //   validationSchema={workoutSessionFormSchema}
+      validationSchema={loginAndRegisterFormSchema}
       onSubmit={onSubmit}
       enableReinitialize
     >

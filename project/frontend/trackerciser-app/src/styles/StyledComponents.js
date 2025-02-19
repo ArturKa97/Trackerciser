@@ -437,6 +437,7 @@ export const FooterVersionBox = styled(Box)({
 
 export const FormTextFieldBoxWithLabel = styled(Box)({
   display: "flex",
+  width: "16.0rem",
   flexDirection: "column",
   gap: "0.8rem",
 });
