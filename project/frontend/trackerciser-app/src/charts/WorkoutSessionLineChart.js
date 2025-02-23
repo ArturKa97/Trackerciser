@@ -13,6 +13,7 @@ import {
   MainContainer,
   ScrollableChartListBox,
   TextAlignCenterBoxLightColor,
+  TextAlignCenterBoxLightColorBottomPadding,
   TextAlignCenterBoxMainColor,
   TwoColumnChartGridBox,
 } from "../styles/StyledComponents";
@@ -32,6 +33,7 @@ function WorkoutSessionLineChart() {
   const [workoutSessionsData, setWorkoutSessionsData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("Reps");
   const [selectedExercise, setSelectedExercise] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const selectedExerciseChartData = useMemo(() => {
     return selectedExercise
@@ -43,17 +45,15 @@ function WorkoutSessionLineChart() {
 
   const retrieveWorkoutSessionsBetweenDatesCall = async (fromDate, toDate) => {
     try {
+      setHasSubmitted(true);
       const response = await retrieveAllWorkoutSessionsBetweenDates(
         fromDate,
         toDate
       );
       const formattedData = transformWorkoutData(response.data);
-      console.log(formattedData);
       setWorkoutSessionsData(formattedData);
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log("passed");
     }
   };
 
@@ -84,6 +84,7 @@ function WorkoutSessionLineChart() {
 
     return Array.from(dataMap.values());
   };
+
   const uniqueExercises = useMemo(() => {
     return [...new Set(workoutSessionsData.map((session) => session.exercise))];
   }, [workoutSessionsData]);
@@ -165,6 +166,13 @@ function WorkoutSessionLineChart() {
       <WorkoutSessionChartForm
         retrieveWorkoutSessions={retrieveWorkoutSessionsBetweenDatesCall}
       />
+      {hasSubmitted && workoutSessionsData.length === 0 && (
+        <TextAlignCenterBoxLightColorBottomPadding>
+          <Typography variant="h4">
+            NO WORKOUT SESSIONS FOUND IN THE SELECTED DATE RANGE.
+          </Typography>
+        </TextAlignCenterBoxLightColorBottomPadding>
+      )}
       {workoutSessionsData && workoutSessionsData.length > 0 && (
         <>
           <TwoColumnChartGridBox>

@@ -13,11 +13,16 @@ function WorkoutSessionChartForm({ retrieveWorkoutSessions }) {
       console.log("WS between dates finally block");
     }
   };
+
+  const currentToDate = new Date();
+  const priorMonthDate = new Date();
+  priorMonthDate.setMonth(currentToDate.getMonth() - 1);
+
   return (
     <Formik
       initialValues={{
-        fromDate: "2024-01-01",
-        toDate: "2025-02-16",
+        fromDate: priorMonthDate.toLocaleDateString("en-CA"),
+        toDate: currentToDate.toLocaleDateString("en-CA"),
       }}
       onSubmit={onSubmit}
       validationSchema={chartFormSchema}

@@ -270,6 +270,14 @@ export const TextAlignCenterBoxLightColor = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   padding: "2.4rem 3.2rem 0 3.2rem",
 }));
+export const TextAlignCenterBoxLightColorBottomPadding = styled(Box)(
+  ({ theme }) => ({
+    textAlign: "center",
+    color: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.light,
+    padding: "0 3.2rem 2.4rem 3.2rem",
+  })
+);
 
 export const WorkoutSessionPageHeaderBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
