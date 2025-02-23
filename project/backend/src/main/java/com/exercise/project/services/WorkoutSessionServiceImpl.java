@@ -6,6 +6,8 @@ import com.exercise.project.mappers.WorkoutSessionDTOMapper;
 import com.exercise.project.repositories.WorkoutSessionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,11 +36,9 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     }
 
     @Override
-    public List<WorkoutSessionDTO> getAllWorkoutSessions() {
-        return workoutSessionRepository.getAllWorkoutSessions()
-                .stream()
-                .map(workoutSessionDTOMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<WorkoutSessionDTO> getAllWorkoutSessions(Pageable pageable) {
+        return workoutSessionRepository.getAllWorkoutSessions(pageable)
+                .map(workoutSessionDTOMapper::toDTO);
     }
     @Override
     public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate) {
