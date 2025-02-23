@@ -19,6 +19,14 @@ Bold: 700
 */
 
 const AppTheme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 1100,
+      lg: 1200,
+    },
+  },
   palette: {
     primary: {
       main: "#212121",
@@ -40,11 +48,17 @@ const AppTheme = createTheme({
     h1: {
       fontSize: "5.2rem",
       fontWeight: 600,
+      "@media (max-width: 1100px)": {
+        fontSize: "4.4rem", // Adjusted size for "md" screens and below
+      },
     },
 
     h2: {
       fontSize: "2.4rem",
       fontWeight: 500,
+      "@media (max-width: 1100px)": {
+        fontSize: "2.0rem", // Adjusted size for "md" screens and below
+      },
     },
     h3: {
       fontSize: "1.8rem",

@@ -69,6 +69,9 @@ export const MainContainer = styled(Container)(({ theme }) => ({
   maxWidth: theme.breakpoints.values["lg"],
   padding: "4.8rem 0 9.6rem 0",
   margin: "0 auto",
+  [theme.breakpoints.down("md")]: {
+    padding: "4.8rem 0 8.0rem 0",
+  },
 }));
 
 export const TwoColumnGridBox = styled(Box)({
@@ -161,11 +164,14 @@ export const FeaturesList = styled(List)({
   padding: "0 1.6rem",
 });
 
-export const FeaturesListItem = styled(ListItem)({
+export const FeaturesListItem = styled(ListItem)(({ theme }) => ({
   display: "list-item",
   fontSize: "1.6rem",
   lineHeight: "2.0rem",
-});
+  [theme.breakpoints.down("md")]: {
+    fontSize: "1.4rem",
+  },
+}));
 
 export const FlexRadioGroupBox = styled(Box)({
   display: "flex",

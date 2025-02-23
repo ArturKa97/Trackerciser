@@ -4,6 +4,7 @@ const HTTP = axios.create({
   baseURL: "http://localhost:8080",
 });
 
+//TODO: Implement the token removal after token expirationDate ends.
 const initBackendApiClient = (store) => {
   HTTP.interceptors.request.use((config) => {
     let jwt = store.getState().userSlice?.token;
