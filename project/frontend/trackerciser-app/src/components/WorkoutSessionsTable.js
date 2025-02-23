@@ -64,7 +64,6 @@ function WorkoutSessionsTable() {
             number === response.data.totalPages - 1 ||
             response.data.totalPages === 1,
         }));
-        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
