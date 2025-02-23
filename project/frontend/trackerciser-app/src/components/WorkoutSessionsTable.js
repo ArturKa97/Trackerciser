@@ -31,33 +31,66 @@ function WorkoutSessionsTable() {
   const [showWorkoutSessionForm, setShowWorkoutSessionForm] = useState(false);
   const [editWorkoutSessionId, setEditWorkoutSessionId] = useState(null);
   const [addingNewWorkoutSession, setAddingNewWorkoutSession] = useState(false);
+  const [pagination, setPagination] = useState({
+    first: true,
+    last: false,
+    number: 0,
+    size: 2,
+    numberOfElements: 0,
+    totalPages: 0,
+  });
   const navigate = useNavigate();
-  useEffect(() => retrieveWorkoutSessionsCall(), []);
+
+  useEffect(
+    () => retrieveWorkoutSessionsCall(pagination.number, pagination.size),
+    [pagination.number, pagination.size]
+  );
 
   function selectRow(id) {
     navigate("/workoutSession", { state: id });
   }
 
-  function retrieveWorkoutSessionsCall() {
-    retrieveAllWorkoutSessions()
-      .then((response) => setWorkoutSessions(response.data))
-      .catch((error) => console.log(error))
-      .finally(() => console.log("passed"));
+  function retrieveWorkoutSessionsCall(number, size) {
+    retrieveAllWorkoutSessions(number, size)
+      .then((response) => {
+        setWorkoutSessions(response.data.content);
+        setPagination((prevState) => ({
+          ...prevState,
+          number: response.data.number,
+          totalPages: response.data.totalPages,
+          numberOfElements: response.data.numberOfElements,
+          first: number === 0,
+          last:
+            number === response.data.totalPages - 1 ||
+            response.data.totalPages === 1,
+        }));
+        console.log(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
   function deleteWorkoutSessionByIdCall(id) {
     deleteWorkoutSessionById(id)
       .then(() => {
-        retrieveWorkoutSessionsCall();
+        pagination.last && !pagination.first && pagination.numberOfElements <= 1
+          ? retrieveWorkoutSessionsCall(pagination.number - 1, pagination.size)
+          : retrieveWorkoutSessionsCall(pagination.number, pagination.size);
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("deleted"));
+      .catch((error) => console.log(error));
   }
+
+  const handlePageChange = (event, page) => {
+    setPagination((prevState) => ({
+      ...prevState,
+      number: page - 1,
+    }));
+  };
+
   const handleFormSuccess = () => {
     setShowWorkoutSessionForm(false);
     setAddingNewWorkoutSession(false);
     setEditWorkoutSessionId(null);
-    retrieveWorkoutSessionsCall();
+    retrieveWorkoutSessionsCall(pagination.number, pagination.size);
   };
   const handleEditClick = (workoutSesionId) => {
     setEditWorkoutSessionId(workoutSesionId);
@@ -163,7 +196,13 @@ function WorkoutSessionsTable() {
           <AddIcon />
         </BigTableAddButton>
         <PaginationBox>
-          <Pagination count={10} variant="outlined" shape="rounded" />
+          <Pagination
+            count={pagination.totalPages}
+            page={pagination.number + 1}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
         </PaginationBox>
       </MainContainer>
     </>

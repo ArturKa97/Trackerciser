@@ -1,7 +1,12 @@
 import HTTP from "./";
 
-export function retrieveAllWorkoutSessions() {
-  return HTTP.get("/workout_session");
+export function retrieveAllWorkoutSessions(page, size) {
+  return HTTP.get("/workout_session", {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
 }
 
 export function retrieveWorkoutSessionById(id) {
