@@ -6,7 +6,11 @@ const HTTP = axios.create({
 
 const initBackendApiClient = (store) => {
   HTTP.interceptors.request.use((config) => {
-    const jwt = store.getState().userSlice?.token;
+    let jwt = store.getState().userSlice?.token;
+
+    if (!jwt) {
+      jwt = localStorage.getItem("token");
+    }
 
     if (jwt) {
       config.headers.Authorization = "Bearer " + jwt;
