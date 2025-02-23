@@ -35,7 +35,7 @@ function WorkoutSessionsTable() {
     first: true,
     last: false,
     number: 0,
-    size: 2,
+    size: 10,
     numberOfElements: 0,
     totalPages: 0,
   });
