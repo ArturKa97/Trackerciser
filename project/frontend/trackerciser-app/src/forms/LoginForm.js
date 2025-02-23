@@ -68,7 +68,6 @@ function LoginForm() {
                 placeholder="Password"
                 name="password"
                 type="password"
-                multiline
               />
             </FormTextFieldBoxWithLabel>
             <MainFormSubmitButton type="submit" disabled={isSubmitting}>
