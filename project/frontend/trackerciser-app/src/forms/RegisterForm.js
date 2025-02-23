@@ -7,11 +7,14 @@ import {
   MainFormSubmitButton,
 } from "../styles/StyledComponents";
 import { loginAndRegisterFormSchema } from "../schemas";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm() {
+  const navigate = useNavigate();
   const onSubmit = async (values) => {
     try {
       await registerNewUserCall(values);
+      navigate("/login");
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,7 +61,7 @@ function RegisterForm() {
                 as={TextField}
                 error={touched.password && !!errors.password}
                 helperText={touched.password && errors.password}
-                placeholder="*password validation*"
+                placeholder="Password"
                 name="password"
                 type="password"
               />
