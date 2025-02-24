@@ -47,11 +47,23 @@ export const FlexToolbar = styled(Toolbar)({
   alignContent: "center",
 });
 
-export const HeaderButtonBox = styled(Box)({
+export const HeaderButtonBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "1.4rem",
-});
+  [theme.breakpoints.down("xsmd")]: {
+    gap: "1.2rem",
+  },
+  [theme.breakpoints.down("sm")]: {
+    gap: "0.8rem",
+  },
+  [theme.breakpoints.down("xs")]: {
+    gap: "0.4rem",
+  },
+  [theme.breakpoints.down("xss")]: {
+    gap: "0.2rem",
+  },
+}));
 
 export const HeaderLogoBox = styled(Box)({
   display: "flex",
@@ -70,18 +82,27 @@ export const MainContainer = styled(Container)(({ theme }) => ({
   padding: "4.8rem 0 9.6rem 0",
   margin: "0 auto",
   [theme.breakpoints.down("md")]: {
-    padding: "4.8rem 0 8.0rem 0",
+    padding: "4.8rem 1.4rem 8.0rem 1.4rem",
   },
 }));
 
-export const TwoColumnGridBox = styled(Box)({
+export const TwoColumnGridBox = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "0.8fr 1.2fr",
   columnGap: "4.8rem",
   alignItems: "center",
   justifyItems: "center",
   padding: "0 3.2rem",
-});
+  [theme.breakpoints.down("xsmd")]: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "3.2rem",
+    textAlign: "center",
+  },
+}));
+
 export const TwoColumnChartGridBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   borderTop: "2px solid #fafafa",
@@ -92,13 +113,28 @@ export const TwoColumnChartGridBox = styled(Box)(({ theme }) => ({
   justifyItems: "center",
   padding: "2.4rem 1.2rem",
   minHeight: "30rem",
+  [theme.breakpoints.down("smd")]: {
+    gap: "2.4rem",
+    padding: "2.4rem 0.8rem 2.4rem 1.2rem",
+  },
+  [theme.breakpoints.down("xsmd")]: {
+    gap: "1.6rem",
+    padding: "2.4rem 0.4rem 2.4rem 0.8rem",
+  },
+  [theme.breakpoints.down("sm")]: {
+    gap: "0.8rem",
+    padding: "2.4rem 0.4rem 2.4rem 1.2rem",
+  },
 }));
 
-export const AlignStartGridBox = styled(Box)({
+export const AlignStartGridBox = styled(Box)(({ theme }) => ({
   alignSelf: "start",
   position: "relative",
   paddingBottom: "4.8rem",
-});
+  [theme.breakpoints.down("xsmd")]: {
+    width: "100%",
+  },
+}));
 
 const slideAnimation = {
   "@keyframes slide-in-next": {
@@ -111,12 +147,18 @@ const slideAnimation = {
   },
 };
 
-export const FeaturesCard = styled(Card)({
+export const FeaturesCard = styled(Card)(({ theme }) => ({
   backgroundColor: "transparent",
   boxShadow: "none",
   border: "none",
   height: "38rem",
-});
+  [theme.breakpoints.down("xsmd")]: {
+    minHeight: "26rem",
+    maxHeight: "34rem",
+    height: "auto",
+    width: "100%",
+  },
+}));
 
 export const FeaturesCardContent = styled(CardContent)(({ direction }) => ({
   ...slideAnimation,
@@ -146,6 +188,9 @@ export const PrevIconButton = styled(IconButton)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.palette.primary.light,
   },
+  [theme.breakpoints.down("xsmd")]: {
+    top: "40%",
+  },
 }));
 export const NextIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
@@ -156,6 +201,9 @@ export const NextIconButton = styled(IconButton)(({ theme }) => ({
   transition: "background-color 0.3s ease-in-out",
   "&:hover": {
     backgroundColor: theme.palette.primary.light,
+  },
+  [theme.breakpoints.down("xsmd")]: {
+    top: "40%",
   },
 }));
 
@@ -173,11 +221,14 @@ export const FeaturesListItem = styled(ListItem)(({ theme }) => ({
   },
 }));
 
-export const FlexRadioGroupBox = styled(Box)({
+export const FlexRadioGroupBox = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "flex-end",
-});
+  [theme.breakpoints.down("xsmd")]: {
+    alignItems: "center",
+  },
+}));
 
 export const StyledRadioButton = styled(Radio)(({ theme }) => ({
   color: theme.palette.primary.contrastText,

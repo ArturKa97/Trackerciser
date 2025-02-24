@@ -18,11 +18,15 @@ Bold: 700
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
 */
 
+//TODO : Labels start to go outside the textields in smaller screens.
 const AppTheme = createTheme({
   breakpoints: {
     values: {
-      xs: 0,
-      sm: 600,
+      xss: 500,
+      xs: 600,
+      sm: 754,
+      xsmd: 900,
+      smd: 1000,
       md: 1100,
       lg: 1200,
     },
@@ -49,7 +53,13 @@ const AppTheme = createTheme({
       fontSize: "5.2rem",
       fontWeight: 600,
       "@media (max-width: 1100px)": {
-        fontSize: "4.4rem", // Adjusted size for "md" screens and below
+        fontSize: "4.4rem", //
+      },
+      "@media (max-width: 1000px)": {
+        fontSize: "3.6rem", //
+      },
+      "@media (max-width: 900px)": {
+        fontSize: "3.0rem", //
       },
     },
 
@@ -57,12 +67,21 @@ const AppTheme = createTheme({
       fontSize: "2.4rem",
       fontWeight: 500,
       "@media (max-width: 1100px)": {
-        fontSize: "2.0rem", // Adjusted size for "md" screens and below
+        fontSize: "2.0rem",
+      },
+      "@media (max-width: 1000px)": {
+        fontSize: "1.8rem",
       },
     },
     h3: {
       fontSize: "1.8rem",
       fontWeight: 500,
+      "@media (max-width: 900px)": {
+        fontSize: "1.6rem",
+      },
+      "@media (max-width: 754px)": {
+        fontSize: "1.4rem",
+      },
     },
     h4: {
       fontSize: "1.4rem",
@@ -84,6 +103,26 @@ const AppTheme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        "@media (max-width: 900px)": {
+          html: {
+            fontSize: "87.5%", // 14px
+          },
+        },
+        "@media (max-width: 754px)": {
+          html: {
+            fontSize: "75%", // 12px
+          },
+        },
+        "@media (max-width: 600px)": {
+          html: {
+            fontSize: "62.5%", // 10px
+          },
+        },
+        "@media (max-width: 500px)": {
+          html: {
+            fontSize: "50%", // 8px
+          },
+        },
         body: {
           backgroundImage: ` linear-gradient(
               rgba(0, 0, 0, 0.8), 
@@ -131,17 +170,26 @@ const AppTheme = createTheme({
           fontWeight: 600,
           textTransform: "uppercase",
           textAlign: "left",
+          "@media (max-width: 754px)": {
+            padding: "1rem 0.6rem",
+          },
         }),
         body: ({ theme }) => ({
           color: theme.palette.text.primary,
           fontSize: "1rem",
           textAlign: "left",
+          "@media (max-width: 754px)": {
+            padding: "1rem 0.6rem",
+          },
         }),
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: ({ theme }) => ({
+          input: {
+            padding: "0.6rem 0.6rem",
+          },
           "& .MuiOutlinedInput-root": {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: theme.palette.primary.contrastText,
@@ -190,6 +238,9 @@ const AppTheme = createTheme({
             boxShadow: `0 0 0 2px ${theme.palette.primary.contrastText}`,
           },
         }),
+        select: {
+          padding: "0.6rem 0.8rem",
+        },
       },
       defaultProps: {
         MenuProps: {
