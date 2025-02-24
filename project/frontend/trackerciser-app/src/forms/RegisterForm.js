@@ -45,11 +45,11 @@ function RegisterForm() {
             <FormTextFieldBoxWithLabel>
               <Typography variant="h6">USERNAME:</Typography>
               <Field
-                label="Username"
+                label="Username*"
                 as={TextField}
                 error={touched.username && !!errors.username}
                 helperText={touched.username && errors.username}
-                placeholder="e.g., myusername66"
+                placeholder="e.g., Myusername66"
                 name="username"
                 type="text"
               />
@@ -57,7 +57,7 @@ function RegisterForm() {
             <FormTextFieldBoxWithLabel>
               <Typography variant="h6">PASSWORD:</Typography>
               <Field
-                label="Password"
+                label="Password*"
                 as={TextField}
                 error={touched.password && !!errors.password}
                 helperText={touched.password && errors.password}

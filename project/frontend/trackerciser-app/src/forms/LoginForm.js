@@ -48,7 +48,7 @@ function LoginForm() {
             <FormTextFieldBoxWithLabel>
               <Typography variant="h6">USERNAME:</Typography>
               <Field
-                label="Username"
+                label="Username*"
                 as={TextField}
                 error={touched.username && !!errors.username}
                 helperText={touched.username && errors.username}
@@ -61,7 +61,7 @@ function LoginForm() {
             <FormTextFieldBoxWithLabel>
               <Typography variant="h6">PASSWORD:</Typography>
               <Field
-                label="Password"
+                label="Password*"
                 as={TextField}
                 error={touched.password && !!errors.password}
                 helperText={touched.password && errors.password}

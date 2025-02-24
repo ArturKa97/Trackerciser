@@ -76,7 +76,7 @@ function WorkoutSessionForm({
           <FormBox>
             <FormTextFieldBox>
               <Field
-                label="Name *"
+                label="Name*"
                 error={
                   touched.workoutSessionName && !!errors.workoutSessionName
                 }
@@ -84,17 +84,16 @@ function WorkoutSessionForm({
                   touched.workoutSessionName && errors.workoutSessionName
                 }
                 as={TextField}
-                placeholder="Enter your workout session name"
+                placeholder="Workout session name"
                 name="workoutSessionName"
                 type="text"
               />
 
               <Field
-                label="Date *"
+                label="Date*"
                 error={touched.date && !!errors.date}
                 helperText={touched.date && errors.date}
                 as={TextField}
-                placeholder="Enter your workout session date"
                 name="date"
                 type="date"
                 InputLabelProps={{ shrink: true }}

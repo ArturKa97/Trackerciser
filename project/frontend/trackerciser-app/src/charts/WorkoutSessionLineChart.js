@@ -28,12 +28,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import WorkoutSessionChartForm from "../forms/WorkoutSessionChartForm";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 function WorkoutSessionLineChart() {
   const [workoutSessionsData, setWorkoutSessionsData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("Reps");
   const [selectedExercise, setSelectedExercise] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down("sm")); // <750px
+  const isXsmd = useMediaQuery(theme.breakpoints.down("xsmd")); // <900px
+  const chartHeight = isXs ? 300 : isXsmd ? 400 : 600;
 
   const selectedExerciseChartData = useMemo(() => {
     return selectedExercise
@@ -234,7 +240,7 @@ function WorkoutSessionLineChart() {
                 </ChartButtonGroup>
               </ChartButtonGroupBox>
 
-              <ResponsiveContainer width="100%" height={600}>
+              <ResponsiveContainer width="100%" height={chartHeight}>
                 {renderChart()}
               </ResponsiveContainer>
             </ChartListBox>
