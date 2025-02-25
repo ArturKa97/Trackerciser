@@ -1,7 +1,4 @@
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -11,6 +8,7 @@ import {
   FlexToolbar,
   HeaderButton,
   HeaderButtonBox,
+  HeaderHomeButton,
   HeaderLogoBox,
   LogoTypography,
   StyledAppBar,
@@ -27,8 +25,10 @@ function Header() {
       <FlexToolbar>
         <HeaderButtonBox>
           <HeaderLogoBox>
-            <FitnessCenterIcon />
-            <LogoTypography>TRACKERCISER</LogoTypography>
+            <HeaderHomeButton onClick={() => navigate("/")}>
+              <FitnessCenterIcon />
+              <LogoTypography>TRACKERCISER</LogoTypography>
+            </HeaderHomeButton>
           </HeaderLogoBox>
           <HeaderButton onClick={() => navigate("/workoutSessions")}>
             Workout Sessions
@@ -56,13 +56,6 @@ function Header() {
             </HeaderButton>
           )}
         </HeaderButtonBox>
-        {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton sx={{ p: 0 }}>
-                <Avatar sx={{ bgcolor: deepPurple[500] }}>PH</Avatar>
-              </IconButton>
-            </Tooltip>
-          </Box> */}
       </FlexToolbar>
     </StyledAppBar>
   );

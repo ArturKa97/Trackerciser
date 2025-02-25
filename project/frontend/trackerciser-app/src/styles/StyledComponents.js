@@ -41,6 +41,13 @@ export const HeaderButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+export const HeaderHomeButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  "&:hover": {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+
 export const FlexToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
