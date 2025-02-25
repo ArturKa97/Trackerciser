@@ -43,6 +43,15 @@ export const HeaderButton = styled(Button)(({ theme }) => ({
 
 export const HeaderHomeButton = styled(Button)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+
+export const HeaderMenuButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  transition: "background-color 0.3s ease-in-out",
   "&:hover": {
     backgroundColor: theme.palette.primary.light,
   },
@@ -76,6 +85,13 @@ export const HeaderLogoBox = styled(Box)({
   display: "flex",
   alignItems: "center",
   gap: "0.4rem",
+});
+
+export const HeaderMenuBoxSm = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
 });
 
 export const LogoTypography = styled(Typography)({
@@ -199,6 +215,7 @@ export const PrevIconButton = styled(IconButton)(({ theme }) => ({
     top: "40%",
   },
 }));
+
 export const NextIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
   position: "absolute",
