@@ -185,11 +185,17 @@ const AppTheme = createTheme({
       },
     },
     MuiTextField: {
+      defaultProps: {
+        InputLabelProps: {
+          shrink: true,
+        },
+      },
       styleOverrides: {
         root: ({ theme }) => ({
           input: {
             padding: "0.6rem 0.6rem",
           },
+
           "& .MuiOutlinedInput-root": {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: theme.palette.primary.contrastText,
