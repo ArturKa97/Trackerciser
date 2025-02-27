@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     @NotNull(message = "Username value cannot be null")
     @NotBlank(message = "Username value cannot be empty")
     @Size(min = 1, max = 20, message = "Username value must be between {min} and {max} characters long")
