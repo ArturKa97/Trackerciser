@@ -17,7 +17,8 @@ function LoginForm() {
 
   const onSubmit = async (values) => {
     try {
-      await LoginAndAuthenticateCall(values);
+      const response = await loginAndAuthenticate(values);
+      dispatch(userLoggedIn({ token: response.token }));
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -26,12 +27,6 @@ function LoginForm() {
     }
   };
 
-  function LoginAndAuthenticateCall(values) {
-    return loginAndAuthenticate(values)
-      .then((response) => dispatch(userLoggedIn(response)))
-      .catch((error) => console.log(error))
-      .finally(() => console.log("register call end"));
-  }
   return (
     <Formik
       initialValues={{
