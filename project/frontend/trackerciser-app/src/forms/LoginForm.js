@@ -18,7 +18,9 @@ function LoginForm() {
   const onSubmit = async (values) => {
     try {
       const response = await loginAndAuthenticate(values);
-      dispatch(userLoggedIn({ token: response.token }));
+      dispatch(
+        userLoggedIn({ token: response.token, userDTO: response.userDTO })
+      );
       navigate("/");
     } catch (error) {
       console.log(error);

@@ -6,7 +6,16 @@ const HTTP = axios.create({
   withCredentials: true,
 });
 
-const initBackendApiClient = (store) => {
+const initBackendApiClient = async (store) => {
+  // Works on page refresh, because the token is in memory and gets reset after page refresh,
+  //  so this checks if the refresh token is still valid and provides the new access token if so, if it's not we log the user out.
+  try {
+    const { data } = await HTTP.post("/refresh", {}, { withCredentials: true });
+    store.dispatch(userLoggedIn({ token: data.token, userDTO: data.userDTO }));
+  } catch (error) {
+    store.dispatch(userLoggedOut());
+  }
+
   HTTP.interceptors.request.use((config) => {
     if (config.url !== "/refresh") {
       const jwt = store.getState().userSlice?.token;

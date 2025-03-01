@@ -22,8 +22,8 @@ export function retrieveAllWorkoutSessionsBetweenDates(fromDate, toDate) {
   });
 }
 
-export function addWorkoutSession(workoutSession) {
-  return HTTP.post("/workout_session", workoutSession, {
+export function addWorkoutSession(workoutSession, userId) {
+  return HTTP.post(`/workout_session/${userId}`, workoutSession, {
     headers: {
       "Content-Type": "application/json",
     },

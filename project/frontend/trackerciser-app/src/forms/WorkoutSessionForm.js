@@ -16,6 +16,8 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function WorkoutSessionForm({
   onSuccess,
@@ -23,6 +25,7 @@ function WorkoutSessionForm({
   isAddingNew,
   onClose,
 }) {
+  const userId = useSelector(selectUserDTO)?.id;
   const onSubmit = async (values, actions) => {
     try {
       if (isAddingNew) {
@@ -40,7 +43,7 @@ function WorkoutSessionForm({
   };
 
   const addWorkoutSessionCall = (values, actions) => {
-    addWorkoutSession(values)
+    addWorkoutSession(values, userId)
       .then(() => {
         actions.setSubmitting(false);
         actions.resetForm();
