@@ -44,6 +44,9 @@ public class WorkoutSession {
             orphanRemoval = true)
     private Set<Exercise> exercisesSet = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public void addExercise(Exercise exercise) {
         exercisesSet.add(exercise);
         exercise.setWorkoutSession(this);

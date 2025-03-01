@@ -18,9 +18,9 @@ public class WorkoutSessionController {
 
     private final WorkoutSessionService workoutSessionService;
 
-    @PostMapping
-    public WorkoutSessionDTO addWorkoutSession(@RequestBody WorkoutSessionDTO workoutSessionDTO) {
-        return workoutSessionService.addWorkoutSession(workoutSessionDTO);
+    @PostMapping("/{userId}")
+    public WorkoutSessionDTO addWorkoutSession(@RequestBody WorkoutSessionDTO workoutSessionDTO, @PathVariable(value = "userId") Long userId) {
+        return workoutSessionService.addWorkoutSession(workoutSessionDTO, userId);
     }
 
     @GetMapping("/{id}")

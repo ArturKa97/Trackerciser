@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface WorkoutSessionService {
 
-    WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO);
+    WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO, Long userId);
 
     WorkoutSessionDTO getWorkoutSessionById(Long id);
 
