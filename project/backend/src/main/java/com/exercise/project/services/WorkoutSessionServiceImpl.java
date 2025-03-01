@@ -3,6 +3,7 @@ package com.exercise.project.services;
 import com.exercise.project.dtos.WorkoutSessionDTO;
 import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.mappers.WorkoutSessionDTOMapper;
+import com.exercise.project.repositories.UserRepository;
 import com.exercise.project.repositories.WorkoutSessionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,18 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
 
     private final WorkoutSessionRepository workoutSessionRepository;
     private final WorkoutSessionDTOMapper workoutSessionDTOMapper;
+    private final UserRepository userRepository;
 
     @Override
-    public WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO) {
-        WorkoutSession workoutSessionEntity = workoutSessionDTOMapper.toEntity(workoutSessionDTO);
-        WorkoutSession savedWorkoutSessionEntity = workoutSessionRepository.save(workoutSessionEntity);
-        return workoutSessionDTOMapper.toDTO(savedWorkoutSessionEntity);
+    public WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO, Long userId) {
+        return userRepository.getUserById(userId)
+                .map(user -> {
+                    WorkoutSession workoutSessionEntity = workoutSessionDTOMapper.toEntity(workoutSessionDTO);
+                    user.addWorkoutSession(workoutSessionEntity);
+                    WorkoutSession savedWorkoutSessionEntity = workoutSessionRepository.save(workoutSessionEntity);
+                    return workoutSessionDTOMapper.toDTO(savedWorkoutSessionEntity);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User with id [%s] not found".formatted(userId)));
     }
 
     @Override

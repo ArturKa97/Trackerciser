@@ -12,9 +12,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -53,6 +51,21 @@ public class User implements UserDetails {
             orphanRemoval = true)
     @JsonIgnore
     private Set<UserRole> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<WorkoutSession> userWorkoutSessions = new ArrayList<>();
+
+    public void addWorkoutSession(WorkoutSession workoutSession) {
+        userWorkoutSessions.add(workoutSession);
+        workoutSession.setUser(this);
+    }
+
+    public void removeWorkoutSession(WorkoutSession workoutSession) {
+        userWorkoutSessions.remove(workoutSession);
+        workoutSession.setUser(null);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
