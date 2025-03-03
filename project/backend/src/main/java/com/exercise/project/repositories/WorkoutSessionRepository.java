@@ -13,14 +13,14 @@ import java.util.Optional;
 
 public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, Long> {
 
-    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.id = :id")
-    Optional<WorkoutSession> getWorkoutSessionById(@Param("id") Long id);
+    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.id = :id AND ws.user.id = :userId")
+    Optional<WorkoutSession> getWorkoutSessionById(@Param("id") Long id, @Param("userId") Long userId);
 
-    @Query(value = "SELECT DISTINCT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets")
-    Page<WorkoutSession> getAllWorkoutSessions(Pageable pageable);
+    @Query(value = "SELECT DISTINCT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets WHERE ws.user.id = :userId")
+    Page<WorkoutSession> getAllWorkoutSessions(Pageable pageable, @Param("userId") Long userId);
 
-    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets  WHERE ws.date BETWEEN:fromDate AND:toDate")
+    @Query(value = "SELECT ws FROM WorkoutSession ws LEFT JOIN FETCH ws.exercisesSet e LEFT JOIN FETCH e.exerciseType LEFT JOIN FETCH e.exerciseSets  WHERE ws.date BETWEEN :fromDate AND :toDate AND ws.user.id = :userId")
     List<WorkoutSession> getWorkoutSessionsBetweenDates(@Param("fromDate") LocalDate fromDate,
-                                                        @Param("toDate") LocalDate toDate);
+                                                        @Param("toDate") LocalDate toDate, @Param("userId") Long userId);
 
 }

@@ -50,9 +50,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ExerciseDTO addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId) {
-        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
-                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
+    public ExerciseDTO addExerciseToWorkoutSession(Long workoutSessionId, Long exerciseTypeId, Long userId) {
+        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found on User with id [%s]".formatted(workoutSessionId, userId)));
 
         ExerciseType exerciseType = exerciseTypeRepository.getExerciseTypeById(exerciseTypeId)
                 .orElseThrow(() -> new EntityNotFoundException("ExerciseType with id [%s] not found".formatted(exerciseTypeId)));
@@ -64,10 +64,9 @@ public class ExerciseServiceImpl implements ExerciseService {
         return exerciseDTOMapper.toDTO(savedExerciseEntity);
     }
     @Override
-    public void removeExerciseFromWorkoutSession(Long workoutSessionId, Long exerciseId) {
-
-        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId)
-                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
+    public void removeExerciseFromWorkoutSession(Long workoutSessionId, Long exerciseId, Long userId) {
+        WorkoutSession workoutSession = workoutSessionRepository.getWorkoutSessionById(workoutSessionId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found on User with id [%s]".formatted(workoutSessionId, userId)));
 
         Exercise exercise = exerciseRepository.getExerciseById(exerciseId)
                 .orElseThrow(() -> new EntityNotFoundException("Exercise with id [%s] not found".formatted(exerciseId)));

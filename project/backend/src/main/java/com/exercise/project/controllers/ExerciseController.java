@@ -36,14 +36,16 @@ public class ExerciseController {
         exerciseService.deleteExerciseById(id);
     }
 
-    @PostMapping("/{workoutSessionId}/{exerciseTypeId}")
-    public ExerciseDTO addExerciseToWorkoutSession(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseTypeId") Long exerciseTypeId) {
-        return exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
+    @PostMapping("/{workoutSessionId}/{exerciseTypeId}/{userId}")
+    public ExerciseDTO addExerciseToWorkoutSession(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseTypeId") Long exerciseTypeId,
+                                                   @PathVariable(value = "userId") Long userId) {
+        return exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId, userId);
     }
 
-    @DeleteMapping("/{workoutSessionId}/{exerciseId}")
-    public void removeExerciseFromWorkoutSession(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseId") Long exerciseId) {
-        exerciseService.removeExerciseFromWorkoutSession(workoutSessionId, exerciseId);
+    @DeleteMapping("/{workoutSessionId}/{exerciseId}/{userId}")
+    public void removeExerciseFromWorkoutSession(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @PathVariable(value = "exerciseId") Long exerciseId,
+                                                 @PathVariable(value = "userId") Long userId) {
+        exerciseService.removeExerciseFromWorkoutSession(workoutSessionId, exerciseId, userId);
     }
 
 }
