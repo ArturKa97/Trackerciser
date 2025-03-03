@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -28,6 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 class WorkoutSessionControllerTest {
+
+    private final Long USERID = 1L;
+    private final Pageable PAGEABLE = PageRequest.of(0, 10);
 
     @MockBean
     private WorkoutSessionService workoutSessionService;
@@ -51,9 +58,9 @@ class WorkoutSessionControllerTest {
         //Given
         WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
-        when(workoutSessionService.addWorkoutSession(workoutSessionDTO)).thenReturn(workoutSessionDTO);
+        when(workoutSessionService.addWorkoutSession(workoutSessionDTO, USERID)).thenReturn(workoutSessionDTO);
         //When
-        ResultActions response = mockMvc.perform(post("/workout_session")
+        ResultActions response = mockMvc.perform(post("/workout_session/{userId}", USERID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(workoutSessionDTO)));
         //Then
@@ -61,7 +68,7 @@ class WorkoutSessionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTO)));
 
-        verify(workoutSessionService).addWorkoutSession(workoutSessionDTO);
+        verify(workoutSessionService).addWorkoutSession(workoutSessionDTO, USERID);
     }
 
     @Test
@@ -70,16 +77,16 @@ class WorkoutSessionControllerTest {
         Long workoutSessionId = 1L;
         WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
-        when(workoutSessionService.getWorkoutSessionById(workoutSessionId)).thenReturn(workoutSessionDTO);
+        when(workoutSessionService.getWorkoutSessionById(workoutSessionId, USERID)).thenReturn(workoutSessionDTO);
         //When
-        ResultActions response = mockMvc.perform(get("/workout_session/{id}", workoutSessionId)
+        ResultActions response = mockMvc.perform(get("/workout_session/{id}/{userId}", workoutSessionId, USERID)
                 .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTO)));
 
-        verify(workoutSessionService).getWorkoutSessionById(workoutSessionId);
+        verify(workoutSessionService).getWorkoutSessionById(workoutSessionId, USERID);
     }
 
     @Test
@@ -89,17 +96,20 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.now());
 
         List<WorkoutSessionDTO> workoutSessionDTOList = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
+        Page<WorkoutSessionDTO> workoutSessionDTOPage = new PageImpl<>(workoutSessionDTOList, PAGEABLE, workoutSessionDTOList.size());
 
-        when(workoutSessionService.getAllWorkoutSessions()).thenReturn(workoutSessionDTOList);
+        when(workoutSessionService.getAllWorkoutSessions(PAGEABLE, USERID)).thenReturn(workoutSessionDTOPage);
         //When
-        ResultActions response = mockMvc.perform(get("/workout_session")
+        ResultActions response = mockMvc.perform(get("/workout_session/{userId}", USERID)
+                .param("page", String.valueOf(PAGEABLE.getPageNumber()))
+                .param("size", String.valueOf(PAGEABLE.getPageSize()))
                 .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTOList)));
+                .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTOPage)));
 
-        verify(workoutSessionService).getAllWorkoutSessions();
+        verify(workoutSessionService).getAllWorkoutSessions(PAGEABLE, USERID);
     }
 
     @Test
@@ -112,9 +122,9 @@ class WorkoutSessionControllerTest {
         WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.of(2024, 8, 8));
         List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
-        when(workoutSessionService.getAllWorkoutSessionsBetweenDates(fromDate, toDate)).thenReturn(workoutSessionDTOS);
+        when(workoutSessionService.getAllWorkoutSessionsBetweenDates(fromDate, toDate, USERID)).thenReturn(workoutSessionDTOS);
         //When
-        ResultActions response = mockMvc.perform(get("/workout_session/dates")
+        ResultActions response = mockMvc.perform(get("/workout_session/dates/{userId}", USERID)
                 .param("fromDate", fromDate.toString())
                 .param("toDate", toDate.toString())
                 .contentType(MediaType.APPLICATION_JSON));
@@ -123,7 +133,7 @@ class WorkoutSessionControllerTest {
         response
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(workoutSessionDTOS)));
-        verify(workoutSessionService).getAllWorkoutSessionsBetweenDates(fromDate, toDate);
+        verify(workoutSessionService).getAllWorkoutSessionsBetweenDates(fromDate, toDate, USERID);
     }
 
     @Test
@@ -131,11 +141,11 @@ class WorkoutSessionControllerTest {
         //Given
         Long workoutSessionId = 1L;
         //When
-        ResultActions response = mockMvc.perform(delete("/workout_session/{id}", workoutSessionId));
+        ResultActions response = mockMvc.perform(delete("/workout_session/{id}/{userId}", workoutSessionId, USERID));
         //Then
         response
                 .andExpect(status().isOk());
-        verify(workoutSessionService).deleteWorkoutSessionById(workoutSessionId);
+        verify(workoutSessionService).deleteWorkoutSessionById(workoutSessionId, USERID);
     }
 
     @Test
@@ -144,9 +154,9 @@ class WorkoutSessionControllerTest {
         Long workoutSessionId = 1L;
         WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg day", LocalDate.now());
 
-        when(workoutSessionService.updateWorkoutSessionById(workoutSessionId, updatedWorkoutSessionDTO)).thenReturn(updatedWorkoutSessionDTO);
+        when(workoutSessionService.updateWorkoutSessionById(workoutSessionId, USERID, updatedWorkoutSessionDTO)).thenReturn(updatedWorkoutSessionDTO);
         //When
-        ResultActions response = mockMvc.perform(put("/workout_session/{workoutSessionId}", workoutSessionId)
+        ResultActions response = mockMvc.perform(put("/workout_session/{id}/{userId}", workoutSessionId, USERID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updatedWorkoutSessionDTO)));
         //Then
@@ -154,7 +164,7 @@ class WorkoutSessionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(updatedWorkoutSessionDTO)));
 
-        verify(workoutSessionService).updateWorkoutSessionById(workoutSessionId, updatedWorkoutSessionDTO);
+        verify(workoutSessionService).updateWorkoutSessionById(workoutSessionId, USERID, updatedWorkoutSessionDTO);
     }
 
 }

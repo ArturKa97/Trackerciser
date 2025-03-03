@@ -29,6 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class ExerciseControllerTest {
 
+    private final Long USERID = 1L;
+
     @MockBean
     private ExerciseService exerciseService;
 
@@ -120,16 +122,16 @@ class ExerciseControllerTest {
         Long exerciseTypeId = 2L;
         ExerciseDTO exerciseDTO = createTestExerciseDTO(3L);
 
-        when(exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId)).thenReturn(exerciseDTO);
+        when(exerciseService.addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId, USERID)).thenReturn(exerciseDTO);
         //When
-        ResultActions response = mockMvc.perform(post("/exercise/{workoutSessionId}/{exerciseTypeId}", workoutSessionId, exerciseTypeId)
+        ResultActions response = mockMvc.perform(post("/exercise/{workoutSessionId}/{exerciseTypeId}/{userId}", workoutSessionId, exerciseTypeId, USERID)
                 .contentType(MediaType.APPLICATION_JSON));
         //Then
         response
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(exerciseDTO)));
 
-        verify(exerciseService).addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId);
+        verify(exerciseService).addExerciseToWorkoutSession(workoutSessionId, exerciseTypeId, USERID);
     }
 
     @Test
@@ -139,14 +141,14 @@ class ExerciseControllerTest {
         Long exerciseId = 2L;
 
         //When
-        ResultActions response = mockMvc.perform(delete("/exercise/{workoutSessionId}/{exerciseId}", workoutSessionId, exerciseId)
+        ResultActions response = mockMvc.perform(delete("/exercise/{workoutSessionId}/{exerciseId}/{userId}", workoutSessionId, exerciseId, USERID)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //Then
         response
                 .andExpect(status().isOk());
 
-        verify(exerciseService).removeExerciseFromWorkoutSession(workoutSessionId, exerciseId);
+        verify(exerciseService).removeExerciseFromWorkoutSession(workoutSessionId, exerciseId, USERID);
     }
 
 }
