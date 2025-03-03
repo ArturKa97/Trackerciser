@@ -23,33 +23,33 @@ public class WorkoutSessionController {
         return workoutSessionService.addWorkoutSession(workoutSessionDTO, userId);
     }
 
-    @GetMapping("/{id}")
-    public WorkoutSessionDTO getWorkoutSessionById(@PathVariable(value = "id") Long id) {
-        return workoutSessionService.getWorkoutSessionById(id);
+    @GetMapping("/{id}/{userId}")
+    public WorkoutSessionDTO getWorkoutSessionById(@PathVariable(value = "id") Long workoutSessionId, @PathVariable(value = "userId") Long userId) {
+        return workoutSessionService.getWorkoutSessionById(workoutSessionId, userId);
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public Page<WorkoutSessionDTO> getAllWorkoutSessions(@RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "10") int size) {
+                                                         @RequestParam(defaultValue = "10") int size, @PathVariable(value = "userId") Long userId) {
         Pageable pageable = PageRequest.of(page, size);
-        return workoutSessionService.getAllWorkoutSessions(pageable);
+        return workoutSessionService.getAllWorkoutSessions(pageable, userId);
     }
 
-    @GetMapping("/dates")
-    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(@RequestParam String fromDate, @RequestParam String toDate) {
+    @GetMapping("/dates/{userId}")
+    public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(@RequestParam String fromDate, @RequestParam String toDate, @PathVariable(value = "userId") Long userId) {
         LocalDate parsedFromDate = LocalDate.parse(fromDate);
         LocalDate parsedToDate = LocalDate.parse(toDate);
-        return workoutSessionService.getAllWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate);
+        return workoutSessionService.getAllWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate, userId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteWorkoutSessionById(@PathVariable(value = "id") Long id) {
-        workoutSessionService.deleteWorkoutSessionById(id);
+    @DeleteMapping("/{id}/{userId}")
+    public void deleteWorkoutSessionById(@PathVariable(value = "id") Long workoutSessionId, @PathVariable(value = "userId") Long userId) {
+        workoutSessionService.deleteWorkoutSessionById(workoutSessionId, userId);
     }
 
-    @PutMapping("/{workoutSessionId}")
-    public WorkoutSessionDTO updateWorkoutSessionById(@PathVariable(value = "workoutSessionId") Long workoutSessionId, @RequestBody WorkoutSessionDTO updatedWorkoutSession) {
-        return workoutSessionService.updateWorkoutSessionById(workoutSessionId, updatedWorkoutSession);
+    @PutMapping("/{id}/{userId}")
+    public WorkoutSessionDTO updateWorkoutSessionById(@PathVariable(value = "id") Long workoutSessionId, @PathVariable(value = "userId") Long userId, @RequestBody WorkoutSessionDTO updatedWorkoutSession) {
+        return workoutSessionService.updateWorkoutSessionById(workoutSessionId, userId, updatedWorkoutSession);
     }
 
 }

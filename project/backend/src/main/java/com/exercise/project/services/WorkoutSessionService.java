@@ -11,13 +11,13 @@ public interface WorkoutSessionService {
 
     WorkoutSessionDTO addWorkoutSession(WorkoutSessionDTO workoutSessionDTO, Long userId);
 
-    WorkoutSessionDTO getWorkoutSessionById(Long id);
+    WorkoutSessionDTO getWorkoutSessionById(Long workoutSessionId, Long userId);
 
-    Page<WorkoutSessionDTO> getAllWorkoutSessions(Pageable pageable);
+    Page<WorkoutSessionDTO> getAllWorkoutSessions(Pageable pageable, Long userId);
 
-    List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate);
+    List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate, Long userId);
 
-    void deleteWorkoutSessionById(Long id);
+    void deleteWorkoutSessionById(Long workoutSessionId, Long userId);
 
-    WorkoutSessionDTO updateWorkoutSessionById(Long workoutSessionId, WorkoutSessionDTO updatedWorkoutSession);
+    WorkoutSessionDTO updateWorkoutSessionById(Long workoutSessionId, Long userId, WorkoutSessionDTO updatedWorkoutSession);
 }
