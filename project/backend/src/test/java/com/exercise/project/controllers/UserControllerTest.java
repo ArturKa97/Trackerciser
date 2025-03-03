@@ -51,7 +51,7 @@ class UserControllerTest {
                 .roles(new HashSet<>())
                 .build();
         //When
-        ResultActions response = mockMvc.perform(post("/user")
+        ResultActions response = mockMvc.perform(post("/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)));
 

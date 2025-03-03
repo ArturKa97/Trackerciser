@@ -39,7 +39,7 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
     public WorkoutSessionDTO getWorkoutSessionById(Long workoutSessionId, Long userId) {
         return workoutSessionRepository.getWorkoutSessionById(workoutSessionId, userId)
                 .map(workoutSessionDTOMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found".formatted(workoutSessionId)));
+                .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found on User with id [%s]".formatted(workoutSessionId, userId)));
     }
 
     @Override

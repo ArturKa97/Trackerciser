@@ -1,8 +1,10 @@
 package com.exercise.project.services;
 
 import com.exercise.project.dtos.WorkoutSessionDTO;
+import com.exercise.project.entities.User;
 import com.exercise.project.entities.WorkoutSession;
 import com.exercise.project.mappers.WorkoutSessionDTOMapper;
+import com.exercise.project.repositories.UserRepository;
 import com.exercise.project.repositories.WorkoutSessionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -10,12 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,8 +32,13 @@ class WorkoutSessionServiceImplTest {
     private final Long NONEXISTENTID = 999999L;
     private final LocalDate FROMDATE = LocalDate.of(2024, 1, 1);
     private final LocalDate TODATE = LocalDate.of(2024, 10, 1);
+    private final Long USERID = 1L;
+    private final Pageable PAGEABLE = PageRequest.of(0, 10);
+
     @Mock
     private WorkoutSessionRepository workoutSessionRepository;
+    @Mock
+    private UserRepository userRepository;
     @Mock
     private WorkoutSessionDTOMapper workoutSessionDTOMapper;
     @InjectMocks
@@ -52,13 +60,15 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_AddWorkoutSession_ShouldReturnWorkoutSessionDTO() {
         //Given
+        User user = User.builder().id(USERID).userWorkoutSessions(new ArrayList<>()).build();
         WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
         WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
+        when(userRepository.getUserById(USERID)).thenReturn(Optional.of(user));
         when(workoutSessionDTOMapper.toEntity(workoutSessionDTO)).thenReturn(workoutSession);
         when(workoutSessionRepository.save(workoutSession)).thenReturn(workoutSession);
         when(workoutSessionDTOMapper.toDTO(workoutSession)).thenReturn(workoutSessionDTO);
         //When
-        WorkoutSessionDTO result = workoutSessionServiceImpl.addWorkoutSession(workoutSessionDTO);
+        WorkoutSessionDTO result = workoutSessionServiceImpl.addWorkoutSession(workoutSessionDTO, USERID);
         //Then
         assertThat(result)
                 .isNotNull()
@@ -69,19 +79,31 @@ class WorkoutSessionServiceImplTest {
     }
 
     @Test
+    public void WorkoutSessionServiceImpl_AddWorkoutSession_ShouldReturnEntityNotFoundExceptionWhenUserDoesNotExist() {
+        //Given
+        WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
+        when(userRepository.getUserById(USERID)).thenReturn(Optional.empty());
+        //When + Then
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            workoutSessionServiceImpl.addWorkoutSession(workoutSessionDTO, USERID);
+        });
+        assertEquals("User with id [1] not found", exception.getMessage());
+    }
+
+    @Test
     public void WorkoutSessionServiceImpl_GetWorkoutSessionById_ShouldReturnWorkoutSessionDTO() {
         //Given
         WorkoutSession workoutSession = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
         WorkoutSessionDTO workoutSessionDTO = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
-        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId(), USERID)).thenReturn(Optional.of(workoutSession));
         when(workoutSessionDTOMapper.toDTO(workoutSession)).thenReturn(workoutSessionDTO);
         //When
-        WorkoutSessionDTO result = workoutSessionServiceImpl.getWorkoutSessionById(workoutSession.getId());
+        WorkoutSessionDTO result = workoutSessionServiceImpl.getWorkoutSessionById(workoutSession.getId(), USERID);
         //Then
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(workoutSessionDTO);
-        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId(), USERID);
         verify(workoutSessionDTOMapper).toDTO(workoutSession);
 
     }
@@ -89,12 +111,12 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetWorkoutSessionById_ShouldThrowEntityNotFoundException() {
         //Given
-        when(workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID)).thenReturn(Optional.empty());
+        when(workoutSessionRepository.getWorkoutSessionById(NONEXISTENTID, USERID)).thenReturn(Optional.empty());
         //When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            workoutSessionServiceImpl.getWorkoutSessionById(NONEXISTENTID);
+            workoutSessionServiceImpl.getWorkoutSessionById(NONEXISTENTID, USERID);
         });
-        assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
+        assertEquals("WorkoutSession with id [999999] not found on User with id [1]", exception.getMessage());
     }
 
     @Test
@@ -103,21 +125,23 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession workoutSession1 = createWorkoutSessionTestEntity(1L, "Leg Day", LocalDate.now());
         WorkoutSession workoutSession2 = createWorkoutSessionTestEntity(2L, "Chest Day", LocalDate.now());
         List<WorkoutSession> workoutSessions = Arrays.asList(workoutSession1, workoutSession2);
+        Page<WorkoutSession> workoutSessionsPage = new PageImpl<>(workoutSessions, PAGEABLE, workoutSessions.size());
 
         WorkoutSessionDTO workoutSessionDTO1 = createWorkoutSessionTestDTO(1L, "Leg Day", LocalDate.now());
         WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Chest Day", LocalDate.now());
         List<WorkoutSessionDTO> workoutSessionsDTOs = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
+        Page<WorkoutSessionDTO> workoutSessionDTOPage = new PageImpl<>(workoutSessionsDTOs, PAGEABLE, workoutSessionsDTOs.size());
 
-        when(workoutSessionRepository.getAllWorkoutSessions()).thenReturn(workoutSessions);
+        when(workoutSessionRepository.getAllWorkoutSessions(PAGEABLE, USERID)).thenReturn(workoutSessionsPage);
         when(workoutSessionDTOMapper.toDTO(workoutSession1)).thenReturn(workoutSessionDTO1);
         when(workoutSessionDTOMapper.toDTO(workoutSession2)).thenReturn(workoutSessionDTO2);
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions();
+        Page<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions(PAGEABLE, USERID);
         //Then
         assertThat(result).isNotNull()
                 .isNotEmpty()
-                .isEqualTo(workoutSessionsDTOs);
-        verify(workoutSessionRepository).getAllWorkoutSessions();
+                .isEqualTo(workoutSessionDTOPage);
+        verify(workoutSessionRepository).getAllWorkoutSessions(PAGEABLE, USERID);
         verify(workoutSessionDTOMapper).toDTO(workoutSession1);
         verify(workoutSessionDTOMapper).toDTO(workoutSession2);
     }
@@ -125,15 +149,15 @@ class WorkoutSessionServiceImplTest {
     @Test
     public void WorkoutSessionServiceImpl_GetAllWorkoutSessions_ShouldReturnAnEmptyList() {
         //Given
-        when(workoutSessionRepository.getAllWorkoutSessions()).thenReturn(Collections.emptyList());
+        Page<WorkoutSession> workoutSessionDTOPage = new PageImpl<>(Collections.emptyList(), PAGEABLE, 0);
+        when(workoutSessionRepository.getAllWorkoutSessions(PAGEABLE, USERID)).thenReturn(workoutSessionDTOPage);
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions();
+        Page<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions(PAGEABLE, USERID);
         //Then
         assertThat(result)
                 .isNotNull()
                 .isEmpty();
-        verify(workoutSessionRepository).getAllWorkoutSessions();
-
+        verify(workoutSessionRepository).getAllWorkoutSessions(PAGEABLE, USERID);
     }
 
     @Test
@@ -143,15 +167,15 @@ class WorkoutSessionServiceImplTest {
         WorkoutSession updatedWorkoutSession = createWorkoutSessionTestEntity(1L, "Chest Day", LocalDate.now());
         WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Chest Day", LocalDate.now());
 
-        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId())).thenReturn(Optional.of(workoutSession));
+        when(workoutSessionRepository.getWorkoutSessionById(workoutSession.getId(), USERID)).thenReturn(Optional.of(workoutSession));
         when(workoutSessionRepository.save(workoutSession)).thenReturn(updatedWorkoutSession);
         when(workoutSessionDTOMapper.toDTO(updatedWorkoutSession)).thenReturn(updatedWorkoutSessionDTO);
         //When
-        WorkoutSessionDTO result = workoutSessionServiceImpl.updateWorkoutSessionById(workoutSession.getId(), updatedWorkoutSessionDTO);
+        WorkoutSessionDTO result = workoutSessionServiceImpl.updateWorkoutSessionById(workoutSession.getId(), USERID, updatedWorkoutSessionDTO);
         //Then
         assertThat(result).isNotNull()
                 .isEqualTo(updatedWorkoutSessionDTO);
-        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId());
+        verify(workoutSessionRepository).getWorkoutSessionById(workoutSession.getId(), USERID);
         verify(workoutSessionRepository).save(updatedWorkoutSession);
         verify(workoutSessionDTOMapper).toDTO(updatedWorkoutSession);
     }
@@ -162,9 +186,9 @@ class WorkoutSessionServiceImplTest {
         WorkoutSessionDTO updatedWorkoutSessionDTO = createWorkoutSessionTestDTO(1L, "Chest Day", LocalDate.now());
         // When + Then
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
-            workoutSessionServiceImpl.updateWorkoutSessionById(NONEXISTENTID, updatedWorkoutSessionDTO);
+            workoutSessionServiceImpl.updateWorkoutSessionById(NONEXISTENTID, USERID, updatedWorkoutSessionDTO);
         });
-        assertEquals("WorkoutSession with id [999999] not found", exception.getMessage());
+        assertEquals("WorkoutSession with id [999999] not found on User with id [1]", exception.getMessage());
     }
 
     @Test
@@ -178,28 +202,28 @@ class WorkoutSessionServiceImplTest {
         WorkoutSessionDTO workoutSessionDTO2 = createWorkoutSessionTestDTO(2L, "Arm day", LocalDate.of(2024, 8, 8));
         List<WorkoutSessionDTO> workoutSessionDTOS = Arrays.asList(workoutSessionDTO1, workoutSessionDTO2);
 
-        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE)).thenReturn(workoutSessions);
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID)).thenReturn(workoutSessions);
         when(workoutSessionDTOMapper.toDTO(workoutSession1)).thenReturn(workoutSessionDTO1);
         when(workoutSessionDTOMapper.toDTO(workoutSession2)).thenReturn(workoutSessionDTO2);
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE);
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
         //Then
         assertThat(result).isNotNull()
                 .isNotEmpty()
                 .isEqualTo(workoutSessionDTOS);
-        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
         verify(workoutSessionDTOMapper).toDTO(workoutSession1);
         verify(workoutSessionDTOMapper).toDTO(workoutSession2);
     }
     @Test
     public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAnEmptyList() {
         //Given
-        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE)).thenReturn(Collections.emptyList());
+        when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID)).thenReturn(Collections.emptyList());
         //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE);
+        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
         //Then
         assertThat(result).isNotNull()
                 .isEmpty();
-        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE);
+        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
     }
 }
