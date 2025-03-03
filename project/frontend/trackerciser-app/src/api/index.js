@@ -41,7 +41,13 @@ const initBackendApiClient = async (store) => {
             {},
             { withCredentials: true }
           );
-          store.dispatch(userLoggedIn({ token: data.token }));
+          const currentUserDTO = store.getState().userSlice?.userDTO;
+          store.dispatch(
+            userLoggedIn({
+              token: data.token,
+              userDTO: data.userDTO || currentUserDTO,
+            })
+          );
           originalRequest.headers.Authorization = `Bearer ${data.token}`;
           return HTTP.request(originalRequest);
         } catch (refreshError) {
