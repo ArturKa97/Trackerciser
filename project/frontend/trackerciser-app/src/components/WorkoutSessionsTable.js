@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   retrieveAllWorkoutSessions,
@@ -25,6 +25,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Pagination, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function WorkoutSessionsTable() {
   const [workoutSessions, setWorkoutSessions] = useState([]);
@@ -40,36 +42,40 @@ function WorkoutSessionsTable() {
     totalPages: 0,
   });
   const navigate = useNavigate();
-
-  useEffect(
-    () => retrieveWorkoutSessionsCall(pagination.number, pagination.size),
-    [pagination.number, pagination.size]
-  );
+  const userId = useSelector(selectUserDTO)?.id;
 
   function selectRow(id) {
     navigate("/workoutSession", { state: id });
   }
 
-  function retrieveWorkoutSessionsCall(number, size) {
-    retrieveAllWorkoutSessions(number, size)
-      .then((response) => {
-        setWorkoutSessions(response.data.content);
-        setPagination((prevState) => ({
-          ...prevState,
-          number: response.data.number,
-          totalPages: response.data.totalPages,
-          numberOfElements: response.data.numberOfElements,
-          first: number === 0,
-          last:
-            number === response.data.totalPages - 1 ||
-            response.data.totalPages === 1,
-        }));
-      })
-      .catch((error) => console.log(error));
-  }
+  const retrieveWorkoutSessionsCall = useCallback(
+    (number, size) => {
+      retrieveAllWorkoutSessions(number, size, userId)
+        .then((response) => {
+          setWorkoutSessions(response.data.content);
+          setPagination((prevState) => ({
+            ...prevState,
+            number: response.data.number,
+            totalPages: response.data.totalPages,
+            numberOfElements: response.data.numberOfElements,
+            first: number === 0,
+            last:
+              number === response.data.totalPages - 1 ||
+              response.data.totalPages === 1,
+          }));
+        })
+        .catch((error) => console.log(error));
+    },
+    [userId]
+  );
+
+  useEffect(
+    () => retrieveWorkoutSessionsCall(pagination.number, pagination.size),
+    [pagination.number, pagination.size, retrieveWorkoutSessionsCall]
+  );
 
   function deleteWorkoutSessionByIdCall(id) {
-    deleteWorkoutSessionById(id)
+    deleteWorkoutSessionById(id, userId)
       .then(() => {
         pagination.last && !pagination.first && pagination.numberOfElements <= 1
           ? retrieveWorkoutSessionsCall(pagination.number - 1, pagination.size)

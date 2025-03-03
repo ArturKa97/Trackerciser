@@ -26,6 +26,7 @@ function WorkoutSessionForm({
   onClose,
 }) {
   const userId = useSelector(selectUserDTO)?.id;
+
   const onSubmit = async (values, actions) => {
     try {
       if (isAddingNew) {
@@ -53,7 +54,7 @@ function WorkoutSessionForm({
       .finally(() => console.log("cleanup"));
   };
   const updateWorkoutSessionByIdCall = (workoutSessionId, values, actions) => {
-    return updateWorkoutSessionById(workoutSessionId, values)
+    return updateWorkoutSessionById(workoutSessionId, values, userId)
       .then(() => {
         actions.setSubmitting(false);
         actions.resetForm();

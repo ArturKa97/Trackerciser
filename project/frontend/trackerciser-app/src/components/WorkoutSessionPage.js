@@ -12,17 +12,20 @@ import {
   WorkoutSessionPageHeaderBox,
 } from "../styles/StyledComponents";
 import AddIcon from "@mui/icons-material/Add";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function WorkoutSessionPage() {
   const [workoutSession, setWorkoutSession] = useState({});
   const [showExerciseForm, setShowExerciseForm] = useState(false);
   const location = useLocation();
+  const userId = useSelector(selectUserDTO)?.id;
 
   const retrieveWorkoutSessionByIdCall = useCallback(() => {
-    retrieveWorkoutSessionById(location.state)
+    retrieveWorkoutSessionById(location.state, userId)
       .then((response) => setWorkoutSession(response.data))
       .catch((error) => console.log(error));
-  }, [location.state]);
+  }, [location.state, userId]);
 
   useEffect(
     () => retrieveWorkoutSessionByIdCall(),

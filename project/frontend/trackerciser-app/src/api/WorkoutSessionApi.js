@@ -1,7 +1,7 @@
 import HTTP from "./";
 
-export function retrieveAllWorkoutSessions(page, size) {
-  return HTTP.get("/workout_session", {
+export function retrieveAllWorkoutSessions(page, size, userId) {
+  return HTTP.get(`/workout_session/${userId}`, {
     params: {
       page: page,
       size: size,
@@ -9,12 +9,16 @@ export function retrieveAllWorkoutSessions(page, size) {
   });
 }
 
-export function retrieveWorkoutSessionById(id) {
-  return HTTP.get(`/workout_session/${id}`);
+export function retrieveWorkoutSessionById(id, userId) {
+  return HTTP.get(`/workout_session/${id}/${userId}`);
 }
 
-export function retrieveAllWorkoutSessionsBetweenDates(fromDate, toDate) {
-  return HTTP.get("/workout_session/dates", {
+export function retrieveAllWorkoutSessionsBetweenDates(
+  fromDate,
+  toDate,
+  userId
+) {
+  return HTTP.get(`/workout_session/dates/${userId}`, {
     params: {
       fromDate: fromDate,
       toDate: toDate,
@@ -30,10 +34,17 @@ export function addWorkoutSession(workoutSession, userId) {
   });
 }
 
-export function deleteWorkoutSessionById(id) {
-  return HTTP.delete(`/workout_session/${id}`);
+export function deleteWorkoutSessionById(id, userId) {
+  return HTTP.delete(`/workout_session/${id}/${userId}`);
 }
 
-export function updateWorkoutSessionById(workoutSessionId, workoutSession) {
-  return HTTP.put(`/workout_session/${workoutSessionId}`, workoutSession);
+export function updateWorkoutSessionById(
+  workoutSessionId,
+  workoutSession,
+  userId
+) {
+  return HTTP.put(
+    `/workout_session/${workoutSessionId}/${userId}`,
+    workoutSession
+  );
 }

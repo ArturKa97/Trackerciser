@@ -12,9 +12,12 @@ import {
 import { MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
   const [exerciseTypes, setExerciseTypes] = useState([]);
+  const userId = useSelector(selectUserDTO)?.id;
   useEffect(() => retrieveAllExerciseTypesCall(), []);
 
   const onSubmit = async ({ exerciseId }, { setSubmitting, resetForm }) => {
@@ -37,7 +40,7 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
   }
 
   const addExerciseToWorkoutSessionCall = (workoutSessionId, exerciseId) => {
-    addExerciseToWorkoutSession(workoutSessionId, exerciseId)
+    addExerciseToWorkoutSession(workoutSessionId, exerciseId, userId)
       .then(() => {
         onExerciseAdded();
       })
