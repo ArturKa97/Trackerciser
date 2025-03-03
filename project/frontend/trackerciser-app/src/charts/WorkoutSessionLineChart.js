@@ -29,12 +29,15 @@ import {
 } from "recharts";
 import WorkoutSessionChartForm from "../forms/WorkoutSessionChartForm";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function WorkoutSessionLineChart() {
   const [workoutSessionsData, setWorkoutSessionsData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("Reps");
   const [selectedExercise, setSelectedExercise] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const userId = useSelector(selectUserDTO)?.id;
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // <750px
@@ -54,7 +57,8 @@ function WorkoutSessionLineChart() {
       setHasSubmitted(true);
       const response = await retrieveAllWorkoutSessionsBetweenDates(
         fromDate,
-        toDate
+        toDate,
+        userId
       );
       const formattedData = transformWorkoutData(response.data);
       setWorkoutSessionsData(formattedData);

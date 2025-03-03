@@ -21,6 +21,8 @@ import {
   TwentyRightAlignWidthTableCell,
   TwentyWidthTableCell,
 } from "../styles/StyledComponents";
+import { useSelector } from "react-redux";
+import { selectUserDTO } from "../store/slices/userSlice";
 
 function ExerciseTable({
   workoutSessionExercises,
@@ -32,6 +34,7 @@ function ExerciseTable({
   const [editingExerciseSetId, setEditingExerciseSetId] = useState(null);
   const [addingNewExercise, setAddingNewExercise] = useState(false);
   const exercises = workoutSessionExercises;
+  const userId = useSelector(selectUserDTO)?.id;
 
   const handleEditClick = (exerciseId, exerciseSetId = null) => {
     setEditingExerciseId(exerciseId);
@@ -63,7 +66,7 @@ function ExerciseTable({
   }
 
   function removeExerciseFromWorkoutSessionCall(workoutSessionId, exerciseId) {
-    removeExerciseFromWorkoutSession(workoutSessionId, exerciseId)
+    removeExerciseFromWorkoutSession(workoutSessionId, exerciseId, userId)
       .then(() => onExerciseUpdated())
       .catch((error) => console.log(error))
       .finally(() => console.log("exercise removal block end"));
