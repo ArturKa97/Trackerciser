@@ -6,6 +6,7 @@ import com.exercise.project.entities.User;
 import com.exercise.project.mappers.UserDTOMapper;
 import com.exercise.project.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
@@ -40,6 +41,7 @@ public class JwtAuthenticationResource {
     private final UserDTOMapper userDTOMapper;
     private final JwtDecoder jwtDecoder;
 
+    @SecurityRequirements
     @Operation(description = "Post endpoint for User login and authentication",
     summary = "Login and authenticate the user,and assign a JWT token along with JWT refresh token")
     @PostMapping("/authenticate")
@@ -67,6 +69,7 @@ public class JwtAuthenticationResource {
                 .body(new AuthenticationResponse(token, userDTO));
     }
 
+    @SecurityRequirements
     @Operation(description = "Post endpoint for refreshing User's expired JWT token",
     summary = "Refreshes users expired original access token if it's valid and provides a new one if refresh token is still valid and not expired")
     @PostMapping("/refresh")
