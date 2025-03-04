@@ -47,7 +47,7 @@ public class JwtSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/register", "/authenticate", "/refresh").permitAll()
+                .requestMatchers("/user/register", "/authenticate", "/refresh", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/user/**").authenticated()
                 .anyRequest().authenticated());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
