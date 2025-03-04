@@ -6,6 +6,7 @@ import com.exercise.project.services.RoleService;
 import com.exercise.project.services.RoleServiceImpl;
 import com.exercise.project.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class UserController {
     private final UserService userService;
     private final RoleService roleService;
 
+    @SecurityRequirements
     @Operation(description = "Post endpoint for the new User registration",
     summary = "Register the new user")
     @PostMapping("/register")
