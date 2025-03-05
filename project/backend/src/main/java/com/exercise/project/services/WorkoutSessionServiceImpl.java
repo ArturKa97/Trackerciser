@@ -42,11 +42,14 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
                 .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found on User with id [%s]".formatted(workoutSessionId, userId)));
     }
 
+    //TODO: Add a entity not found exception
     @Override
     public Page<WorkoutSessionDTO> getAllWorkoutSessions(Pageable pageable, Long userId) {
         return workoutSessionRepository.getAllWorkoutSessions(pageable, userId)
                 .map(workoutSessionDTOMapper::toDTO);
     }
+
+    //TODO: Add a entity not found exception
     @Override
     public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate, Long userId) {
         return workoutSessionRepository.getWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate, userId)
