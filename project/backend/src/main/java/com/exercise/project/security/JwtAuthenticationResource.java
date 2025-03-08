@@ -6,6 +6,10 @@ import com.exercise.project.entities.User;
 import com.exercise.project.mappers.UserDTOMapper;
 import com.exercise.project.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,9 +47,18 @@ public class JwtAuthenticationResource {
 
     @SecurityRequirements
     @Operation(description = "Post endpoint for User login and authentication",
-    summary = "Login and authenticate the user,and assign a JWT token along with JWT refresh token")
+            summary = "Login and authenticate the user,and assign a JWT token along with JWT refresh token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returns an AuthenticationResponse with userDTO, JWT token, and refresh token in the HTTPOnly cookie",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Failed validation, incorrect provided values", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User was not found with provided Id", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
+    })
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Credentials of the user that wants to login",
+            required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)))
+                                                               @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
@@ -71,7 +84,13 @@ public class JwtAuthenticationResource {
 
     @SecurityRequirements
     @Operation(description = "Post endpoint for refreshing User's expired JWT token",
-    summary = "Refreshes users expired original access token if it's valid and provides a new one if refresh token is still valid and not expired")
+            summary = "Refreshes users expired original access token if it's valid and provides a new one if refresh token is still valid and not expired")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returns an AuthenticationResponse with userDTO and new JWT token",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Refresh token missing or invalid, user was not found by username", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
+    })
     @PostMapping("/refresh")
     public ResponseEntity<AuthenticationResponse> refreshToken(HttpServletRequest request) {
         String refreshToken = Arrays.stream(request.getCookies())
