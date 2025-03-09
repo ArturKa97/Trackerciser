@@ -72,7 +72,6 @@ function ExerciseTable({
       .finally(() => console.log("exercise removal block end"));
   }
 
-  //TODO: Show the  exerciseType name when the exercise doesnt have any exerciseSet info yet, right now its a blank row.
   return (
     exercises && (
       <Table aria-label="exercises table">
