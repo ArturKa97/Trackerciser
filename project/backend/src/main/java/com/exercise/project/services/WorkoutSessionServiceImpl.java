@@ -42,20 +42,29 @@ public class WorkoutSessionServiceImpl implements WorkoutSessionService {
                 .orElseThrow(() -> new EntityNotFoundException("WorkoutSession with id [%s] not found on User with id [%s]".formatted(workoutSessionId, userId)));
     }
 
-    //TODO: Add a entity not found exception
     @Override
     public Page<WorkoutSessionDTO> getAllWorkoutSessions(Pageable pageable, Long userId) {
-        return workoutSessionRepository.getAllWorkoutSessions(pageable, userId)
+        Page<WorkoutSessionDTO> page = workoutSessionRepository.getAllWorkoutSessions(pageable, userId)
                 .map(workoutSessionDTOMapper::toDTO);
+
+        if (page.isEmpty()) {
+            throw new EntityNotFoundException("No Workout Sessions found on User with id [%s]".formatted(userId));
+        }
+
+        return page;
     }
 
-    //TODO: Add a entity not found exception
     @Override
     public List<WorkoutSessionDTO> getAllWorkoutSessionsBetweenDates(LocalDate parsedFromDate, LocalDate parsedToDate, Long userId) {
-        return workoutSessionRepository.getWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate, userId)
+        List<WorkoutSessionDTO> workoutSessionDTOS = workoutSessionRepository.getWorkoutSessionsBetweenDates(parsedFromDate, parsedToDate, userId)
                 .stream()
                 .map(workoutSessionDTOMapper::toDTO)
                 .collect(Collectors.toList());
+
+        if (workoutSessionDTOS.isEmpty()) {
+            throw new EntityNotFoundException("No Workout Sessions found from [%s] to [%s] on User with id [%s] ".formatted(parsedFromDate, parsedToDate, userId));
+        }
+        return workoutSessionDTOS;
     }
 
     public void deleteWorkoutSessionById(Long workoutSessionId, Long userId) {
