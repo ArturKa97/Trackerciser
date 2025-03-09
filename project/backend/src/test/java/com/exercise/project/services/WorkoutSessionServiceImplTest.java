@@ -147,17 +147,15 @@ class WorkoutSessionServiceImplTest {
     }
 
     @Test
-    public void WorkoutSessionServiceImpl_GetAllWorkoutSessions_ShouldReturnAnEmptyList() {
+    public void WorkoutSessionServiceImpl_GetAllWorkoutSessions_ShouldReturnEntityNotFoundExceptionIfNoWorkoutSessionsWereFound() {
         //Given
         Page<WorkoutSession> workoutSessionDTOPage = new PageImpl<>(Collections.emptyList(), PAGEABLE, 0);
         when(workoutSessionRepository.getAllWorkoutSessions(PAGEABLE, USERID)).thenReturn(workoutSessionDTOPage);
-        //When
-        Page<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessions(PAGEABLE, USERID);
-        //Then
-        assertThat(result)
-                .isNotNull()
-                .isEmpty();
-        verify(workoutSessionRepository).getAllWorkoutSessions(PAGEABLE, USERID);
+        // When + Then
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            workoutSessionServiceImpl.getAllWorkoutSessions(PAGEABLE, USERID);
+        });
+        assertEquals("No Workout Sessions found on User with id [1]", exception.getMessage());
     }
 
     @Test
@@ -216,14 +214,13 @@ class WorkoutSessionServiceImplTest {
         verify(workoutSessionDTOMapper).toDTO(workoutSession2);
     }
     @Test
-    public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnAnEmptyList() {
+    public void WorkoutSessionServiceImpl_GetAllWorkoutSessionsBetweenDates_ShouldReturnEntityNotFoundExceptionWhenNoWorkoutSessionsWereFound() {
         //Given
         when(workoutSessionRepository.getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID)).thenReturn(Collections.emptyList());
-        //When
-        List<WorkoutSessionDTO> result = workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
-        //Then
-        assertThat(result).isNotNull()
-                .isEmpty();
-        verify(workoutSessionRepository).getWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
+        // When + Then
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            workoutSessionServiceImpl.getAllWorkoutSessionsBetweenDates(FROMDATE, TODATE, USERID);
+        });
+        assertEquals("No Workout Sessions found from [%s] to [%s] on User with id [%s] ".formatted(FROMDATE, TODATE, USERID), exception.getMessage());
     }
 }
