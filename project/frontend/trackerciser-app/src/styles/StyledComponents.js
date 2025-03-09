@@ -303,6 +303,11 @@ export const AddActionButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: "transparent",
     color: theme.palette.primary.contrastText,
   },
+  "&:disabled": {
+    color: theme.palette.primary.contrastText,
+    cursor: "not-allowed",
+    opacity: 0.5,
+  },
 }));
 
 export const FormBox = styled(Box)({

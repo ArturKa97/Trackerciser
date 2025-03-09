@@ -54,7 +54,7 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
       //   validationSchema={workoutSessionFormSchema}  // TODO: Write a schema for this form.
       onSubmit={onSubmit}
     >
-      {({ isSubmitting, errors, touched, setFieldValue }) => (
+      {({ isSubmitting, errors, touched, values, setFieldValue }) => (
         <Form>
           <ExerciseFormBox>
             <Field
@@ -77,7 +77,10 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
               ))}
             </Field>
             <FormActionButtonBox>
-              <AddActionButton type="submit" disabled={isSubmitting}>
+              <AddActionButton
+                type="submit"
+                disabled={isSubmitting || !values.exerciseId}
+              >
                 <AddIcon />
               </AddActionButton>
               <DeleteOrCloseActionButton onClick={onFormClose}>
