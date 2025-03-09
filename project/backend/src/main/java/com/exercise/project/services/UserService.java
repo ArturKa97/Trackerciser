@@ -1,11 +1,11 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
-import com.exercise.project.entities.User;
 
 public interface UserService {
 
-    void addNewUser(User user);
+    void addNewUser(LoginAndRegisterRequest registerRequest);
 
     UserDTO getUserById(Long id);
 }

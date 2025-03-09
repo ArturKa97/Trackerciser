@@ -1,6 +1,6 @@
 package com.exercise.project.security;
 
-import com.exercise.project.dtos.LoginRequest;
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
 import com.exercise.project.mappers.UserDTOMapper;
@@ -53,12 +53,12 @@ public class JwtAuthenticationResource {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))),
             @ApiResponse(responseCode = "400", description = "Failed validation, incorrect provided values", content = @Content),
             @ApiResponse(responseCode = "404", description = "User was not found with provided Id", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
+            @ApiResponse(responseCode = "500", description = "Failed user authentication, bad request, default response code for when something bad unexpected happens", content = @Content)
     })
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Credentials of the user that wants to login",
-            required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)))
-                                                               @RequestBody LoginRequest loginRequest) {
+            required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginAndRegisterRequest.class)))
+                                                               @RequestBody LoginAndRegisterRequest loginRequest) {
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));

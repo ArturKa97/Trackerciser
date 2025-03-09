@@ -1,5 +1,6 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.entities.User;
 import com.exercise.project.mappers.UserDTOMapper;
@@ -20,14 +21,14 @@ public class UserServiceImpl implements UserService {
     private final UserDTOMapper userDTOMapper;
     private final RoleService roleService;
 
-    public void addNewUser(User userToRegister) {
-        Optional<User> existingUser = userRepository.findByUsername(userToRegister.getUsername());
+    public void addNewUser(LoginAndRegisterRequest registerRequest) {
+        Optional<User> existingUser = userRepository.findByUsername(registerRequest.username());
         if (existingUser.isPresent()) {
             throw new IllegalArgumentException("Username is already taken.");
         }
         User newUser = User.builder()
-                .username(userToRegister.getUsername())
-                .password(passwordEncoder.encode(userToRegister.getPassword()))
+                .username(registerRequest.username())
+                .password(passwordEncoder.encode(registerRequest.password()))
                 .build();
         User savedUser = userRepository.save(newUser);
 

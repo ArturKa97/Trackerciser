@@ -1,7 +1,7 @@
 package com.exercise.project.controllers;
 
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
-import com.exercise.project.entities.User;
 import com.exercise.project.services.RoleService;
 import com.exercise.project.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +36,11 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized, JWT token invalid or expired", content = @Content),
             @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
     })
-    @PostMapping("/register") //TODO Change RequestBody to UserDTO
+    @PostMapping("/register")
     public void addNewUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "New user to be registered", required = true, content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = User.class))) @Valid @RequestBody User user) {
-        userService.addNewUser(user);
+                    schema = @Schema(implementation = LoginAndRegisterRequest.class))) @RequestBody LoginAndRegisterRequest registerRequest) {
+        userService.addNewUser(registerRequest);
     }
 
     @Operation(description = "Get endpoint for retrieving the User",
