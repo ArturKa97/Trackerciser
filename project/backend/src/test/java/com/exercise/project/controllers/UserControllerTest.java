@@ -1,7 +1,7 @@
 package com.exercise.project.controllers;
 
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
-import com.exercise.project.entities.User;
 import com.exercise.project.services.RoleService;
 import com.exercise.project.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,21 +44,20 @@ class UserControllerTest {
     @Test
     public void UserController_AddNewUser_ShouldReturnIsOk() throws Exception {
         //Given
-        User user = User.builder()
-                .id(1L)
+        LoginAndRegisterRequest registerRequest = LoginAndRegisterRequest.builder()
                 .username("user")
-                .password("UserUser97!")
-                .roles(new HashSet<>())
+                .password("Useruser9!")
                 .build();
+
         //When
         ResultActions response = mockMvc.perform(post("/user/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(user)));
+                .content(objectMapper.writeValueAsString(registerRequest)));
 
         //Then
         response
                 .andExpect(status().isOk());
-        verify(userService).addNewUser(user);
+        verify(userService).addNewUser(registerRequest);
     }
 
     @Test

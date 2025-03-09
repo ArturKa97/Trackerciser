@@ -1,5 +1,6 @@
 package com.exercise.project.services;
 
+import com.exercise.project.dtos.LoginAndRegisterRequest;
 import com.exercise.project.dtos.UserDTO;
 import com.exercise.project.dtos.UserRoleDTO;
 import com.exercise.project.entities.User;
@@ -56,25 +57,45 @@ class UserServiceImplTest {
     @Test
     public void UserServiceImpl_AddNewUser_ShouldAddANewUserWithRole() {
         //Given
-        User userToRegister = createTestUserEntity(null, "user", "rawPassword", Set.of());
+        LoginAndRegisterRequest registerRequest = LoginAndRegisterRequest.builder()
+                .username("user")
+                .password("rawPassword")
+                .build();
         String encodedPassword = "encodedPassword";
         User newUser = createTestUserEntity(null, "user", encodedPassword, Set.of());
         User savedUser = createTestUserEntity(1L, "user", encodedPassword, Set.of());
 
-        when(passwordEncoder.encode(userToRegister.getPassword())).thenReturn(encodedPassword);
+        when(passwordEncoder.encode(registerRequest.password())).thenReturn(encodedPassword);
         when(userRepository.save(newUser)).thenReturn(savedUser);
         //When
-        userService.addNewUser(userToRegister);
+        userService.addNewUser(registerRequest);
 
         //Then
-        verify(passwordEncoder).encode(userToRegister.getPassword());
-        verify(userRepository).save(userToRegister);
+        verify(passwordEncoder).encode(registerRequest.password());
+        verify(userRepository).save(newUser);
         verify(roleService).addRoleToUser(savedUser.getId(), 2L);
-        assertThat(savedUser).isNotSameAs(userToRegister);
+        assertThat(savedUser).isNotSameAs(newUser);
         assertThat(savedUser.getPassword())
-                .isNotEqualTo(userToRegister.getPassword())
+                .isNotEqualTo(registerRequest.password())
                 .isEqualTo(encodedPassword);
 
+    }
+
+    @Test
+    public void UserServiceImpl_AddNewUser_ShouldReturnIllegalArgumentExceptionWhenUserAlreadyExists() {
+        //Given
+        LoginAndRegisterRequest registerRequest = LoginAndRegisterRequest.builder()
+                .username("user")
+                .password("rawPassword")
+                .build();
+        String encodedPassword = "encodedPassword";
+        User existingUser = createTestUserEntity(null, "user", encodedPassword, Set.of());
+        when(userRepository.findByUsername(registerRequest.username())).thenReturn(Optional.of(existingUser));
+        //When + Then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            userService.addNewUser(registerRequest);
+        });
+        assertEquals("Username is already taken.", exception.getMessage());
     }
 
     @Test
