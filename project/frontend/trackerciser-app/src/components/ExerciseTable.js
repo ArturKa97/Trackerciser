@@ -72,6 +72,7 @@ function ExerciseTable({
       .finally(() => console.log("exercise removal block end"));
   }
 
+  //TODO: Show the  exerciseType name when the exercise doesnt have any exerciseSet info yet, right now its a blank row.
   return (
     exercises && (
       <Table aria-label="exercises table">
@@ -94,66 +95,95 @@ function ExerciseTable({
             const exerciseSets = exercise.exerciseSetsDTO || [];
             return (
               <React.Fragment key={exercise.id}>
-                {exerciseSets.map((set, index) => (
-                  <TableRow key={set.id}>
-                    {index === 0 ? (
-                      <>
-                        <TenWidthTableCell>
-                          <DeleteOrCloseActionButton
-                            aria-label="delete"
-                            onClick={() =>
-                              removeExerciseFromWorkoutSessionCall(
-                                workoutSessionId,
-                                exercise.id
-                              )
-                            }
-                          >
-                            <ClearIcon />
-                          </DeleteOrCloseActionButton>
-                        </TenWidthTableCell>
-                        <TwentyWidthTableCell>
-                          {exercise.exerciseTypeDTO.name}
-                        </TwentyWidthTableCell>
-                      </>
-                    ) : (
-                      <>
-                        <TableCell />
-                        <TableCell />
-                      </>
-                    )}
-                    {exerciseSets.length > 0 &&
-                    editingExerciseId === exercise.id &&
-                    editingExerciseSetId === set.id ? (
-                      <TableCell colSpan={8}>
-                        <ExerciseSetForm
-                          exerciseSets={set}
-                          onFormClose={handleFormClose}
-                          isAddingNew={false}
-                        />
-                      </TableCell>
-                    ) : (
-                      <>
-                        <TenWidthTableCell>{set.sets}</TenWidthTableCell>
-                        <TenWidthTableCell>{set.reps}</TenWidthTableCell>
-                        <TenWidthTableCell>{set.weight}</TenWidthTableCell>
-                        <TenWidthTableCell>{set.rest}</TenWidthTableCell>
-                        <TenWidthTableCell>{set.duration}</TenWidthTableCell>
-                        <TwentyRightAlignWidthTableCell>
-                          <EditActionButton
-                            onClick={() => handleEditClick(exercise.id, set.id)}
-                          >
-                            <EditIcon />
-                          </EditActionButton>
-                          <DeleteOrCloseActionButton
-                            onClick={() => removeExerciseSetByIdCall(set.id)}
-                          >
-                            <DeleteIcon />
-                          </DeleteOrCloseActionButton>
-                        </TwentyRightAlignWidthTableCell>
-                      </>
-                    )}
-                  </TableRow>
-                ))}
+                {exerciseSets && exerciseSets.length > 0 ? (
+                  exerciseSets.map((set, index) => (
+                    <TableRow key={set.id}>
+                      {index === 0 ? (
+                        <>
+                          <TenWidthTableCell>
+                            <DeleteOrCloseActionButton
+                              aria-label="delete"
+                              onClick={() =>
+                                removeExerciseFromWorkoutSessionCall(
+                                  workoutSessionId,
+                                  exercise.id
+                                )
+                              }
+                            >
+                              <ClearIcon />
+                            </DeleteOrCloseActionButton>
+                          </TenWidthTableCell>
+                          <TwentyWidthTableCell>
+                            {exercise.exerciseTypeDTO.name}
+                          </TwentyWidthTableCell>
+                        </>
+                      ) : (
+                        <>
+                          <TableCell />
+                          <TableCell />
+                        </>
+                      )}
+                      {exerciseSets.length > 0 &&
+                      editingExerciseId === exercise.id &&
+                      editingExerciseSetId === set.id ? (
+                        <TableCell colSpan={8}>
+                          <ExerciseSetForm
+                            exerciseSets={set}
+                            onFormClose={handleFormClose}
+                            isAddingNew={false}
+                          />
+                        </TableCell>
+                      ) : (
+                        <>
+                          <TenWidthTableCell>{set.sets}</TenWidthTableCell>
+                          <TenWidthTableCell>{set.reps}</TenWidthTableCell>
+                          <TenWidthTableCell>{set.weight}</TenWidthTableCell>
+                          <TenWidthTableCell>{set.rest}</TenWidthTableCell>
+                          <TenWidthTableCell>{set.duration}</TenWidthTableCell>
+                          <TwentyRightAlignWidthTableCell>
+                            <EditActionButton
+                              onClick={() =>
+                                handleEditClick(exercise.id, set.id)
+                              }
+                            >
+                              <EditIcon />
+                            </EditActionButton>
+                            <DeleteOrCloseActionButton
+                              onClick={() => removeExerciseSetByIdCall(set.id)}
+                            >
+                              <DeleteIcon />
+                            </DeleteOrCloseActionButton>
+                          </TwentyRightAlignWidthTableCell>
+                        </>
+                      )}
+                    </TableRow>
+                  ))
+                ) : (
+                  <>
+                    <TenWidthTableCell>
+                      <DeleteOrCloseActionButton
+                        aria-label="delete"
+                        onClick={() =>
+                          removeExerciseFromWorkoutSessionCall(
+                            workoutSessionId,
+                            exercise.id
+                          )
+                        }
+                      >
+                        <ClearIcon />
+                      </DeleteOrCloseActionButton>
+                    </TenWidthTableCell>
+                    <TwentyWidthTableCell>
+                      {exercise.exerciseTypeDTO.name}
+                    </TwentyWidthTableCell>
+                    <TenWidthTableCell />
+                    <TenWidthTableCell />
+                    <TenWidthTableCell />
+                    <TenWidthTableCell />
+                    <TenWidthTableCell />
+                    <TwentyRightAlignWidthTableCell />
+                  </>
+                )}
                 {addingNewExercise && editingExerciseId === exercise.id ? (
                   <TableRow>
                     <TableCell />
