@@ -65,12 +65,10 @@ public class WorkoutSessionController {
         return workoutSessionService.getWorkoutSessionById(workoutSessionId, userId);
     }
 
-    //TODO: Implement a custom  schema wrapper for  Page<WorkoutSessionDTO>
     @Operation(description = "Get endpoint for retrieving all Workout Sessions belonging to User",
             summary = "Retrieve a list of all of user's workout sessions")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns all workout sessions belonging to the user, also uses pagination",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "200", useReturnTypeSchema = true, description = "Returns all workout sessions belonging to the user, also uses pagination"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, JWT token invalid or expired", content = @Content),
             @ApiResponse(responseCode = "404", description = "User was not found with provided Id", content = @Content),
             @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
