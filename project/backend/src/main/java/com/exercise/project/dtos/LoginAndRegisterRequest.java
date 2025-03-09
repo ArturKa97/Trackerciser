@@ -1,8 +1,6 @@
 package com.exercise.project.dtos;
 
-import lombok.Data;
-
-public record LoginRequest(
+public record LoginAndRegisterRequest(
         String username,
         String password
 ) {
