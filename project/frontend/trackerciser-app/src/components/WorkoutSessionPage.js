@@ -46,8 +46,6 @@ function WorkoutSessionPage() {
     console.log("Page activation");
     setShowExerciseForm(false);
   };
-  //TODO: Prevent the ability of adding the same exercise if it already exists.
-  //Disable the add button if no exercise is selected for adding (currently throwing 500 for empty request)
   return (
     <MainContainer>
       <WorkoutSessionPageHeaderBox>
