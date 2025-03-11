@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import background from "../img/background.jpg";
+import background from "../img/background.webp";
 
 /*
 --- TYPOGRAPHY SYSTEM
