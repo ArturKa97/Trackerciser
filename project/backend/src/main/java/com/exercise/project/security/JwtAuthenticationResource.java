@@ -88,6 +88,7 @@ public class JwtAuthenticationResource {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully returns an AuthenticationResponse with userDTO and new JWT token",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationResponse.class))),
+            @ApiResponse(responseCode = "400", description = "User is not logged in, conditions for this endpoint not met", content = @Content),
             @ApiResponse(responseCode = "404", description = "Refresh token missing or invalid, user was not found by username", content = @Content),
             @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
     })
@@ -114,6 +115,27 @@ public class JwtAuthenticationResource {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, fetchedUser.getAuthorities());
         String newAccessToken = createToken(authentication);
         return ResponseEntity.ok(new AuthenticationResponse(newAccessToken, userDTOMapper.toDTO(fetchedUser)));
+    }
+
+    @Operation(description = "Post endpoint for User logout",
+            summary = "Logs out the user completely deleting the refresh token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returns an response that clears the refresh token",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseEntity.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, JWT token invalid or expired", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Bad request, default response code for when something bad unexpected happens", content = @Content)
+    })
+    @PostMapping("/logoutUser")
+    public ResponseEntity<?> logout() {
+        ResponseCookie cookie = ResponseCookie.from("refresh_token")
+                .httpOnly(true)
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("message", "Logged out successfully"));
     }
 
     private String createToken(Authentication authentication) {
