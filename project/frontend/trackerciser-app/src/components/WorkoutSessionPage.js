@@ -38,12 +38,10 @@ function WorkoutSessionPage() {
   };
 
   const handleAddExerciseClick = () => {
-    console.log("Page activation");
     setShowExerciseForm(true);
   };
 
   const handleCloseExerciseClick = () => {
-    console.log("Page activation");
     setShowExerciseForm(false);
   };
   return (

@@ -24,8 +24,6 @@ function LoginForm() {
       navigate("/");
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log("onSubmit ending");
     }
   };
 

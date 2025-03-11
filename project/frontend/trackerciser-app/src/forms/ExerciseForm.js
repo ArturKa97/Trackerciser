@@ -35,8 +35,7 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
   function retrieveAllExerciseTypesCall() {
     retrieveAllExerciseTypes()
       .then((response) => setExerciseTypes(response.data))
-      .catch((error) => console.log(error))
-      .finally(() => console.log("passed"));
+      .catch((error) => console.log(error));
   }
 
   const addExerciseToWorkoutSessionCall = (workoutSessionId, exerciseId) => {
@@ -44,8 +43,7 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
       .then(() => {
         onExerciseAdded();
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   };
 
   return (

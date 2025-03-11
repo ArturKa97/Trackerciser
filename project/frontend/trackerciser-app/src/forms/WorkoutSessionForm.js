@@ -50,8 +50,7 @@ function WorkoutSessionForm({
         actions.resetForm();
         onSuccess();
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   };
   const updateWorkoutSessionByIdCall = (workoutSessionId, values, actions) => {
     return updateWorkoutSessionById(workoutSessionId, values, userId)
@@ -60,8 +59,7 @@ function WorkoutSessionForm({
         actions.resetForm();
         onSuccess();
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   };
 
   return (

@@ -23,7 +23,6 @@ function Carousel() {
     setActiveIndex(
       (prevIndex) => (prevIndex - 1 + cardData.length) % cardData.length
     );
-    console.log(activeIndex);
   }
 
   function handleNextCardClick() {

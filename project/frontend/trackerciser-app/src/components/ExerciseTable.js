@@ -47,7 +47,6 @@ function ExerciseTable({
     setEditingExerciseSetId(null);
     setAddingNewExercise(true);
     closeAddExerciseForm();
-    console.log("ExerciseT add");
   };
 
   const handleFormClose = () => {
@@ -55,21 +54,18 @@ function ExerciseTable({
     setEditingExerciseSetId(null);
     setAddingNewExercise(false);
     onExerciseUpdated();
-    console.log("ExerciseT close");
   };
 
   function removeExerciseSetByIdCall(exerciseSetId) {
     removeExerciseSetById(exerciseSetId)
       .then(() => onExerciseUpdated())
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   }
 
   function removeExerciseFromWorkoutSessionCall(workoutSessionId, exerciseId) {
     removeExerciseFromWorkoutSession(workoutSessionId, exerciseId, userId)
       .then(() => onExerciseUpdated())
-      .catch((error) => console.log(error))
-      .finally(() => console.log("exercise removal block end"));
+      .catch((error) => console.log(error));
   }
 
   return (

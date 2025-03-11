@@ -41,8 +41,7 @@ function ExerciseSetForm({
       .then((response) => {
         return response.data;
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   };
 
   const updateExerciseSetByIdCall = (exerciseSetId, values) => {
@@ -50,8 +49,7 @@ function ExerciseSetForm({
       .then((response) => {
         return response.data;
       })
-      .catch((error) => console.log(error))
-      .finally(() => console.log("cleanup"));
+      .catch((error) => console.log(error));
   };
   return (
     <Formik

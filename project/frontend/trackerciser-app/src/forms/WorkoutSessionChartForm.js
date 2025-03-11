@@ -9,8 +9,6 @@ function WorkoutSessionChartForm({ retrieveWorkoutSessions }) {
       await retrieveWorkoutSessions(values.fromDate, values.toDate);
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log("WS between dates finally block");
     }
   };
 

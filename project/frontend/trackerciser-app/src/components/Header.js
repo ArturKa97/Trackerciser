@@ -32,7 +32,7 @@ function Header() {
       await logoutUser();
       dispatch(userLoggedOut());
     } catch (error) {
-      console.error("Logout endpoint call failed", error);
+      console.error(error);
     } finally {
       navigate("/");
     }

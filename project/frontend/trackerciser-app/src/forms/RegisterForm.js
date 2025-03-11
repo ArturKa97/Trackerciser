@@ -17,16 +17,13 @@ function RegisterForm() {
       navigate("/login");
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log("onSubmit ending");
     }
   };
 
   function registerNewUserCall(values) {
     return registerNewUser(values)
       .then((response) => console.log(response))
-      .catch((error) => console.log(error))
-      .finally(() => console.log("register call end"));
+      .catch((error) => console.log(error));
   }
 
   return (
