@@ -9,3 +9,7 @@ export function loginAndAuthenticate(user) {
     return response.data;
   });
 }
+
+export function logoutUser() {
+  return HTTP.post("/logoutUser");
+}
