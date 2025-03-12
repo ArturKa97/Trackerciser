@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,9 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@TestPropertySource(properties = "spring.sql.init.mode=never")
-class
-WorkoutSessionRepositoryTest {
+@ActiveProfiles("test")
+class WorkoutSessionRepositoryTest {
 
     private final Long NONEXISTENTID = 999999L;
     private final LocalDate FROMDATE = LocalDate.of(2024, 1, 1);

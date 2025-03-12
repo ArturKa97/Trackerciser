@@ -87,3 +87,4 @@ nb-configuration.xml
 ##############################
 env.properties
 application.properties
+application-test.properties
