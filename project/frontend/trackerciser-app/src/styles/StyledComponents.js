@@ -17,6 +17,8 @@ import {
   ListItemButton,
   ToggleButton,
   ToggleButtonGroup,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 
 export const AppBox = styled(Box)({
@@ -542,3 +544,22 @@ export const PaginationBox = styled(Box)({
   justifyContent: "center",
   alignItems: "center",
 });
+
+export const StyledAutoComplete = styled(Autocomplete)({
+  width: "50%",
+});
+
+export const AutocompleteTextField = styled(TextField)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  backgroundColor: theme.palette.primary.light,
+  transition: "background-color 0.3s ease-in-out",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&.Mui-focused": {
+    backgroundColor: theme.palette.primary.main,
+  },
+  "&.Mui-selected": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));

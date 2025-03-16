@@ -1,15 +1,15 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { retrieveAllExerciseTypes } from "../api/ExerciseTypeApi";
 import { addExerciseToWorkoutSession } from "../api/ExerciseApi";
 import {
   AddActionButton,
+  AutocompleteTextField,
   DeleteOrCloseActionButton,
   ExerciseFormBox,
   FormActionButtonBox,
-  StyledFormSelect,
+  StyledAutoComplete,
 } from "../styles/StyledComponents";
-import { MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useSelector } from "react-redux";
@@ -55,25 +55,23 @@ function ExerciseForm({ workoutSessionId, onExerciseAdded, onFormClose }) {
       {({ isSubmitting, errors, touched, values, setFieldValue }) => (
         <Form>
           <ExerciseFormBox>
-            <Field
-              name="exerciseId"
-              as={StyledFormSelect}
-              labelId="exercise-select-label"
-              label="Choose the exercise"
-              displayEmpty
-              onChange={(event) =>
-                setFieldValue("exerciseId", event.target.value)
+            <StyledAutoComplete
+              disablePortal
+              options={exerciseTypes}
+              getOptionLabel={(option) => option.name || ""}
+              value={
+                exerciseTypes.find((ex) => ex.id === values.exerciseId) || null
               }
-            >
-              <MenuItem value="" disabled>
-                Choose the exercise...
-              </MenuItem>
-              {exerciseTypes.map((exerciseType) => (
-                <MenuItem key={exerciseType.id} value={exerciseType.id}>
-                  {exerciseType.name}
-                </MenuItem>
-              ))}
-            </Field>
+              onChange={(event, newValue) =>
+                setFieldValue("exerciseId", newValue ? newValue.id : null)
+              }
+              renderInput={(params) => (
+                <AutocompleteTextField
+                  {...params}
+                  label="Choose the exercise..."
+                />
+              )}
+            />
             <FormActionButtonBox>
               <AddActionButton
                 type="submit"

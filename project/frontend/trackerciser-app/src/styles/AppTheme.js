@@ -304,6 +304,41 @@ const AppTheme = createTheme({
         }),
       },
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+
+          "& .MuiAutocomplete-popupIndicator": {
+            color: theme.palette.primary.contrastText,
+          },
+          "& .MuiAutocomplete-clearIndicator": {
+            color: theme.palette.secondary.main,
+          },
+        }),
+        noOptions: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+        }),
+        listbox: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.primary.contrastText,
+          "& .MuiAutocomplete-option": {
+            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.primary.light,
+            opacity: 1,
+            transition: "background-color 0.3s ease-in-out",
+            "&:hover": {
+              backgroundColor: theme.palette.primary.main,
+            },
+            "&.Mui-selected": {
+              backgroundColor: theme.palette.primary.main,
+            },
+          },
+        }),
+      },
+    },
   },
 });
 

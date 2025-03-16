@@ -21,9 +21,7 @@ function RegisterForm() {
   };
 
   function registerNewUserCall(values) {
-    return registerNewUser(values)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+    return registerNewUser(values).catch((error) => console.log(error));
   }
 
   return (
