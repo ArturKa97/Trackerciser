@@ -42,6 +42,7 @@ public class ExerciseSetServiceImpl implements ExerciseSetService {
                     existingExerciseSet.setReps(updatedExerciseSet.reps());
                     existingExerciseSet.setWeight(updatedExerciseSet.weight());
                     existingExerciseSet.setRest(updatedExerciseSet.rest());
+                    existingExerciseSet.setDuration(updatedExerciseSet.duration());
                     ExerciseSet savedExerciseSet = exerciseSetRepository.save(existingExerciseSet);
                     return exerciseSetDTOMapper.toDTO(savedExerciseSet);
                 })
