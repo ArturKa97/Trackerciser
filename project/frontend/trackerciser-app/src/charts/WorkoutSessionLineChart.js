@@ -92,7 +92,9 @@ function WorkoutSessionLineChart() {
       });
     });
 
-    return Array.from(dataMap.values());
+    return Array.from(dataMap.values()).sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
+    );
   };
 
   const uniqueExercises = useMemo(() => {
