@@ -27,7 +27,7 @@ public class ExerciseType {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     @NotNull(message = "Exercise type name value cannot be null")
     @NotBlank(message = "Exercise type name value cannot be empty")
     @Size(min = 1, max = 50, message = "Exercise type name value must be between {min} and {max} characters long")
