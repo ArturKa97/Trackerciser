@@ -41,8 +41,8 @@ public class User implements UserDetails {
     @NotNull(message = "Password value cannot be null")
     @NotBlank(message = "Password value cannot be empty")
     @Pattern(
-            regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
-            message = "Password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character."
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()=-]).{8,64}$",
+            message = "Password must be between 8 and 64 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character."
     )
     private String password;
 
