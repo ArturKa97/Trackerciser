@@ -139,6 +139,7 @@ function WorkoutSessionsTable() {
             )}
             {workoutSessions.map((workoutSession) => (
               <TableRow
+                style={{ cursor: "pointer" }}
                 onClick={() => selectRow(workoutSession.id)}
                 key={workoutSession.id}
               >

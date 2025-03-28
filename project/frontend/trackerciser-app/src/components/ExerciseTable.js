@@ -92,7 +92,7 @@ function ExerciseTable({
               <React.Fragment key={exercise.id}>
                 {exerciseSets && exerciseSets.length > 0 ? (
                   exerciseSets.map((set, index) => (
-                    <TableRow key={set.id}>
+                    <TableRow style={{ cursor: "pointer" }} key={set.id}>
                       {index === 0 ? (
                         <>
                           <TenWidthTableCell>
