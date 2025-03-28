@@ -2,7 +2,7 @@ import axios from "axios";
 import { userLoggedIn, userLoggedOut } from "../store/slices/userSlice";
 
 const HTTP = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://api.trackerciser.com",
   withCredentials: true,
 });
 

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ExerciseTable from "../components/ExerciseTable";
 import WorkoutSessionPage from "../components/WorkoutSessionPage";
 import WorkoutSessionsTable from "../components/WorkoutSessionsTable";
@@ -16,6 +16,7 @@ function AppRoutes() {
   const user = useSelector(selectLoggedInUser);
   return (
     <Routes>
+      <Route path="/index.html" element={<Navigate replace to="/" />} />
       <Route path="/" element={<HomePage />} />
 
       {!user ? (
