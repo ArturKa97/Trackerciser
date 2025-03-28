@@ -4,7 +4,11 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectLoggedInUser, userLoggedOut } from "../store/slices/userSlice";
+import {
+  selectLoggedInUser,
+  selectUserDTO,
+  userLoggedOut,
+} from "../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import {
   FlexToolbar,
@@ -17,11 +21,12 @@ import {
   LogoTypography,
   StyledAppBar,
 } from "../styles/StyledComponents";
-import { Box, Menu, MenuItem, useMediaQuery } from "@mui/material";
+import { Box, Menu, MenuItem, Typography, useMediaQuery } from "@mui/material";
 import { logoutUser } from "../api/UserApi";
 
 function Header() {
   const user = useSelector(selectLoggedInUser);
+  const userDTO = useSelector(selectUserDTO);
   const dispatch = useDispatch();
   const [anchor, setAnchor] = useState(null);
   const open = !!anchor;
@@ -37,6 +42,7 @@ function Header() {
       navigate("/");
     }
   };
+  console.log(userDTO);
 
   const handleOpen = (event) => {
     setAnchor(event.currentTarget);
@@ -81,9 +87,14 @@ function Header() {
                   </HeaderButton>
                 </>
               ) : (
-                <HeaderButton onClick={() => logoutUserCall()}>
-                  LOG OUT
-                </HeaderButton>
+                <HeaderButtonBox>
+                  <Typography variant="h5">
+                    Hello, {userDTO.username}!
+                  </Typography>
+                  <HeaderButton onClick={() => logoutUserCall()}>
+                    LOG OUT
+                  </HeaderButton>
+                </HeaderButtonBox>
               )}
             </HeaderButtonBox>
           </>
@@ -95,6 +106,11 @@ function Header() {
                 <LogoTypography>TRACKERCISER</LogoTypography>
               </HeaderHomeButton>
             </HeaderLogoBox>
+            {userDTO && (
+              <HeaderButtonBox>
+                <Typography variant="h5">Hello, {userDTO.username}!</Typography>
+              </HeaderButtonBox>
+            )}
             {/* Render only at 754px and below*/}
 
             <HeaderMenuButton onClick={handleOpen}>
