@@ -42,7 +42,6 @@ function Header() {
       navigate("/");
     }
   };
-  console.log(userDTO);
 
   const handleOpen = (event) => {
     setAnchor(event.currentTarget);

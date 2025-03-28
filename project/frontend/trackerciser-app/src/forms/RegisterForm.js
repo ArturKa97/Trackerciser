@@ -44,7 +44,7 @@ function RegisterForm() {
                 as={TextField}
                 error={touched.username && !!errors.username}
                 helperText={touched.username && errors.username}
-                placeholder="e.g., Myusername66"
+                placeholder="Username"
                 name="username"
                 type="text"
               />

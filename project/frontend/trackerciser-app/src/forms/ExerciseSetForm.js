@@ -57,8 +57,8 @@ function ExerciseSetForm({
         sets: exerciseSets?.sets || "",
         reps: exerciseSets?.reps || "",
         weight: exerciseSets?.weight || "",
-        rest: exerciseSets?.rest || "",
-        duration: exerciseSets?.duration || "",
+        rest: exerciseSets?.rest || "1",
+        duration: exerciseSets?.duration || "1",
       }}
       validationSchema={exerciseSetFormSchema}
       onSubmit={onSubmit}
