@@ -111,7 +111,6 @@ VALUES
     ('Seated Rows'),
     ('Narrow Grip Seated Rows'),
     ('Bent Over Rows'),
-    ('Lat Pulldowns'),
     ('Good Mornings'),
     ('Back Extensions'),
     ('Single Arm Rows'),

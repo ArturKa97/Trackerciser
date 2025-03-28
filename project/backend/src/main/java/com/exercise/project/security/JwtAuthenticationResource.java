@@ -73,8 +73,11 @@ public class JwtAuthenticationResource {
 
         ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
                 .httpOnly(true)
+                .secure(true)
+                .domain(".trackerciser.com")
                 .path("/")
                 .maxAge(Duration.ofDays(7))
+                .sameSite("None")
                 .build();
 
         return ResponseEntity.ok()
@@ -127,10 +130,13 @@ public class JwtAuthenticationResource {
     })
     @PostMapping("/logoutUser")
     public ResponseEntity<?> logout() {
-        ResponseCookie cookie = ResponseCookie.from("refresh_token")
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
+                .secure(true)
+                .domain(".trackerciser.com")
                 .path("/")
                 .maxAge(0)
+                .sameSite("None")
                 .build();
 
         return ResponseEntity.ok()

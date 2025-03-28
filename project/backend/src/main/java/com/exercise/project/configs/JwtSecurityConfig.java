@@ -37,7 +37,7 @@ public class JwtSecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins("http://localhost:3000", "https://api.trackerciser.com", "https://www.trackerciser.com")
                         .allowCredentials(true);
             }
         };
@@ -47,7 +47,8 @@ public class JwtSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/register", "/authenticate", "/refresh", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/user/register", "/authenticate", "/refresh",
+                        "/swagger-ui/**", "/v3/api-docs/**", "/health", "/actuator/health").permitAll()
                 .requestMatchers("/user/**").authenticated()
                 .anyRequest().authenticated());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
