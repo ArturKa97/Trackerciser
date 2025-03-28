@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8080/swagger-ui/index.html"
+                        url = "http://localhost:8080"
                 ),
                 @Server(
                         description = "Prod ENV(Coming soon)",
@@ -41,10 +41,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @SecurityScheme(
         name = "BearerAuth",
         description = "JWT token authentication",
+        type = SecuritySchemeType.HTTP,
         scheme = "bearer",
-        type = SecuritySchemeType.APIKEY,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.QUERY
+        bearerFormat = "JWT"
 )
 
 public class OpenApiConfig {
